@@ -9,7 +9,9 @@ in need of a hosted web applicaiton that will include many features. For example
 implemented calendar to tell members when meetings and other events are, a small blog post
 to post pictures of recent meetings and builds, and an admin portal to login and edit the
 website all all necessary features for the organization. Furthermore, The SPCB collaborates
-with many other organizations on campus, and thus a club collaboration form would be beneficial.
+with many other organizations on campus, and thus a club collaboration form would be beneficial. 
+Bio pages for each of the officers, an About Us page, and a Testimonials page for students who
+had received PC builds from the org are other small features we are considering.
 Finally, The SPCB recently collaborated with Gator E-Sports to create a PC gaming room within
 The Reitz Student Union. They will need an application that allows UF students to rent out 
 PCs for certain time slots to properly implement this game room.
