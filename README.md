@@ -11,7 +11,7 @@ to post pictures of recent meetings and builds, and an admin portal to login and
 website all all necessary features for the organization. Furthermore, The SPCB collaborates
 with many other organizations on campus, and thus a club collaboration form would be beneficial.
 Finally, The SPCB recently collaborated with Gator E-Sports to create a PC gaming room within
-The Reitz Student Union. They will need an application that allow UF students to rent out 
+The Reitz Student Union. They will need an application that allows UF students to rent out 
 PCs for certain time slots to properly implement this game room.
 
 Project Members: 
