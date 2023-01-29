@@ -17,7 +17,8 @@ export class LoginComponent {
   })
  }
 
- goToSignup(): void {
-   this.router.navigate(['/app/login']);
+ toHomePage() {
+    this.router.navigateByUrl('/homepage');
+    console.log("clicked");
  }
 }
