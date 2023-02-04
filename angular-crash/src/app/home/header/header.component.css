@@ -1,11 +1,15 @@
 nav {
     background-color: #222;
-    padding: 10px 0;
+    padding: 12px 0;
 }
 
 nav img{
     width: 70px;
     float: left;
+    position:relative;
+    left: 180px;
+    bottom: 8px;
+    /* padding-left:12%; */
 }
 
 .menu ul {
@@ -15,12 +19,17 @@ nav img{
     margin: 0px;
     margin-top: 12px; 
     padding-left: 50%;
+    position:relative;
+    bottom: 7px;
 }
 
 nav h4 {
     float: left;
     color:#fff;
     font-size: 20px;
+    position:relative;
+    left:200px;
+    bottom: 10px;
 }
 
 .menu ul li {
