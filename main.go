@@ -96,6 +96,8 @@ func main() {
 	router.HandleFunc("/login/register", userRegister).Methods("POST")
 	router.HandleFunc("/login", userLogin).Methods("POST")
 
+	log.Fatal(http.ListenAndServe("localhost:4200", router))
+
 	// err := http.ListenAndServe("localhost:4200", router)
 	// if err != nil {
 	//     log.Fatalln("There's an error with the server," err)
