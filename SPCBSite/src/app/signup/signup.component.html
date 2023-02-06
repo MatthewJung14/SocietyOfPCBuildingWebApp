@@ -1,10 +1,18 @@
 <mat-toolbar>
-    <span>LOGIN</span>
-  </mat-toolbar>
-  <mat-card class="my-card">
+    <span>SIGN UP</span>
+ </mat-toolbar>
+ <mat-card class="my-card">
     <mat-card-content> 
        <mat-card-content>
           <form class="my-form">
+             <mat-form-field class="full-width">
+                    <mat-label>First Name</mat-label>
+                    <input  matInput  placeholder="First name"  name="fname"  required>
+                 </mat-form-field>
+                 <mat-form-field class="full-width">
+                    <mat-label>Last Name</mat-label>
+                    <input  matInput  placeholder="Last Name" name="lname"  required>
+                 </mat-form-field>
                  <mat-form-field class="full-width">
                     <mat-label>Email</mat-label>
                     <input  matInput  placeholder="Email" name="email" required>
@@ -17,8 +25,8 @@
         </mat-card-content>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button color="primary">LOGIN</button>
+        <button mat-raised-button color="primary">SIGN UP</button>
     </mat-card-actions>
-  </mat-card>
-  
-  
+ </mat-card>
+ 
+ 
