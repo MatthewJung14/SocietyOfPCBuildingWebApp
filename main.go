@@ -95,6 +95,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/login/register", userRegister).Methods("POST")
 	router.HandleFunc("/login", userLogin).Methods("POST")
+	router.HandleFunc("", userRegister).Methods("GET")
 
 	log.Fatal(http.ListenAndServe("localhost:4200", router))
 
@@ -103,5 +104,3 @@ func main() {
 	//     log.Fatalln("There's an error with the server," err)
 	// }
 }
-
-//test
