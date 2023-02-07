@@ -7,6 +7,8 @@ import (
 	"net/http"
 	"time"
 
+	"fmt"
+
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
 	"go.mongodb.org/mongo-driver/bson"
@@ -48,14 +50,22 @@ func GenerateJWT() (string, error) {
 
 // This function registers a new user
 func userRegister(response http.ResponseWriter, request *http.Request) {
+	fmt.Print("Starting registration\n")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
+	fmt.Print("Decoding JSON\n")
 	json.NewDecoder(request.Body).Decode(&user)
+	fmt.Println("Hashing password")
 	user.Password = getHash([]byte(user.Password))
+	fmt.Println("Adding to database")
 	collection := client.Database("udbo").Collection("user")
+	fmt.Println("1")
 	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
+	fmt.Println("2")
 	result, _ := collection.InsertOne(ctx, user)
+	fmt.Println("Encoding JSON")
 	json.NewEncoder(response).Encode(result)
+	fmt.Print("Huzzah")
 }
 
 // This function logs a user in
@@ -94,10 +104,16 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 
 }
 
+func test(response http.ResponseWriter, request *http.Request) {
+	fmt.Print("Test success\n")
+}
+
 func main() {
+	fmt.Print("Starting\n")
 	router := mux.NewRouter()
 	router.HandleFunc("/login/register", userRegister).Methods("POST")
 	router.HandleFunc("/login", userLogin).Methods("POST")
+	router.HandleFunc("/test", test).Methods("GET")
 
 	log.Fatal(http.ListenAndServe("localhost:4200", router))
 
