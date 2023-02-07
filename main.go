@@ -60,6 +60,7 @@ func userRegister(response http.ResponseWriter, request *http.Request) {
 
 // This function logs a user in
 func userLogin(response http.ResponseWriter, request *http.Request) {
+	http.Error(response, "Test message", 0)
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var dbUser User
