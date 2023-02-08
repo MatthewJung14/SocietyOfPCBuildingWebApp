@@ -14,6 +14,8 @@ import (
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
+	"gorm.io/driver/sqlite"
+	"gorm.io/gorm"
 )
 
 //Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
@@ -58,6 +60,11 @@ func userRegister(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("Hashing password")
 	user.Password = getHash([]byte(user.Password))
 	fmt.Println("Adding to database")
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+	db.Create(&user)
 	fmt.Print("Huzzah")
 }
 
