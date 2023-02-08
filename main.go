@@ -25,8 +25,9 @@ var client *mongo.Client
 var SECRET_KEY = []byte("gosecretkey")
 
 type User struct {
+	gorm.Model
 	Name     string `json:"name" gorm:"name"`
-	Email    string `json:"email" gorm:"email"`
+	Email    string `json:"email" gorm:"primaryKey"`
 	Password string `json:"password" gorm:"password"`
 }
 
@@ -70,7 +71,6 @@ func userRegister(response http.ResponseWriter, request *http.Request) {
 
 // This function logs a user in
 func userLogin(response http.ResponseWriter, request *http.Request) {
-	http.Error(response, "Test message", 0)
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var dbUser User
@@ -110,6 +110,12 @@ func test(response http.ResponseWriter, request *http.Request) {
 
 func main() {
 	fmt.Print("Starting\n")
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
 
 	router := mux.NewRouter()
 	router.HandleFunc("/login/register", userRegister).Methods("POST")
