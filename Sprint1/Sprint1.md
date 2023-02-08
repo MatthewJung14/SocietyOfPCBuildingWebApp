@@ -24,7 +24,7 @@ As a **member**, I want to be able to **view upcoming meetings** and events so t
 As a **member** of the computer building club, I want to be able to **view the club's member directory**, so that I can easily **connect with other members** and collaborate on projects.
 
 **What issues your team planned to address:**
-Create a home page (Matt),
+Create a sign up page (Matt),
 Create a log in page (Matt),
 Update the frontend webpages with the Angular's Material UI library (Chris),
 Use Gorilla/Mux for routing the http requests which accesses a handler to perform database operations(Shayne),
@@ -33,7 +33,7 @@ Connect Angular with Go-lang (Kushal)
 
 
 **Which ones were successfully completed:**
-Issues involving creating the home page, the log in page, and updating the frontend webpages with the Angular's Material UI library were completed for the frontend aspect of the project. For the backend of the project, using Gorilla/Mux for routing the Http Requests which accesses a handler to perform a database operations and creating a database to store name, email, and passwords were successfully completed.
+Issues involving creating the sign up page, the log in page, and updating the frontend webpages with the Angular's Material UI library were completed for the frontend aspect of the project. For the backend of the project, using Gorilla/Mux for routing the Http Requests which accesses a handler to perform a database operations and creating a database to store name, email, and passwords were successfully completed.
 
 
 **Which ones didn't and why?**
