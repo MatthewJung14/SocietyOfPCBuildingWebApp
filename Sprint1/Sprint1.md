@@ -37,4 +37,4 @@ Issues involving creating the home page, the log in page, and updating the front
 
 
 **Which ones didn't and why?**
-We did not complete the issue of connecting Angular with Go-lang as it was not necessary at the moment for sprint one with the usage of postman or a command line being available.
+We did not complete the issue of connecting Angular with Go-lang as we underestimated the challenge of creating functioning APIs and did not have enough time to dedicate to getting both ends to communicate. We had to settle for testing our APIs with Postman for the time being.
