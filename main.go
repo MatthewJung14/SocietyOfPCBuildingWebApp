@@ -23,9 +23,9 @@ var client *mongo.Client
 var SECRET_KEY = []byte("gosecretkey")
 
 type User struct {
-	Name     string `json:"name" bson:"name"`
-	Email    string `json:"email" bson:"email"`
-	Password string `json:"password" bson:"password"`
+	Name     string `json:"name" gorm:"name"`
+	Email    string `json:"email" gorm:"email"`
+	Password string `json:"password" gorm:"password"`
 }
 
 // Takes in password, returns a hash
@@ -58,13 +58,6 @@ func userRegister(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("Hashing password")
 	user.Password = getHash([]byte(user.Password))
 	fmt.Println("Adding to database")
-	collection := client.Database("udbo").Collection("user")
-	fmt.Println("1")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	fmt.Println("2")
-	result, _ := collection.InsertOne(ctx, user)
-	fmt.Println("Encoding JSON")
-	json.NewEncoder(response).Encode(result)
 	fmt.Print("Huzzah")
 }
 
@@ -110,6 +103,7 @@ func test(response http.ResponseWriter, request *http.Request) {
 
 func main() {
 	fmt.Print("Starting\n")
+
 	router := mux.NewRouter()
 	router.HandleFunc("/login/register", userRegister).Methods("POST")
 	router.HandleFunc("/login", userLogin).Methods("POST")
