@@ -22,3 +22,18 @@ As a **member**, I want to be able to **see the past and current projects** of t
 As a **member**, I want to be able to **view upcoming meetings** and events so that I can **plan my schedule accordingly**.
 
 As a **member** of the computer building club, I want to be able to **view the club's member directory**, so that I can easily **connect with other members** and collaborate on projects.
+
+**What issues your team planned to address:**
+Make a home page (Matt)
+Make a log in page (Matt)
+Checking code, and update (Chris)
+Do back end for log in page (Shane, Kushal)
+Connect Angular with GO lang (Kushal)
+
+
+**Which ones were successfully completed:**
+The Make a home page, log in page, and checking code and update tasks were completed on the frontend aspect of the project. the back end for the log in page was completed.
+
+
+**Which ones didn't and why?**
+We did not complete the connecting with Angular with Go lang as it was not necessary at the moment for sprint one with the usage of postman or a command line being available.
