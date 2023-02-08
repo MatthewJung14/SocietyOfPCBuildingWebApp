@@ -24,12 +24,12 @@ As a **member**, I want to be able to **view upcoming meetings** and events so t
 As a **member** of the computer building club, I want to be able to **view the club's member directory**, so that I can easily **connect with other members** and collaborate on projects.
 
 **What issues your team planned to address:**
-Creating a home page (Matt),
-Creating a log in page (Matt),
-Updating front end webpages with the Angular's Material UI library (Chris),
-Use Gorilla/Mux for routing the Http Requests which accesses a handler to perform database operations(Shayne),
+Create a home page (Matt),
+Create a log in page (Matt),
+Update the front end webpages with the Angular's Material UI library (Chris),
+Use Gorilla/Mux for routing the http requests which accesses a handler to perform database operations(Shayne),
 Create a database to store name, email, and passwords (Shayne, Kushal),
-Connect Angular with GO lang (Kushal)
+Connect Angular with Go-lang (Kushal)
 
 
 **Which ones were successfully completed:**
