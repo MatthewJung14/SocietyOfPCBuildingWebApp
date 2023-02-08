@@ -95,8 +95,6 @@ func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
 }
 
-//test
-
 func main() {
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
