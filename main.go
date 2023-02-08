@@ -1,26 +1,20 @@
 package main
 
 import (
-	"context"
 	"encoding/json"
 	"log"
 	"net/http"
-	"time"
 
 	"fmt"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
-	"go.mongodb.org/mongo-driver/bson"
-	"go.mongodb.org/mongo-driver/mongo"
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 )
 
 //Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
-
-var client *mongo.Client
 
 var SECRET_KEY = []byte("gosecretkey")
 
@@ -53,20 +47,15 @@ func GenerateJWT() (string, error) {
 
 // This function registers a new user
 func userRegister(response http.ResponseWriter, request *http.Request) {
-	fmt.Print("Starting registration\n")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
-	fmt.Print("Decoding JSON\n")
 	json.NewDecoder(request.Body).Decode(&user)
-	fmt.Println("Hashing password")
 	user.Password = getHash([]byte(user.Password))
-	fmt.Println("Adding to database")
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
 	db.Create(&user)
-	fmt.Print("Huzzah")
 }
 
 // This function logs a user in
@@ -75,15 +64,13 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 	var user User
 	var dbUser User
 	json.NewDecoder(request.Body).Decode(&user)
-	collection := client.Database("GODB").Collection("user")
-	ctx, _ := context.WithTimeout(context.Background(), 10*time.Second)
-	err := collection.FindOne(ctx, bson.M{"email": user.Email}).Decode(&dbUser)
-
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{"message":"` + err.Error() + `"}`))
-		return
+		panic("failed to connect database")
 	}
+	//I think this searches for the user with the corresponding email
+	db.Model(&User{Email: user.Email}).First(&dbUser)
+
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
 
@@ -109,7 +96,6 @@ func test(response http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
-	fmt.Print("Starting\n")
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
