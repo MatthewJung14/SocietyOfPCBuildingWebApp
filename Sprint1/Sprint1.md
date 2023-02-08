@@ -26,15 +26,19 @@ As a **member** of the computer building club, I want to be able to **view the c
 **What issues your team planned to address:**
 Create a home page (Matt),
 Create a log in page (Matt),
-Update the front end webpages with the Angular's Material UI library (Chris),
+Update the frontend webpages with the Angular's Material UI library (Chris),
 Use Gorilla/Mux for routing the http requests which accesses a handler to perform database operations(Shayne),
 Create a database to store name, email, and passwords (Shayne, Kushal),
 Connect Angular with Go-lang (Kushal)
 
 
 **Which ones were successfully completed:**
-Issues involving creating the home page, the log in page, and updating the front end webpages with the Angular's Material UI library were completed for the frontend aspect of the project. For the back end of the project, using Gorilla/Mux for routing the Http Requests which accesses a handler to perform a database operations and creating a database to store name, email, and passwords were successfully completed.
+Issues involving creating the home page, the log in page, and updating the frontend webpages with the Angular's Material UI library were completed for the frontend aspect of the project. For the backend of the project, using Gorilla/Mux for routing the Http Requests which accesses a handler to perform a database operations and creating a database to store name, email, and passwords were successfully completed.
 
 
 **Which ones didn't and why?**
 We did not complete the issue of connecting Angular with Go-lang as we underestimated the challenge of creating functioning APIs and did not have enough time to dedicate to getting both ends to communicate. We had to settle for testing our APIs with Postman for the time being.
+
+Frontend video: https://www.youtube.com/watch?v=ja91RXiIo5Q
+
+Backend video: https://www.youtube.com/watch?v=bc_nMG8bTGk
