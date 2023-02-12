@@ -1,0 +1,21 @@
+<p>caraousel works!</p>
+<div *ngIf="images && images.length > 0" class="caraousel-container">
+    <img *ngFor="let image of images; let i=index" 
+    [src]="image.imageSrc" [alt]="image.imageAlt"
+    [ngClass]="{'image-active': selectedIndex === i}"
+    >
+
+    <div *ngIf="indicators" class="caraousel-dot-container">
+        <span *ngFor="let dot of images; let i=index"
+          class="dot"
+          [ngClass]="{'active': selectedIndex === i}"
+          (click)="selectImage(i)"
+          >
+        </span>
+    </div>
+
+    <div *ngIf="controls" class="btn-carousel btn-prev">
+       <!-- <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i> -->
+       <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
+    </div>
+</div>

@@ -45,6 +45,7 @@ import { LoginComponent } from './login/login.component';
 import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
+import { CaraouselModule } from './caraousel/caraousel.module';
 
 @NgModule({
   declarations: [
@@ -92,7 +93,8 @@ import { RentComponent } from './rent/rent.component';
     MatGridListModule,
     MatRadioModule,
     MatDatepickerModule,
-    MatTooltipModule
+    MatTooltipModule,
+    CaraouselModule,
   ],
   providers: [],
   bootstrap: [AppComponent]
