@@ -14,8 +14,14 @@
         </span>
     </div>
 
-    <div *ngIf="controls" class="btn-carousel btn-prev">
-       <!-- <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i> -->
+    <button class="carousel-button prev" 
+    (click)="prevClick()"
+    data-carousel-button="prev">&#8656;</button>
+    <button class="carousel-button next" 
+    (click)="nextClick()"
+    data-carousel-button="next">&#8658;</button>
+
+    <!-- <div *ngIf="controls" class="btn-carousel btn-prev">
        <i class="fas fa-arrow-circle-left icon-carousel icon-prev"></i>
-    </div>
+    </div> -->
 </div>

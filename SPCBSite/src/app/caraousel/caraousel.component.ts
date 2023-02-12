@@ -26,4 +26,20 @@ export class CaraouselComponent implements OnInit{
   selectImage(index: number): void {
     this.selectedIndex=index;
   }
+
+  prevClick(): void{
+    if (this.selectedIndex === 0){
+      this.selectedIndex = this.images.length-1;
+    } else {
+      this.selectedIndex--;
+    }
+  }
+
+  nextClick(): void{
+    if (this.selectedIndex === this.images.length-1){
+      this.selectedIndex = 0;
+    } else {
+      this.selectedIndex++;
+    }
+  }
 }
