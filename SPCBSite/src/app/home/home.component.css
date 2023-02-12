@@ -1,0 +1,24 @@
+.my-card {
+    max-width: 1600px;
+    margin: auto;
+    min-height: 400px;
+}
+
+.title {
+    font-size:48px;
+}
+
+.description {
+    font-size:20px;
+}
+
+.largeLogo {
+    width: 300px;
+    float: right;
+    padding-right: 2rem;
+    padding-bottom: 2rem;
+}
+
+.logoDiv {
+    align: right;
+}
