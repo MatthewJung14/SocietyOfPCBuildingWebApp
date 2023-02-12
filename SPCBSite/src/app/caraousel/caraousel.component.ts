@@ -15,12 +15,17 @@ export class CaraouselComponent implements OnInit{
   @Input() images: SPCBImages[] = []
   @Input() indicators = true;
   @Input() controls = true;
+  @Input() autoSlide = false;
+  @Input() slideInterval = 8000; //8 seconds
 
   selectedIndex = 0;
 
   constructor() { }
 
   ngOnInit(): void { 
+    if(this.autoSlide){
+      this.autoSlideImages();
+    }
   }
 
   selectImage(index: number): void {
@@ -41,5 +46,11 @@ export class CaraouselComponent implements OnInit{
     } else {
       this.selectedIndex++;
     }
+  }
+
+  autoSlideImages(): void {
+    setInterval(() =>{
+      this.nextClick();
+    }, this.slideInterval);
   }
 }
