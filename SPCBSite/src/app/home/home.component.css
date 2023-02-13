@@ -2,6 +2,7 @@
     max-width: 1400px;
     margin: auto;
     min-height: 400px;
+    margin-top: 30px;
 }
 
 .title {
@@ -17,8 +18,4 @@
     float: right;
     padding-right: 2rem;
     padding-bottom: 2rem;
-}
-
-.logoDiv {
-    align: right;
 }

@@ -1,3 +1,7 @@
+.officer-container {
+    margin-top: 30px;
+}
+
 .row {
     max-width: 1400px;
     justify-content: center;
@@ -5,6 +9,7 @@
     display: flex;
     margin: auto;
     padding-bottom: 60px;
+    grid-template-columns: repeat(auto-fill, minmax(225px, 1fr));
 }
 
 .div-card {
@@ -20,6 +25,7 @@
     display: flex;
     align-items: center;
     text-align: center;
+    background-color: #fafafa;
 }
 
 .title {
@@ -34,6 +40,7 @@
 .description {
     font-size:20px;
     text-align: center;
+    line-height: 1.5;
 }
 
 .officer-pic {

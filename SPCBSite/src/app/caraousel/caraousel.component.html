@@ -1,4 +1,3 @@
-<p>caraousel works!</p>
 <div *ngIf="images && images.length > 0" class="caraousel-container">
     <img *ngFor="let image of images; let i=index" 
     [src]="image.imageSrc" [alt]="image.imageAlt"
