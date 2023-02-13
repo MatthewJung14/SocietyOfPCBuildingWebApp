@@ -4,16 +4,21 @@
     align-items: center;
     display: flex;
     margin: auto;
+    padding-bottom: 60px;
+}
+
+.div-card {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .officer-card {
     width: 400px;
     margin: auto;
-    min-height: 400px;
+    height: 470px;
     display: flex;
-    justify-content: center;
     align-items: center;
-    display: inline-block;
 }
 
 .title {
