@@ -19,10 +19,16 @@
     height: 470px;
     display: flex;
     align-items: center;
+    text-align: center;
 }
 
 .title {
-    font-size:48px;
+    font-size:42px;
+}
+
+.title-long {
+    font-size:34px;
+    padding-bottom: 10px;
 }
 
 .description {
