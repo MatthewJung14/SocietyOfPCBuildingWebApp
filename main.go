@@ -14,8 +14,8 @@ import (
 	"gorm.io/gorm"
 )
 
-//Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
-
+// Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
+// bazinga
 var SECRET_KEY = []byte("gosecretkey")
 
 type User struct {
