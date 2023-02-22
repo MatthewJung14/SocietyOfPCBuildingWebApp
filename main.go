@@ -88,7 +88,7 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
-
+	response.Write([]byte(`{Successful}`))
 }
 
 func test(response http.ResponseWriter, request *http.Request) {
