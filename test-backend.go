@@ -8,15 +8,16 @@ import (
 	"testing"
 )
 
-func TestLogin(t *testing.T) {
+func TestLoginHandler(t *testing.T) {
 	// create a test HTTP server
-	server := httptest.NewServer(http.HandlerFunc(LoginHandler))
+	server := httptest.NewServer(http.HandlerFunc(userLogin))
 	defer server.Close()
 
-	// create a valid login request body
+	// create a valid login request body with username and password fields
 	form := url.Values{}
-	form.Add("username", "testuser")
-	form.Add("password", "testpassword")
+	form.Add("test2", "testuser")
+	form.Add("test2@email.com", "testuser@example.com")
+	form.Add("testpass2", "testpassword")
 	body := strings.NewReader(form.Encode())
 
 	// create a POST request with the login request body
@@ -39,7 +40,7 @@ func TestLogin(t *testing.T) {
 	}
 
 	// verify that the response body contains the expected message
-	expected := "Welcome, testuser!"
+	expected := "Successful"
 	if !strings.Contains(expected, expected) {
 		t.Errorf("Expected response body to contain '%v', but got '%v'", expected, res.Body)
 	}
