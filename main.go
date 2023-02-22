@@ -21,7 +21,7 @@ var SECRET_KEY = []byte("gosecretkey")
 type User struct {
 	gorm.Model
 	Name     string `json:"name" gorm:"name"`
-	Email    string `json:"email" gorm:"primaryKey"`
+	Email    string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
 	Password string `json:"password" gorm:"password"`
 }
 
@@ -69,7 +69,7 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 		panic("failed to connect database")
 	}
 	//I think this searches for the user with the corresponding email
-	db.Model(&User{Email: user.Email}).First(&dbUser)
+	db.Where("Email = ?", user.Email).First(&dbUser)
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
