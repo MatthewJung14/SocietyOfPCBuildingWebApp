@@ -110,8 +110,8 @@ func main() {
 
 	log.Fatal(http.ListenAndServe("localhost:4200", router))
 
-	// err := http.ListenAndServe("localhost:4200", router)
-	// if err != nil {
-	//     log.Fatalln("There's an error with the server," err)
-	// }
+	err = http.ListenAndServe("localhost:4200", router)
+	if err != nil {
+		log.Fatalln("There's an error with the server,", err)
+	}
 }
