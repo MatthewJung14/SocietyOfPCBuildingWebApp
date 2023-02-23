@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
 
@@ -20,9 +21,10 @@ var SECRET_KEY = []byte("gosecretkey")
 
 type User struct {
 	gorm.Model
-	Name     string `json:"name" gorm:"name"`
-	Email    string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
-	Password string `json:"password" gorm:"password"`
+	FirstName string `json:"firstname" gorm:"firstname"`
+	LastName  string `json:"lastname" gorm:"lastname"`
+	Email     string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
+	Password  string `json:"password" gorm:"password"`
 }
 
 // Takes in password, returns a hash
@@ -49,13 +51,26 @@ func GenerateJWT() (string, error) {
 func userRegister(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User
+	var hold User //Just need an empty instance of a user struct
 	json.NewDecoder(request.Body).Decode(&user)
 	user.Password = getHash([]byte(user.Password))
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.Create(&user)
+	//Check to see if there is already a user associated with the given email address
+	if err := db.Where("Email = ?", user.Email).First(&hold).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			db.Create(&user)
+			response.Write([]byte(`User registered`))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	} else {
+		response.Write([]byte(`Email is already in use`))
+		return
+	}
 }
 
 // This function logs a user in
