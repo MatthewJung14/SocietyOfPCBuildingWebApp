@@ -15,9 +15,9 @@ func TestLoginHandler(t *testing.T) {
 
 	// create a valid login request body with username and password fields
 	form := url.Values{}
-	form.Add("test2", "testuser")
-	form.Add("test2@email.com", "testuser@example.com")
-	form.Add("testpass2", "testpassword")
+	form.Add("test2", "Name")
+	form.Add("test2@mail.com", "Email")
+	form.Add("testpass2", "Password")
 	body := strings.NewReader(form.Encode())
 
 	// create a POST request with the login request body
