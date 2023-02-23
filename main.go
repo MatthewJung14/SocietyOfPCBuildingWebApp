@@ -83,8 +83,16 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	//I think this searches for the user with the corresponding email
-	db.Where("Email = ?", user.Email).First(&dbUser)
+
+	//Check to see if the user exists
+	if err := db.Where("Email = ?", user.Email).First(&dbUser).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			response.Write([]byte(`No user with that email exists`))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	}
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
