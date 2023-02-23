@@ -131,7 +131,7 @@ func main() {
 	db.AutoMigrate(&User{})
 
 	router := mux.NewRouter()
-	router.HandleFunc("/api/login/register", userRegister).Methods("POST")
+	router.HandleFunc("/api/signup", userRegister).Methods("POST")
 	router.HandleFunc("/api/login", userLogin).Methods("POST")
 	router.HandleFunc("/api/test", test).Methods("GET")
 
