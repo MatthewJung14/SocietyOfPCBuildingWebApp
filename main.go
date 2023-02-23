@@ -13,6 +13,8 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+
+	"github.com/rs/cors"
 )
 
 // Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
@@ -114,8 +116,10 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 	response.Write([]byte(`{Successful}`))
 }
 
+// A simple little api that just exists for testing purposes
 func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
+	response.Write([]byte(`Test success`))
 }
 
 func main() {
@@ -127,13 +131,20 @@ func main() {
 	db.AutoMigrate(&User{})
 
 	router := mux.NewRouter()
-	router.HandleFunc("/login/register", userRegister).Methods("POST")
-	router.HandleFunc("/login", userLogin).Methods("POST")
-	router.HandleFunc("/test", test).Methods("GET")
+	router.HandleFunc("/api/login/register", userRegister).Methods("POST")
+	router.HandleFunc("/api/login", userLogin).Methods("POST")
+	router.HandleFunc("/api/test", test).Methods("GET")
 
-	log.Fatal(http.ListenAndServe("localhost:4200", router))
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+	})
 
-	err = http.ListenAndServe("localhost:4200", router)
+	handler := c.Handler(router)
+
+	log.Fatal(http.ListenAndServe("localhost:4200", handler))
+
+	err = http.ListenAndServe("localhost:4200", handler)
 	if err != nil {
 		log.Fatalln("There's an error with the server,", err)
 	}
