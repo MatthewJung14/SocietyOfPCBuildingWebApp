@@ -5,6 +5,7 @@ import (
 	"errors"
 	"log"
 	"net/http"
+	"time"
 
 	"fmt"
 
@@ -19,7 +20,7 @@ import (
 
 // Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
 
-var SECRET_KEY = []byte("gosecretkey")
+var SECRET_KEY = []byte("teehee")
 
 type User struct {
 	gorm.Model
@@ -38,15 +39,45 @@ func getHash(pwd []byte) string {
 	return string(hash)
 }
 
-// This does something???
+// Generates a JWT to be used for authorization purposes
 func GenerateJWT() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() //Sets the token expiration time to one day
 	tokenString, err := token.SignedString(SECRET_KEY)
 	if err != nil {
 		log.Println("Error in JWT token generation")
 		return "", err
 	}
 	return tokenString, nil
+}
+
+// A middleware function to check that a JWT is legit
+func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
+	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+		if request.Header["Token"] != nil {
+			token, err := jwt.Parse(request.Header["Token"][0], func(t *jwt.Token) (interface{}, error) {
+				_, ok := t.Method.(*jwt.SigningMethodHMAC)
+				if !ok {
+					response.WriteHeader(http.StatusUnauthorized)
+					response.Write([]byte("Unauthorized"))
+				}
+				return SECRET_KEY, nil
+			})
+
+			if err != nil {
+				response.WriteHeader(http.StatusUnauthorized)
+				response.Write([]byte("Unauthorized" + err.Error()))
+			}
+
+			if token.Valid {
+				next(response, request)
+			}
+		} else {
+			response.WriteHeader(http.StatusUnauthorized)
+			response.Write([]byte("Unauthorized"))
+		}
+	})
 }
 
 // This function registers a new user
@@ -133,7 +164,7 @@ func main() {
 	router := mux.NewRouter()
 	router.HandleFunc("/api/signup", userRegister).Methods("POST")
 	router.HandleFunc("/api/login", userLogin).Methods("POST")
-	router.HandleFunc("/api/test", test).Methods("GET")
+	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
