@@ -1,6 +1,8 @@
 package main
 
 import (
+	"bytes"
+	"encoding/json"
 	"net/http"
 	"net/http/httptest"
 	"net/url"
@@ -43,5 +45,43 @@ func TestLoginHandler(t *testing.T) {
 	expected := "Successful"
 	if !strings.Contains(expected, expected) {
 		t.Errorf("Expected response body to contain '%v', but got '%v'", expected, res.Body)
+	}
+}
+
+func TestUserRegister(t *testing.T) {
+	// Create a request body with user data
+	userData := User{
+		FirstName: "test2",
+		//might be an issue since im not adding a last name.
+		Email:    "test2@mail.com",
+		Password: "testpass2",
+	}
+	requestBody, err := json.Marshal(userData)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Create a request with the request body
+	request, err := http.NewRequest("POST", "/api/signup", bytes.NewBuffer(requestBody))
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	// Create a test server with the router and handle the request
+	rr := httptest.NewRecorder()
+	handler := http.HandlerFunc(userRegister)
+	handler.ServeHTTP(rr, request)
+
+	// Check the response status code
+	if status := rr.Code; status != http.StatusOK {
+		t.Errorf("handler returned wrong status code: got %v want %v",
+			status, http.StatusOK)
+	}
+
+	// Check the response body
+	expected := "User registered"
+	if rr.Body.String() != expected {
+		t.Errorf("handler returned unexpected body: got %v want %v",
+			rr.Body.String(), expected)
 	}
 }
