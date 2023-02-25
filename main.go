@@ -149,7 +149,7 @@ func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
 	response.Write([]byte(`{Successful}`))
 }
 
-// An api endpoint to delete a user from the database; will add the ability to reactivate users later
+// An api endpoint to delete a user from the database
 func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
