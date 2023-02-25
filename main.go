@@ -30,6 +30,11 @@ type User struct {
 	Password  string `json:"password" gorm:"password"`
 }
 
+// A silly little struct used for dependency injection
+type Env struct {
+	db *gorm.DB
+}
+
 // Takes in password, returns a hash
 func getHash(pwd []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
@@ -81,20 +86,17 @@ func ValidateJWT(next func(response http.ResponseWriter, request *http.Request))
 }
 
 // This function registers a new user
-func userRegister(response http.ResponseWriter, request *http.Request) {
+func (env *Env) userRegister(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var hold User //Just need an empty instance of a user struct
 	json.NewDecoder(request.Body).Decode(&user)
 	user.Password = getHash([]byte(user.Password))
-	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
+	db := env.db
 	//Check to see if there is already a user associated with the given email address
 	if err := db.Where("Email = ?", user.Email).First(&hold).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			db.Create(&user)
+			db.Set("gorm:association_autoupdate", false).Set("gorm:association_autocreate", false).Create(&user)
 			response.Write([]byte(`User registered`))
 			return
 		} else {
@@ -107,26 +109,28 @@ func userRegister(response http.ResponseWriter, request *http.Request) {
 }
 
 // This function logs a user in
-func userLogin(response http.ResponseWriter, request *http.Request) {
+func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("Logging in")
 	response.Header().Set("Content-Type", "application/json")
-	var user User
-	var dbUser User
+	var user User = User{}
+	var dbUser User = User{}
+	db := env.db
 	json.NewDecoder(request.Body).Decode(&user)
-	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
-	if err != nil {
-		panic("failed to connect database")
-	}
+
+	fmt.Println(user)
+	dbUser.Email = user.Email
 
 	//Check to see if the user exists
-	if err := db.Where("Email = ?", user.Email).First(&dbUser).Error; err != nil {
+	if err := db.First(&dbUser).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
-			response.Write([]byte(`No user with that email exists`))
+			response.Write([]byte("No user with that email exists: " + err.Error()))
 			return
 		} else {
 			panic("something terrible has happened")
 		}
 	}
 
+	fmt.Println(dbUser)
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
 
@@ -147,13 +151,45 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 	response.Write([]byte(`{Successful}`))
 }
 
-// A simple little api that just exists for testing purposes
+// An api endpoint to delete a user from the database; will add the ability to reactivate users later
+func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	var user User = User{}
+	var dbUser User = User{}
+	db := env.db
+	json.NewDecoder(request.Body).Decode(&user)
+
+	fmt.Println(user)
+
+	dbUser.Email = user.Email
+
+	//Check that the user actually exists
+	if err := db.First(&dbUser).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			response.Write([]byte("No user with that email exists: " + err.Error()))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	}
+
+	fmt.Println(dbUser)
+	env.db.Exec("DELETE FROM Users WHERE email = ?", user.Email)
+
+	//Delete the user whose email matches the one given in the DELETE request
+	response.Write([]byte("User " + user.Email + " successfully deleted"))
+
+	fmt.Println(dbUser)
+}
+
+// A simple little api endpoint that just exists for testing purposes
 func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
 	response.Write([]byte(`Test success`))
 }
 
 func main() {
+	//Open le database
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
@@ -161,11 +197,16 @@ func main() {
 
 	db.AutoMigrate(&User{})
 
-	router := mux.NewRouter()
-	router.HandleFunc("/api/signup", userRegister).Methods("POST")
-	router.HandleFunc("/api/login", userLogin).Methods("POST")
-	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
+	env := &Env{db}
 
+	router := mux.NewRouter()
+
+	router.HandleFunc("/api/signup", env.userRegister).Methods("POST")
+	router.HandleFunc("/api/login", env.userLogin).Methods("POST")
+	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
+	router.Handle("/api/deactivate-account", ValidateJWT(env.deactivateUser)).Methods("DELETE")
+
+	//This does something important I think
 	c := cors.New(cors.Options{
 		AllowedOrigins:   []string{"*"},
 		AllowCredentials: true,
