@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"log"
 	"net/http"
+	"time"
 
 	"fmt"
 
@@ -12,17 +14,20 @@ import (
 	"golang.org/x/crypto/bcrypt"
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
+
+	"github.com/rs/cors"
 )
 
-//Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
+// Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
 
-var SECRET_KEY = []byte("gosecretkey")
+var SECRET_KEY = []byte("teehee")
 
 type User struct {
 	gorm.Model
-	Name     string `json:"name" gorm:"name"`
-	Email    string `json:"email" gorm:"primaryKey"`
-	Password string `json:"password" gorm:"password"`
+	FirstName string `json:"firstname" gorm:"firstname"`
+	LastName  string `json:"lastname" gorm:"lastname"`
+	Email     string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
+	Password  string `json:"password" gorm:"password"`
 }
 
 // Takes in password, returns a hash
@@ -34,9 +39,11 @@ func getHash(pwd []byte) string {
 	return string(hash)
 }
 
-// This does something???
+// Generates a JWT to be used for authorization purposes
 func GenerateJWT() (string, error) {
 	token := jwt.New(jwt.SigningMethodHS256)
+	claims := token.Claims.(jwt.MapClaims)
+	claims["exp"] = time.Now().Add(time.Hour * 24).Unix() //Sets the token expiration time to one day
 	tokenString, err := token.SignedString(SECRET_KEY)
 	if err != nil {
 		log.Println("Error in JWT token generation")
@@ -45,17 +52,58 @@ func GenerateJWT() (string, error) {
 	return tokenString, nil
 }
 
+// A middleware function to check that a JWT is legit
+func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
+	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+		if request.Header["Token"] != nil {
+			token, err := jwt.Parse(request.Header["Token"][0], func(t *jwt.Token) (interface{}, error) {
+				_, ok := t.Method.(*jwt.SigningMethodHMAC)
+				if !ok {
+					response.WriteHeader(http.StatusUnauthorized)
+					response.Write([]byte("Unauthorized"))
+				}
+				return SECRET_KEY, nil
+			})
+
+			if err != nil {
+				response.WriteHeader(http.StatusUnauthorized)
+				response.Write([]byte("Unauthorized" + err.Error()))
+			}
+
+			if token.Valid {
+				next(response, request)
+			}
+		} else {
+			response.WriteHeader(http.StatusUnauthorized)
+			response.Write([]byte("Unauthorized"))
+		}
+	})
+}
+
 // This function registers a new user
 func userRegister(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User
+	var hold User //Just need an empty instance of a user struct
 	json.NewDecoder(request.Body).Decode(&user)
 	user.Password = getHash([]byte(user.Password))
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
 		panic("failed to connect database")
 	}
-	db.Create(&user)
+	//Check to see if there is already a user associated with the given email address
+	if err := db.Where("Email = ?", user.Email).First(&hold).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			db.Create(&user)
+			response.Write([]byte(`User registered`))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	} else {
+		response.Write([]byte(`Email is already in use`))
+		return
+	}
 }
 
 // This function logs a user in
@@ -68,8 +116,16 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	//I think this searches for the user with the corresponding email
-	db.Model(&User{Email: user.Email}).First(&dbUser)
+
+	//Check to see if the user exists
+	if err := db.Where("Email = ?", user.Email).First(&dbUser).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			response.Write([]byte(`No user with that email exists`))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	}
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
@@ -88,11 +144,13 @@ func userLogin(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
-
+	response.Write([]byte(`{Successful}`))
 }
 
+// A simple little api that just exists for testing purposes
 func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
+	response.Write([]byte(`Test success`))
 }
 
 func main() {
@@ -104,14 +162,21 @@ func main() {
 	db.AutoMigrate(&User{})
 
 	router := mux.NewRouter()
-	router.HandleFunc("/login/register", userRegister).Methods("POST")
-	router.HandleFunc("/login", userLogin).Methods("POST")
-	router.HandleFunc("/test", test).Methods("GET")
+	router.HandleFunc("/api/signup", userRegister).Methods("POST")
+	router.HandleFunc("/api/login", userLogin).Methods("POST")
+	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 
-	log.Fatal(http.ListenAndServe("localhost:4200", router))
+	c := cors.New(cors.Options{
+		AllowedOrigins:   []string{"*"},
+		AllowCredentials: true,
+	})
 
-	// err := http.ListenAndServe("localhost:4200", router)
-	// if err != nil {
-	//     log.Fatalln("There's an error with the server," err)
-	// }
+	handler := c.Handler(router)
+
+	log.Fatal(http.ListenAndServe("localhost:4200", handler))
+
+	err = http.ListenAndServe("localhost:4200", handler)
+	if err != nil {
+		log.Fatalln("There's an error with the server,", err)
+	}
 }
