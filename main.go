@@ -117,7 +117,6 @@ func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
 	db := env.db
 	json.NewDecoder(request.Body).Decode(&user)
 
-	fmt.Println(user)
 	dbUser.Email = user.Email
 
 	//Check to see if the user exists
@@ -130,7 +129,6 @@ func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
 		}
 	}
 
-	fmt.Println(dbUser)
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
 
@@ -159,8 +157,6 @@ func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Reque
 	db := env.db
 	json.NewDecoder(request.Body).Decode(&user)
 
-	fmt.Println(user)
-
 	dbUser.Email = user.Email
 
 	//Check that the user actually exists
@@ -173,13 +169,10 @@ func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Reque
 		}
 	}
 
-	fmt.Println(dbUser)
 	env.db.Exec("DELETE FROM Users WHERE email = ?", user.Email)
 
 	//Delete the user whose email matches the one given in the DELETE request
 	response.Write([]byte("User " + user.Email + " successfully deleted"))
-
-	fmt.Println(dbUser)
 }
 
 // A simple little api endpoint that just exists for testing purposes
