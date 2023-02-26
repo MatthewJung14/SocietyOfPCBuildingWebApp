@@ -30,7 +30,7 @@ type User struct {
 	Password  string `json:"password" gorm:"password"`
 }
 
-// A silly little struct used for dependency injection
+// A silly little struct used to reuse db connections
 type Env struct {
 	db *gorm.DB
 }
@@ -110,7 +110,6 @@ func (env *Env) userRegister(response http.ResponseWriter, request *http.Request
 
 // This function logs a user in
 func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("Logging in")
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -175,6 +174,30 @@ func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Reque
 	response.Write([]byte("User " + user.Email + " successfully deleted"))
 }
 
+// A function to update a user's credentials - does not update email address
+func (env *Env) updateUser(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	var user User = User{}
+	var dbUser User = User{}
+	db := env.db
+	json.NewDecoder(request.Body).Decode(&user)
+
+	dbUser.Email = user.Email
+
+	//Check that the user actually exists
+	if err := db.First(&dbUser).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			response.Write([]byte("No user with that email exists: " + err.Error()))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	}
+
+	//Raw SQL >>> GORM
+	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
+}
+
 // A simple little api endpoint that just exists for testing purposes
 func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
@@ -198,6 +221,7 @@ func main() {
 	router.HandleFunc("/api/login", env.userLogin).Methods("POST")
 	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 	router.Handle("/api/deactivate-account", ValidateJWT(env.deactivateUser)).Methods("DELETE")
+	router.Handle("/api/update-account", ValidateJWT(env.updateUser)).Methods("PUT")
 
 	//This does something important I think
 	c := cors.New(cors.Options{
