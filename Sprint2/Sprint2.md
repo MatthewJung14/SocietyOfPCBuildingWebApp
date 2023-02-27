@@ -11,6 +11,7 @@ Packages:
       userRegister - An Env struct behavior. Creates a new entry in the User table of the database provided that no other entry with the same email exists. Called by /api/signup endpoint.
       userLogin - An Env struct behavior. Compares hashes of the provided password string with the corresponding entry in the User table provided such an entry exists. If the hashes match, a JWT is returned along with a success message. Called by /api/login endpoint.
       deactivateUser - An Env struct behavior. Deletes the user with provided email address from the User table provided they exist. This deletion is a hard delete using a raw SQL statement, hence the deletion is permanent. Called by /api/deactivate-account endpoint.
+      updateUser - An Env struct behavior. Updates the user's account information with the provided changes provided that the user exists in the User table. Does not update the email address. Called by /api/update-account endpoint.
     Middleware Handlers:
       ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test and /api/deactivate-account.
     API Endpoints:
@@ -18,4 +19,8 @@ Packages:
       /api/signup - Calls the userRegister function. No additional middleware handlers. Accepts http POST requests.
       /api/login - Calls the userLogin function. No additional middleware handlers. Accepts http POST requests.
       /api/deactivate-account - Calls the deactivateUser function. Uses the ValidateJWT handler. Accepts http DELETE requests.
+      /api/update-account - Calls the updateUser function. Uses the Validate JWT handler. Accepts http PUT requests.
   main_test - Contains all of the unit tests written for the backend.
+Database - SPCB.db:
+    Tables:
+        Users - A table containing user account details. Implements gorm.model. Primary key is set to email address. Additional fields include: firstname, lastname, and password.
