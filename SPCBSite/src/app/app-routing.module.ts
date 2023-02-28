@@ -6,7 +6,7 @@ import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { SignupComponent } from './signup/signup.component';
 
-const routes: Routes = [
+export const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
   {path: 'home', component: HomeComponent},
   {path: 'officers', component: OfficersComponent},

@@ -20,4 +20,10 @@ describe('NavbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('Should always be 5 buttons on the navbar', () => {
+  //   const buttons = fixture.debugElement
+  //   .queryAll(By.css('button'));
+  //   expect(buttons.length==5).toBeTruthy();
+  // });
 });
