@@ -1,11 +1,9 @@
-import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatButton } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
-import { MatFormField } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { NavbarComponent } from './navbar/navbar.component';
+import { RouterTestingModule } from '@angular/router/testing';
+import { RouterModule } from '@angular/router';
+import { MatToolbarModule } from '@angular/material/toolbar';
 
 describe('AppComponent', () => {
   let component: AppComponent;
@@ -13,9 +11,10 @@ describe('AppComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [AppComponent, MatButton, MatCard, MatFormField],
-      imports: [MatInputModule, BrowserAnimationsModule],
-    }).compileComponents();
+      declarations: [ AppComponent, NavbarComponent],
+      imports: [RouterTestingModule, RouterModule, MatToolbarModule]
+    })
+    .compileComponents();
   });
 
   beforeEach(() => {
@@ -28,28 +27,4 @@ describe('AppComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should display a login button', () => {
-    const button = fixture.nativeElement.querySelector('button');
-    expect(button.textContent).toContain('Login');
-  });
-
-  it('should display a card with a title', () => {
-    const card = fixture.nativeElement.querySelector('mat-card');
-    expect(card).toBeTruthy();
-
-    const title = card.querySelector('mat-card-title');
-    expect(title).toBeTruthy();
-    expect(title.textContent).toContain('Welcome');
-  });
-
-  it('should display a form with a username and password field', () => {
-    const form = fixture.nativeElement.querySelector('form');
-    expect(form).toBeTruthy();
-
-    const usernameInput = form.querySelector('input[formcontrolname="username"]');
-    expect(usernameInput).toBeTruthy();
-
-    const passwordInput = form.querySelector('input[formcontrolname="password"]');
-    expect(passwordInput).toBeTruthy();
-  });
 });
