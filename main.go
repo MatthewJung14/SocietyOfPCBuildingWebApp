@@ -109,7 +109,7 @@ func (env *Env) userRegister(response http.ResponseWriter, request *http.Request
 }
 
 // This function logs a user in
-func (env *Env) userLogin(response http.ResponseWriter, request *http.Request) {
+func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -218,7 +218,7 @@ func main() {
 	router := mux.NewRouter()
 
 	router.HandleFunc("/api/signup", env.userRegister).Methods("POST")
-	router.HandleFunc("/api/login", env.userLogin).Methods("POST")
+	router.HandleFunc("/api/login", env.UserLogin).Methods("POST")
 	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 	router.Handle("/api/deactivate-account", ValidateJWT(env.deactivateUser)).Methods("DELETE")
 	router.Handle("/api/update-account", ValidateJWT(env.updateUser)).Methods("PUT")
