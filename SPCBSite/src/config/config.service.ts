@@ -5,3 +5,6 @@ import { HttpClient } from '@angular/common/http';
 export class ConfigService {
   constructor(private http: HttpClient) { }
 }
+
+import { Observable, throwError } from 'rxjs';
+import { catchError, retry } from 'rxjs/operators';
