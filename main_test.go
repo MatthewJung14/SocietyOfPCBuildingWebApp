@@ -69,7 +69,7 @@ func TestUserRegister(t *testing.T) {
 	}
 
 	// Check the response body
-	expectedBody := "User registered"
+	expectedBody := "Sucessful"
 	if recorder.Body.String() != expectedBody {
 		t.Errorf("Expected response body '%s' but got '%s'", expectedBody, recorder.Body.String())
 	}
