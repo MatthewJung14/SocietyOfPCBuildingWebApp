@@ -99,7 +99,6 @@ import {MatButtonHarness} from '@angular/material/button/testing';
     MatTooltipModule,
     CaraouselModule,
     HttpClientModule,
-    MatButtonHarness,
   ],
   providers: [],
   bootstrap: [AppComponent]
