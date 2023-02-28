@@ -99,7 +99,6 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     MatTooltipModule,
     CaraouselModule,
     HttpClientModule,
-    //MatButtonHarness,
   ],
   providers: [],
   bootstrap: [AppComponent]
