@@ -2,11 +2,11 @@
     <!-- <div class="logo">
       <img src="../../assets/spcb_bw.png" class="img-fluid">
     </div> -->
-    <span data-cy="counter">The Society of PC Building</span>
+    <span data-cy="title">The Society of PC Building</span>
   
     <div class="spacer"></div>
   
-    <button mat-raised-button data-cy="home"class="spaced-button" routerLink="home">HOME</button>
+    <button mat-raised-button data-cy="home"class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
     <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
     <button mat-raised-button class="spaced-button" routerLink="rent">RENT A PC</button>
     <button mat-raised-button class="spaced-button" routerLink="login">LOGIN</button>
