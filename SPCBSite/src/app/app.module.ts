@@ -48,6 +48,7 @@ import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
+import {MatButtonHarness} from '@angular/material/button/testing';
 
 @NgModule({
   declarations: [
@@ -57,7 +58,7 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     LoginComponent,
     SignupComponent,
     OfficersComponent,
-    RentComponent
+    RentComponent,
   ],
   imports: [
     BrowserModule,
@@ -98,6 +99,7 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     MatTooltipModule,
     CaraouselModule,
     HttpClientModule,
+    MatButtonHarness,
   ],
   providers: [],
   bootstrap: [AppComponent]
