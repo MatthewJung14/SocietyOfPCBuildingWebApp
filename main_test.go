@@ -5,7 +5,10 @@ import (
 	"encoding/json"
 	"net/http"
 	"net/http/httptest"
+	"strings"
 	"testing"
+
+	"gorm.io/gorm"
 )
 
 func TestLoginHandler(t *testing.T) {
@@ -45,42 +48,29 @@ func TestLoginHandler(t *testing.T) {
 	}
 }
 
-/*
 func TestUserRegister(t *testing.T) {
-	// Create a request body with user data
-	userData := User{
-		FirstName: "test2",
-		//might be an issue since im not adding a last name.
-		Email:    "test2@mail.com",
-		Password: "testpass2",
-	}
-	requestBody, err := json.Marshal(userData)
-	if err != nil {
-		t.Fatal(err)
-	}
+	// Create a new instance of Env struct with a mock database connection
+	env := &Env{db: &gorm.DB{}}
 
-	// Create a request with the request body
-	request, err := http.NewRequest("POST", "/api/signup", bytes.NewBuffer(requestBody))
-	if err != nil {
-		t.Fatal(err)
-	}
+	// Create a new HTTP request with a POST method and a JSON payload
+	payload := strings.NewReader(`{"Email": "test2@mail.com", "Password": "test2pass"}`)
+	req := httptest.NewRequest("POST", "/register", payload)
+	req.Header.Set("Content-Type", "application/json")
 
-	// Create a test server with the router and handle the request
-	rr := httptest.NewRecorder()
-	handler := http.HandlerFunc(userRegister)
-	handler.ServeHTTP(rr, request)
+	// Create a new HTTP response recorder
+	recorder := httptest.NewRecorder()
+
+	// Call the userRegister function with the test HTTP request and response
+	env.userRegister(recorder, req)
 
 	// Check the response status code
-	if status := rr.Code; status != http.StatusOK {
-		t.Errorf("handler returned wrong status code: got %v want %v",
-			status, http.StatusOK)
+	if recorder.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, recorder.Code)
 	}
 
 	// Check the response body
-	expected := "User registered"
-	if rr.Body.String() != expected {
-		t.Errorf("handler returned unexpected body: got %v want %v",
-			rr.Body.String(), expected)
+	expectedBody := "User registered"
+	if recorder.Body.String() != expectedBody {
+		t.Errorf("Expected response body '%s' but got '%s'", expectedBody, recorder.Body.String())
 	}
 }
-*/
