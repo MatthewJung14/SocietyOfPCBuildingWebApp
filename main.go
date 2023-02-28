@@ -149,7 +149,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 }
 
 // An api endpoint to delete a user from the database
-func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Request) {
+func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -175,7 +175,7 @@ func (env *Env) deactivateUser(response http.ResponseWriter, request *http.Reque
 }
 
 // A function to update a user's credentials - does not update email address
-func (env *Env) updateUser(response http.ResponseWriter, request *http.Request) {
+func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -220,8 +220,8 @@ func main() {
 	router.HandleFunc("/api/signup", env.userRegister).Methods("POST")
 	router.HandleFunc("/api/login", env.UserLogin).Methods("POST")
 	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
-	router.Handle("/api/deactivate-account", ValidateJWT(env.deactivateUser)).Methods("DELETE")
-	router.Handle("/api/update-account", ValidateJWT(env.updateUser)).Methods("PUT")
+	router.Handle("/api/deactivate-account", ValidateJWT(env.DeactivateUser)).Methods("DELETE")
+	router.Handle("/api/update-account", ValidateJWT(env.UpdateUser)).Methods("PUT")
 
 	//This does something important I think
 	c := cors.New(cors.Options{
