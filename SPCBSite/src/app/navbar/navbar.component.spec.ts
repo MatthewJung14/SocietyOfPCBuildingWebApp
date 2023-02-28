@@ -2,13 +2,17 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { NavbarComponent } from './navbar.component';
 
+import { MatToolbarModule } from '@angular/material/toolbar';
+
+
 describe('NavbarComponent', () => {
   let component: NavbarComponent;
   let fixture: ComponentFixture<NavbarComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ NavbarComponent ]
+      declarations: [ NavbarComponent ],
+      imports: [ MatToolbarModule ]
     })
     .compileComponents();
 
@@ -20,4 +24,10 @@ describe('NavbarComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  // it('Should always be 5 buttons on the navbar', () => {
+  //   const buttons = fixture.debugElement
+  //   .queryAll(By.css('button'));
+  //   expect(buttons.length==5).toBeTruthy();
+  // });
 });
