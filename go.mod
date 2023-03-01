@@ -17,5 +17,10 @@ require (
 
 require (
 	github.com/golang-jwt/jwt v3.2.2+incompatible
-	golang.org/x/crypto v0.0.0-20220622213112-05595931fe9d
+	golang.org/x/crypto v0.6.0
+)
+
+require (
+	github.com/go-sql-driver/mysql v1.7.0 // indirect
+	github.com/jinzhu/gorm v1.9.16 // indirect
 )
