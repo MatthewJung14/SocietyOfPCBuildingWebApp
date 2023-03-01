@@ -55,7 +55,6 @@ func GenerateJWT() (string, error) {
 	return tokenString, nil
 }
 
-// fuck
 // A middleware function to check that a JWT is legit
 func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
 	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
