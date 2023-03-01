@@ -55,6 +55,7 @@ func GenerateJWT() (string, error) {
 	return tokenString, nil
 }
 
+// fuck
 // A middleware function to check that a JWT is legit
 func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
 	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
@@ -85,6 +86,7 @@ func ValidateJWT(next func(response http.ResponseWriter, request *http.Request))
 
 // This function registers a new user
 func (env *Env) userRegister(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("TEST")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var hold User //Just need an empty instance of a user struct
