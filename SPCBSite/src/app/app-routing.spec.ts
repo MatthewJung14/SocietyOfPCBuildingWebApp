@@ -48,4 +48,13 @@ describe("App Routing", ()=>{
           expect(location.path()).toBe('/home');
         })
     }));
+
+    it("should navigate to home when home is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('home'));
+        links[0].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/home');
+        })
+    }));
 });
