@@ -10,6 +10,7 @@ describe('template spec', () => {
 
   it('successfully loads', () => {
     cy.visit('http://localhost:4200/login')
+    cy.contains('RENT A PC').click()
   })
   
 })
