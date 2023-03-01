@@ -48,7 +48,6 @@ import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
-//import {MatButtonHarness} from '@angular/material/button/testing';
 
 @NgModule({
   declarations: [
