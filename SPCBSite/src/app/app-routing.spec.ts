@@ -57,10 +57,46 @@ describe("App Routing", ()=>{
 
     it("should navigate to home when home is clicked", waitForAsync(() => {
         navFixture.detectChanges();
-        let links = el.queryAll(By.css('home'));
+        let links = el.queryAll(By.css('button'));
         links[0].nativeElement.click();
         navFixture.whenStable().then(()=>{
             expect(location.path()).toBe('/home');
+        })
+    }));
+
+    it("should navigate to officers when officers is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('button'));
+        links[1].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/officers');
+        })
+    }));
+
+    it("should navigate to rent when rent is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('button'));
+        links[2].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/rent');
+        })
+    }));
+
+    it("should navigate to login when login is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('button'));
+        links[3].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/login');
+        })
+    }));
+
+    it("should navigate to signup when signup is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('button'));
+        links[4].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/signup');
         })
     }));
 });
