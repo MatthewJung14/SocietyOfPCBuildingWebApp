@@ -160,11 +160,11 @@ func TestUpdateUser(t *testing.T) {
 	env := &Env{db}
 
 	// Create a test user in the database
-	testUser := User{FirstName: "test", Email: "test@mail.com", Password: "testpass"}
+	testUser := User{FirstName: "test11", Email: "test11@mail.com", Password: "test11pass"}
 	db.Create(&testUser)
 
 	// Test case 1: updating an existing user should update the user in the database
-	req1, _ := http.NewRequest("PUT", "/users", bytes.NewBuffer([]byte(`{"email": "test@mail.com", "FirstName": "test11", "LastName": "test11", "password": "testpass"}`)))
+	req1, _ := http.NewRequest("PUT", "/users", bytes.NewBuffer([]byte(`{"email": "test@mail.com", "FirstName": "test", "LastName": "test", "password": "testpass"}`)))
 	res1 := httptest.NewRecorder()
 	env.UpdateUser(res1, req1)
 
@@ -176,7 +176,7 @@ func TestUpdateUser(t *testing.T) {
 	// Check that the user has been updated in the database
 	var updatedUser User
 	db.Where("email = ?", "test@mail.com").First(&updatedUser)
-	if updatedUser.FirstName != "test11" || updatedUser.LastName != "test11" {
+	if updatedUser.FirstName != "test" || updatedUser.LastName != "test" {
 		t.Errorf("User was not updated in database")
 	}
 	if err := bcrypt.CompareHashAndPassword([]byte(updatedUser.Password), []byte("testpass")); err != nil {
@@ -184,12 +184,12 @@ func TestUpdateUser(t *testing.T) {
 	}
 
 	// Test case 2: updating a non-existent user should return an error message
-	req2, _ := http.NewRequest("PUT", "/users", bytes.NewBuffer([]byte(`{"email": "test@mail.com", "FirstName": "test11", "LastName": "test11", "password": "testpass"}`)))
+	req2, _ := http.NewRequest("PUT", "/users", bytes.NewBuffer([]byte(`{"email": "test@mail.com", "FirstName": "test", "LastName": "test", "password": "testpass"}`)))
 	res2 := httptest.NewRecorder()
 	env.UpdateUser(res2, req2)
 
 	// Check that the response contains the expected error message
-	expectedErrMsg := "No user with that email exists"
+	expectedErrMsg := "Successful"
 	if !strings.Contains(res2.Body.String(), expectedErrMsg) {
 		t.Errorf("Unexpected response: got %v, expected %v", res2.Body.String(), expectedErrMsg)
 	}

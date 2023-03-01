@@ -196,6 +196,7 @@ func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) 
 
 	//Raw SQL >>> GORM
 	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
+	response.Write([]byte(`{Successful}`))
 }
 
 // A simple little api endpoint that just exists for testing purposes
