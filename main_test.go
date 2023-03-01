@@ -72,7 +72,7 @@ func TestUserRegister(t *testing.T) {
 	env := &Env{db}
 
 	// Define a mock user object with valid credentials
-	user := User{Email: "test10@mail.com", Password: "test10pass"}
+	user := User{Email: "test43@mail.com", Password: "test43pass"}
 	body, _ := json.Marshal(user)
 
 	// Create a new HTTP POST request to the register endpoint with the mock user object as the body

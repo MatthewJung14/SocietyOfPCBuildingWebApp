@@ -18,8 +18,6 @@ import (
 	"github.com/rs/cors"
 )
 
-// Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
-
 var SECRET_KEY = []byte("teehee")
 
 type User struct {
