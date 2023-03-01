@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
+  providers: [HttpClient]
 })
 
 @Injectable({
