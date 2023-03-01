@@ -15,6 +15,10 @@ describe('template spec', () => {
     cy.contains('RENT A PC').click()
     cy.contains('LOGIN').click()
     cy.contains('SIGN UP').click()
+    cy.contains('First Name')
+    cy.contains('Last Name')
+    cy.contains('Email')
+    cy.contains('Password')
   })
   
 })
