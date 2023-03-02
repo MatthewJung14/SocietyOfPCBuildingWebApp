@@ -20,6 +20,7 @@
 
 
 **BACKEND DOCUMENTATION**
+
 Packages:
 - main - Thusfar, the only 'real' package. Contains all of the API endpoints and handles all of the routing. This will need to be better organized in the future; we need to place the various functions in other packages based on their functionality.
 Structs:
