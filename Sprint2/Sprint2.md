@@ -53,3 +53,5 @@ ValidateJWT - Checks that the value mapped to the "Token" key in a passed in htt
 Database - SPCB.db:
     Tables:
         Users - A table containing user account details. Implements gorm.model. Primary key is set to email address. Additional fields include: firstname, lastname, and password.
+        
+Link to narrated video presentation: https://www.youtube.com/watch?v=kpe-e2aXhbw
