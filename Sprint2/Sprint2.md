@@ -12,6 +12,12 @@ List of unit tests for Cypress
 - Check club name text test: This is a component test that checks whether our club’s name ‘The Society of PC Building’ is displayed on our navbar. The test finds the correct data-cy attribute labeled ‘title’ and checks to see if it contains our club name.
 - Home button test: This is a component test that checks whether the home is clicked. The test finds the correct data-cy attribute labeled ‘home’ and clicks it. The test then checks to see if the change property contains the appropriate string that was returned by clicking the home button. 
 
+Other work completed for the frontend:
+- Created a carousel component that contains an array of pictures from our club’s GBMs. After 8 seconds, the carousel switches to a new picture. This was done with the autoSlideImages() function which clicks the nextClick() function after the default interval passes. The user can also view a different picture by clicking the left arrow, right arrow, or indicator at the bottom. This was done with the prevClick(), nextClick(), and selectImage() functions that would switch to a new index when it is clicked. 
+- Updated the officers page to have some information about current board members. Information listed on the officers page can include their position, picture, name, year, and major. Each officer’s information is put on a mat-card element, which are UI components imported from Angular Materials.
+- Changed color scheme of the web page from purple with yellow highlights to black and blue highlights.
+
+
 
 **BACKEND DOCUMENTATION**
 Packages:
