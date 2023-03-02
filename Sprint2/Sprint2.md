@@ -1,3 +1,12 @@
+List of unit tests for frontend
+- Default path set to home test case: When all asynchronous tasks are completed, the test checks to see if the default path that our web application routes to is to the home page. It does this with the expect() and toBe() functions. 
+- Home button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the first button in our array, which is the home button. The test clicks on the button and checks to see if it routes to the home page. 
+- Officers button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the second button in our array, which is the officers button. The test clicks on the button and checks to see if it routes to the officers page. 
+- Rent a pc button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the third button in our array, which is the rent a pc button. The test clicks on the button and checks to see if it routes to the rent a pc page. 
+- Login button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the fourth button in our array, which is the login button. The test clicks on the button and checks to see if it routes to the login page. 
+- Sign up button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the fifth button in our array, which is the sign up button. The test clicks on the button and checks to see if it routes to the sign up page. 
+
+
 **BACKEND DOCUMENTATION**
 Packages:
   main - Thusfar, the only 'real' package. Contains all of the API endpoints and handles all of the routing. This will need to be better organized in the future; we need to place the various functions in other packages based on their functionality.
