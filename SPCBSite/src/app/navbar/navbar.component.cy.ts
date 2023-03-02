@@ -6,11 +6,13 @@ describe('NavbarComponent', () => {
     cy.mount(NavbarComponent)
   })
 
+  //Check club name text test
   it('stepper should have the title', () => {
     cy.mount(NavbarComponent)
     cy.get('[data-cy=title]').should('have.text', 'The Society of PC Building')
   })
 
+  //Home button test
   it('clicking the home button', () => {
     cy.mount(NavbarComponent, {
       componentProperties: {
