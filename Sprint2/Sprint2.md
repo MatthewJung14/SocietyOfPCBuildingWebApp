@@ -6,6 +6,12 @@ List of unit tests for frontend
 - Login button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the fourth button in our array, which is the login button. The test clicks on the button and checks to see if it routes to the login page. 
 - Sign up button test case: All buttons in the webpage are found with the queryAll() function. The buttons are then stored in an array. Our test then retrieves the fifth button in our array, which is the sign up button. The test clicks on the button and checks to see if it routes to the sign up page. 
 
+List of unit tests for Cypress
+- Visit localhost test: This test is an end-to-end test that simply checks if localhost:4200 is accessible. Localhost:4200 must be running via the command ‘ng serve’ for this test to be successful. The home page for the Society of PC Building web application is displayed on the Cypress testing window.
+- Find text in the SPCB web app test: This is an end-to-end test that checks whether the correct text displays on the SPCB web application. After the browser loads, the test will attempt to find text that contains ‘HOME’. If the text is not found, the test fails, but if the text is found, the interactive element that contains the text ‘HOME’ (in our case it is the button) is clicked. The test repeats this process for the rest of the buttons on the navbar. After reaching the sign up page, the test will check to see if the current page has the text ‘First Name’. It continues to check for ‘Last Name’, ‘Email’, and ‘Password’ until the test completes. 
+- Check club name text test: This is a component test that checks whether our club’s name ‘The Society of PC Building’ is displayed on our navbar. The test finds the correct data-cy attribute labeled ‘title’ and checks to see if it contains our club name.
+- Home button test: This is a component test that checks whether the home is clicked. The test finds the correct data-cy attribute labeled ‘home’ and clicks it. The test then checks to see if the change property contains the appropriate string that was returned by clicking the home button. 
+
 
 **BACKEND DOCUMENTATION**
 Packages:
