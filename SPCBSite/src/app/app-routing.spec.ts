@@ -48,6 +48,7 @@ describe("App Routing", ()=>{
        el = navFixture.debugElement;
     })
 
+    //Defaut path set to home test case
     it("should navigate to default path = home", waitForAsync(() => {
         fixture.detectChanges();
         fixture.whenStable().then(() => {
@@ -55,6 +56,7 @@ describe("App Routing", ()=>{
         })
     }));
 
+    //Home Button test case
     it("should navigate to home when home is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
@@ -64,6 +66,7 @@ describe("App Routing", ()=>{
         })
     }));
 
+    //Officers button test case
     it("should navigate to officers when officers is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
@@ -73,6 +76,7 @@ describe("App Routing", ()=>{
         })
     }));
 
+    //Rent a pc button test case
     it("should navigate to rent when rent is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
@@ -82,6 +86,7 @@ describe("App Routing", ()=>{
         })
     }));
 
+    //Login button test case
     it("should navigate to login when login is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
@@ -91,6 +96,7 @@ describe("App Routing", ()=>{
         })
     }));
 
+    //Signup button test case
     it("should navigate to signup when signup is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
