@@ -1,4 +1,5 @@
 describe('template spec', () => {
+  //Visit localhost test
   it('passes', () => {
     cy.visit('http://localhost:4200/')
   })
@@ -7,7 +8,7 @@ describe('template spec', () => {
   //   expect(true).to.equal(true)
   // })
 
-
+  //Find text in the SPCB web app test
   it('successfully loads', () => {
     cy.visit('http://localhost:4200/login')
     cy.contains('HOME').click()
