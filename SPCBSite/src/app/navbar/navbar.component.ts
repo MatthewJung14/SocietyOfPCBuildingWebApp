@@ -1,4 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core'
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {LoginFields} from '../login/login.component';
 
 @Component({
   selector: 'app-navbar',
@@ -13,7 +14,6 @@ export class NavbarComponent {
   @Output() change = new EventEmitter()
 
   homeClick(): void {
-    console.log("Created this function for cypress.")
     this.change.emit("Home was Clicked")
   }
 }
