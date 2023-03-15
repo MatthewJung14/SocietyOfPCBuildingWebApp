@@ -1,14 +1,51 @@
 import { Component } from '@angular/core';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatCardModule } from '@angular/material/card';
-import { MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+
+
 
 @Component({
   selector: 'app-login',
   templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css']
+  styleUrls: ['./login.component.css'],
+  providers: [HttpClient]
 })
-export class LoginComponent {
 
+@Injectable({
+  providedIn: 'root'
+})
+
+export class LoginComponent {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+
+  constructor(private http: HttpClient) {
+    this.firstName = "";
+    this.lastName = "";
+    this.email = "";
+    this.password = "";
+  }
+
+  async login() {
+    const headers = new Headers( {
+        'Content-Type': 'application/json'
+    });
+    const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
+    console.log(data);
+    this.http.post('http://localhost:4200/api/login', data).toPromise();
+    this.firstName = "";
+    this.lastName = "";
+    this.email = "";
+    this.password = "";
+    return;
+  }
+}
+
+export interface SignUpFields {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }
