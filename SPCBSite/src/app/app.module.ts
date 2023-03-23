@@ -50,6 +50,7 @@ import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
+import { CalendarComponent } from './calendar/calendar.component';
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
 @NgModule({
@@ -61,6 +62,7 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     SignupComponent,
     OfficersComponent,
     RentComponent,
+    CalendarComponent,
   ],
   imports: [
     FormsModule,
