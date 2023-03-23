@@ -9,23 +9,18 @@ export class EventsComponent {
   images = [
     {
       imageSrc:
-      '../../assets/IMG_0016.JPG',
-      imageAlt: 'GBMpic#16',
+      '../../assets/springgbm1.png',
+      imageAlt: 'Spring GBM 1',
     },
     {
       imageSrc:
-      '../../assets/IMG_0015.JPG',
-      imageAlt: 'GBMpic#15',
+      '../../assets/springgbm2.png',
+      imageAlt: 'Spring GBM 2',
     },
     {
       imageSrc:
-      '../../assets/IMG_0012.JPG',
-      imageAlt: 'GBMpic#12',
-    },
-    {
-      imageSrc:
-      '../../assets/IMG_0017.JPG',
-      imageAlt: 'GBMpic#17',
+      '../../assets/springgbm3.png',
+      imageAlt: 'Spring GBM 3',
     },
   ]
 }
