@@ -50,6 +50,7 @@ import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
+import { EventsComponent } from './events/events.component';
 
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
@@ -62,6 +63,7 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     SignupComponent,
     OfficersComponent,
     RentComponent,
+    EventsComponent,
   ],
   imports: [
     FormsModule,
