@@ -1,0 +1,19 @@
+.my-form{
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    margin-left: 22.5%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .my-card {
+    width: 50%;
+    margin-left: 25%;
+  }
+  
+  .centered-button {
+    margin-left: 47.5%;
+  }
