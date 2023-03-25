@@ -17,7 +17,6 @@ import { Observable } from 'rxjs';
 })
 
 export class SignupComponent {
-
   firstName: string;
   lastName: string;
   email: string;
