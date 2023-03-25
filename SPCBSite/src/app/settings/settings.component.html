@@ -3,28 +3,46 @@
     <mat-card-content> 
        <mat-card-content>
           <form class="my-form">
+            <div *ngIf="edit==='default'">
+               <h2>Which field would you like to update?</h2>
+               <mat-card-actions>
+                  <button mat-raised-button class = "name-button" (click)="edit='name'" color="accent">NAME</button>
+               </mat-card-actions>
+               <mat-card-actions>
+                  <button mat-raised-button class = "password-button" (click)="edit='password'" color="accent">PASSWORD</button>
+               </mat-card-actions>
+            </div>
+            <div *ngIf="edit==='name'">
              <mat-form-field class="full-width">
                     <mat-label>First Name</mat-label>
                     <input matInput [(ngModel)]="firstName" placeholder="First name"  name="fname"  required>
-                 </mat-form-field>
+             </mat-form-field>
                  <mat-form-field class="full-width">
                     <mat-label>Last Name</mat-label>
                     <input matInput [(ngModel)]="lastName" placeholder="Last Name" name="lname"  required>
                  </mat-form-field>
+            </div>
+            <div *ngIf="edit==='password'">
+               <!-- <mat-form-field class="full-width">
+                  <mat-label>Old Password</mat-label>
+                  <input matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
+               </mat-form-field> -->
                  <mat-form-field class="full-width">
-                    <mat-label>Email</mat-label>
-                    <input matInput [(ngModel)]="email" placeholder="Email" name="email" required>
-                 </mat-form-field>
-                 <mat-form-field class="full-width">
-                    <mat-label>Password</mat-label>
+                    <mat-label>New Password</mat-label>
                     <input matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
                  </mat-form-field>
+            </div>
           </form>
         </mat-card-content>
     </mat-card-content>
+    <div *ngIf="edit==='name'||edit==='password'">
     <mat-card-actions>
-        <button mat-raised-button class = "centered-button" (click)="updateAccount()" color="accent">SAVE CHANGES</button>
+        <button mat-raised-button class = "save-button" (click)="updateAccount()" color="accent">SAVE CHANGES</button>
     </mat-card-actions>
+    <mat-card-actions>
+      <button mat-raised-button class = "back-button" (click)="edit='default'" color="accent">GO BACK</button>
+    </mat-card-actions>
+    </div>
  </mat-card>
  
  

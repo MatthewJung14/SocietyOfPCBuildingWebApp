@@ -14,6 +14,7 @@ import { Observable } from 'rxjs';
 })
 
 export class SettingsComponent {
+  edit = 'default';
   firstName: string;
   lastName: string;
   email: string;
