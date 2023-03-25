@@ -6,11 +6,19 @@
   
     <div class="spacer"></div>
   
-    <button mat-raised-button data-cy="home"class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
-    <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
-    <button mat-raised-button class="spaced-button" routerLink="events">UPCOMING EVENTS</button>
-    <button mat-raised-button class="spaced-button" routerLink="rent">RENT A PC</button>
-    <button mat-raised-button class="spaced-button" routerLink="login">LOGIN</button>
-    <button mat-raised-button class="spaced-button" routerLink="signup" color="accent">SIGN UP</button>
-  
+    <div *ngIf="loggedIn===false">
+      <button mat-raised-button data-cy="home"class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
+      <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
+      <button mat-raised-button class="spaced-button" routerLink="events">UPCOMING EVENTS</button>
+      <button mat-raised-button class="spaced-button" routerLink="rent">RENT A PC</button>
+      <button mat-raised-button class="spaced-button" routerLink="login">LOGIN</button>
+      <button mat-raised-button class="spaced-button" routerLink="signup" color="accent">SIGN UP</button>
+    </div>
+    <div *ngIf="loggedIn===true">
+      <button mat-raised-button data-cy="home"class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
+      <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
+      <button mat-raised-button class="spaced-button" routerLink="events">UPCOMING EVENTS</button>
+      <button mat-raised-button class="spaced-button" routerLink="rent">RENT A PC</button>
+      <button mat-raised-button class="spaced-button" routerLink="rent" color="accent">Settings</button>
+    </div>
   </mat-toolbar>
