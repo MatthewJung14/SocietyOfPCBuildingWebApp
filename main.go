@@ -3,11 +3,11 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"fmt"
 	"log"
+	"math/rand"
 	"net/http"
 	"time"
-
-	"fmt"
 
 	"github.com/golang-jwt/jwt"
 	"github.com/gorilla/mux"
@@ -24,10 +24,11 @@ var SECRET_KEY = []byte("teehee")
 
 type User struct {
 	gorm.Model
-	FirstName string `json:"firstname" gorm:"firstname"`
-	LastName  string `json:"lastname" gorm:"lastname"`
-	Email     string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
-	Password  string `json:"password" gorm:"password"`
+	FirstName        string `json:"firstname" gorm:"firstname"`
+	LastName         string `json:"lastname" gorm:"lastname"`
+	Email            string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
+	Password         string `json:"password" gorm:"password"`
+	VerificationCode int    `json:"verification_code"`
 }
 
 // A silly little struct used to reuse db connections
@@ -176,7 +177,6 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 }
 
 // Password reset confirmation handler
-/*
 func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 
@@ -195,8 +195,8 @@ func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http
 
 	// Check if user exists in database
 	var dbUser User
-	result := env.db.Where("Email = ?", data.Email).First(&dbUser)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	result := env.db.Where("email = ?", data.Email).First(&dbUser)
+	if result.RowsAffected == 0 {
 		response.WriteHeader(http.StatusNotFound)
 		response.Write([]byte(`{"error":"User not found"}`))
 		return
@@ -230,8 +230,8 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 
 	// Check if user exists in database
 	var dbUser User
-	result := env.db.Where("Email = ?", user.Email).First(&dbUser)
-	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+	result := env.db.Where("email = ?", user.Email).First(&dbUser)
+	if result.RowsAffected == 0 {
 		response.WriteHeader(http.StatusNotFound)
 		response.Write([]byte(`{"error":"User not found"}`))
 		return
@@ -243,7 +243,7 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	env.db.Save(&dbUser)
 
 	// Send email with verification code to user
-	err = sendVerificationEmail(user.Email, code)
+	err = sendVerificationEmail(env, user.Email, code)
 	if err != nil {
 		log.Printf("Error sending email: %v", err)
 		response.WriteHeader(http.StatusInternalServerError)
@@ -254,7 +254,7 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Verification code sent"}`))
 }
-*/
+
 // A function to update a user's credentials - does not update email address
 func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
@@ -278,6 +278,82 @@ func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) 
 	//Raw SQL >>> GORM
 	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
 	response.Write([]byte(`{Successful}`))
+}
+func (env *Env) UpdateUserName(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+
+	// Decode request body into user object
+	var user User
+	err := json.NewDecoder(request.Body).Decode(&user)
+	if err != nil {
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write([]byte(`{"error":"Invalid request body"}`))
+		return
+	}
+
+	// Get user from database
+	var dbUser User
+	result := env.db.Where("Email = ?", user.Email).First(&dbUser)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		response.WriteHeader(http.StatusNotFound)
+		response.Write([]byte(`{"error":"User not found"}`))
+		return
+	}
+
+	// Update user's first name and last name
+	dbUser.FirstName = user.FirstName
+	dbUser.LastName = user.LastName
+	env.db.Save(&dbUser)
+
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte(`{"message":"User updated successfully"}`))
+}
+func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+	var user User
+	err := json.NewDecoder(request.Body).Decode(&user)
+	if err != nil {
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write([]byte(`{"error":"Invalid request body"}`))
+		return
+	}
+
+	// Check if user exists in database
+	var dbUser User
+	result := env.db.Where("Email = ?", user.Email).First(&dbUser)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		response.WriteHeader(http.StatusNotFound)
+		response.Write([]byte(`{"error":"User not found"}`))
+		return
+	}
+
+	// Check if new email already exists in database
+	result = env.db.Where("Email = ?", user.NewEmail).First(&dbUser)
+	if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		response.WriteHeader(http.StatusConflict)
+		response.Write([]byte(`{"error":"Email already exists"}`))
+		return
+	}
+
+	// Update user email
+	dbUser.Email = user.NewEmail
+	env.db.Save(&dbUser)
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte(`{"message":"Email updated successfully"}`))
+}
+
+func sendVerificationEmail(env *Env, to string, code int) error {
+	//body := fmt.Sprintf("Your verification code is: %d", code)
+	//subject := "Verify your email"
+	//msg := gomail.NewMessage()
+	//msg.SetHeader("From", env.email.From)
+	//msg.SetHeader("To", to)
+	//msg.SetHeader("Subject", subject)
+	//msg.SetBody("text/plain", body)
+	//if err := env.email.DialAndSend(msg); err != nil {
+	//	return err
+	//}
+	return nil
 }
 
 // A simple little api endpoint that just exists for testing purposes
