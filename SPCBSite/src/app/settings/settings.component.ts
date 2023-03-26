@@ -27,17 +27,23 @@ export class SettingsComponent {
     this.password = "";
   }
 
-  async updateAccount() {
+  async updateAccount(change: string) {
     const headers = new Headers( {
         'Content-Type': 'application/json'
     });
-    const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
-    console.log(data);
-    this.http.put('http://localhost:4200/api/update-account', data).toPromise();
-    this.firstName = "";
-    this.lastName = "";
-    this.email = "";
-    this.password = "";
+    if (change == "name"){
+      const data = {FirstName: this.firstName, LastName: this.lastName}
+      console.log(data);
+      this.http.put('http://localhost:4200/api/update-account', data).toPromise();
+      this.firstName = "";
+      this.lastName = "";
+    } else {
+      const data = {Password: this.password}
+      console.log(data);
+      this.http.put('http://localhost:4200/api/update-account', data).toPromise();
+      this.password = "";
+    }
+
     return;
   }
 }

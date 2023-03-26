@@ -21,6 +21,9 @@
                     <mat-label>Last Name</mat-label>
                     <input matInput [(ngModel)]="lastName" placeholder="Last Name" name="lname"  required>
                  </mat-form-field>
+             <mat-card-actions>
+                  <button mat-raised-button class = "save-button" (click)="updateAccount('name')" color="accent">SAVE CHANGES</button>
+            </mat-card-actions>
             </div>
             <div *ngIf="edit==='password'">
                <!-- <mat-form-field class="full-width">
@@ -31,14 +34,14 @@
                     <mat-label>New Password</mat-label>
                     <input matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
                  </mat-form-field>
+               <mat-card-actions>
+                  <button mat-raised-button class = "save-button" (click)="updateAccount('password')" color="accent">SAVE CHANGES</button>
+              </mat-card-actions>
             </div>
           </form>
         </mat-card-content>
     </mat-card-content>
     <div *ngIf="edit==='name'||edit==='password'">
-    <mat-card-actions>
-        <button mat-raised-button class = "save-button" (click)="updateAccount()" color="accent">SAVE CHANGES</button>
-    </mat-card-actions>
     <mat-card-actions>
       <button mat-raised-button class = "back-button" (click)="edit='default'" color="accent">GO BACK</button>
     </mat-card-actions>
