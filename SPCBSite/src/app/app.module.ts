@@ -52,6 +52,7 @@ import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
 import { EventsComponent } from './events/events.component';
 import { SettingsComponent } from './settings/settings.component';
+import { LoginModule } from './login/login.module'; // import LoginModule
 
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
