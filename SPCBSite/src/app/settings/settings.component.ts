@@ -33,7 +33,7 @@ export class SettingsComponent {
     });
     const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
     console.log(data);
-    this.http.post('http://localhost:4200/api/update-account', data).toPromise();
+    this.http.put('http://localhost:4200/api/update-account', data).toPromise();
     this.firstName = "";
     this.lastName = "";
     this.email = "";
