@@ -32,11 +32,9 @@ export class LoginComponent {
     const headers = new Headers( {
         'Content-Type': 'application/json'
     });
-    const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
+    const data = {Email: this.email, Password: this.password}
     console.log(data);
     this.http.post('http://localhost:4200/api/login', data).toPromise();
-    this.firstName = "";
-    this.lastName = "";
     this.email = "";
     this.password = "";
     return;
