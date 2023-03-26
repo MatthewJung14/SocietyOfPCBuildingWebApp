@@ -15,6 +15,8 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
+	"math/rand"
+
 	"github.com/rs/cors"
 )
 
@@ -171,6 +173,85 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 
 	//Delete the user whose email matches the one given in the DELETE request
 	response.Write([]byte("User " + user.Email + " successfully deleted"))
+}
+
+// Password reset confirmation handler
+func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+
+	// Get user email and verification code from request body
+	var data struct {
+		Email            string `json:"email"`
+		VerificationCode int    `json:"code"`
+		NewPassword      string `json:"new_password"`
+	}
+	err := json.NewDecoder(request.Body).Decode(&data)
+	if err != nil {
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write([]byte(`{"error":"Invalid request body"}`))
+		return
+	}
+
+	// Check if user exists in database
+	var dbUser User
+	result := env.db.Where("Email = ?", data.Email).First(&dbUser)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		response.WriteHeader(http.StatusNotFound)
+		response.Write([]byte(`{"error":"User not found"}`))
+		return
+	}
+
+	// Verify verification code
+	if dbUser.VerificationCode != data.VerificationCode {
+		response.WriteHeader(http.StatusUnauthorized)
+		response.Write([]byte(`{"error":"Invalid verification code"}`))
+		return
+	}
+
+	// Update user password
+	dbUser.Password = getHash([]byte(data.NewPassword))
+	dbUser.VerificationCode = 0
+	env.db.Save(&dbUser)
+}
+
+// Password reset request handler
+func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http.Request) {
+	response.Header().Set("Content-Type", "application/json")
+
+	// Get user email from request body
+	var user User
+	err := json.NewDecoder(request.Body).Decode(&user)
+	if err != nil {
+		response.WriteHeader(http.StatusBadRequest)
+		response.Write([]byte(`{"error":"Invalid request body"}`))
+		return
+	}
+
+	// Check if user exists in database
+	var dbUser User
+	result := env.db.Where("Email = ?", user.Email).First(&dbUser)
+	if errors.Is(result.Error, gorm.ErrRecordNotFound) {
+		response.WriteHeader(http.StatusNotFound)
+		response.Write([]byte(`{"error":"User not found"}`))
+		return
+	}
+
+	// Generate verification code and save to database
+	code := rand.Intn(999999) + 100000
+	dbUser.VerificationCode = code
+	env.db.Save(&dbUser)
+
+	// Send email with verification code to user
+	err = sendVerificationEmail(user.Email, code)
+	if err != nil {
+		log.Printf("Error sending email: %v", err)
+		response.WriteHeader(http.StatusInternalServerError)
+		response.Write([]byte(`{"error":"Failed to send email"}`))
+		return
+	}
+
+	response.WriteHeader(http.StatusOK)
+	response.Write([]byte(`{"message":"Verification code sent"}`))
 }
 
 // A function to update a user's credentials - does not update email address
