@@ -1,0 +1,35 @@
+.my-form{
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+    margin-left: 22.5%;
+  }
+
+  .full-width {
+    width: 100%;
+  }
+
+  .my-card {
+    width: 50%;
+    margin-left: 25%;
+  }
+  
+  .save-button {
+    margin-left: 44%;
+  }
+
+  .name-button {
+    margin-left: 45%;
+  }
+
+  .password-button {
+    margin-left: 41%;
+  }
+
+  .back-button {
+    margin-left:90%;
+  }
+
+  h2 {
+    margin-left: 10%;
+  }

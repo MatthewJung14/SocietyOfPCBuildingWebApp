@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
+  providers: [HttpClient]
 })
 
 @Injectable({
@@ -16,7 +17,6 @@ import { Observable } from 'rxjs';
 })
 
 export class SignupComponent {
-
   firstName: string;
   lastName: string;
   email: string;
@@ -42,4 +42,11 @@ export class SignupComponent {
     this.password = "";
     return;
   }
+}
+
+export interface SignUpFields {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
 }

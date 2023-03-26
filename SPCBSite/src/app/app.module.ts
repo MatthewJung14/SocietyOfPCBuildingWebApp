@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpHandler } from '@angular/common/http';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -50,6 +50,9 @@ import { SignupComponent } from './signup/signup.component';
 import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
+import { EventsComponent } from './events/events.component';
+import { SettingsComponent } from './settings/settings.component';
+
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
 @NgModule({
@@ -61,6 +64,8 @@ import { CaraouselModule } from './caraousel/caraousel.module';
     SignupComponent,
     OfficersComponent,
     RentComponent,
+    EventsComponent,
+    SettingsComponent,
   ],
   imports: [
     FormsModule,
