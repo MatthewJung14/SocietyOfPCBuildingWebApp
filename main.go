@@ -15,8 +15,6 @@ import (
 	"gorm.io/driver/sqlite"
 	"gorm.io/gorm"
 
-	"math/rand"
-
 	"github.com/rs/cors"
 )
 
@@ -178,6 +176,7 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 }
 
 // Password reset confirmation handler
+/*
 func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 
@@ -255,7 +254,7 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Verification code sent"}`))
 }
-
+*/
 // A function to update a user's credentials - does not update email address
 func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
