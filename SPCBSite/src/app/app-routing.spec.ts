@@ -77,32 +77,32 @@ describe("App Routing", ()=>{
     }));
 
     //Rent a pc button test case
-    it("should navigate to rent when rent is clicked", waitForAsync(() => {
+    it("should navigate to events when events is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
         links[2].nativeElement.click();
+        navFixture.whenStable().then(()=>{
+            expect(location.path()).toBe('/events');
+        })
+    }));
+
+    //Login button test case
+    it("should navigate to rent when rent is clicked", waitForAsync(() => {
+        navFixture.detectChanges();
+        let links = el.queryAll(By.css('button'));
+        links[3].nativeElement.click();
         navFixture.whenStable().then(()=>{
             expect(location.path()).toBe('/rent');
         })
     }));
 
-    //Login button test case
-    it("should navigate to login when login is clicked", waitForAsync(() => {
-        navFixture.detectChanges();
-        let links = el.queryAll(By.css('button'));
-        links[3].nativeElement.click();
-        navFixture.whenStable().then(()=>{
-            expect(location.path()).toBe('/login');
-        })
-    }));
-
     //Signup button test case
-    it("should navigate to signup when signup is clicked", waitForAsync(() => {
+    it("should navigate to settings when settings is clicked", waitForAsync(() => {
         navFixture.detectChanges();
         let links = el.queryAll(By.css('button'));
         links[4].nativeElement.click();
         navFixture.whenStable().then(()=>{
-            expect(location.path()).toBe('/signup');
+            expect(location.path()).toBe('/settings');
         })
     }));
 });
