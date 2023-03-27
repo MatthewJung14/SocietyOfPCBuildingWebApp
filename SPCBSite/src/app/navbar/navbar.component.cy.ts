@@ -22,4 +22,5 @@ describe('NavbarComponent', () => {
     cy.get('[data-cy=home]').click()
     cy.get('@changeSpy').should('have.been.calledWith', "Home was Clicked")
   })
+
 })
