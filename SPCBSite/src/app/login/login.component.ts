@@ -31,7 +31,7 @@ export class LoginComponent {
     });
     const data = { Email: this.email, Password: this.password };
     console.log(data);
-    await this.http.post('http://localhost:4200/api/login', data, { headers }).toPromise();
+    this.http.post('http://localhost:4200/api/login', data, { headers }).toPromise();
     this.email = "";
     this.password = "";
     return;
