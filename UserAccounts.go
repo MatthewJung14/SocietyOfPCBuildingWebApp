@@ -82,7 +82,7 @@ func ValidateJWT(next func(response http.ResponseWriter, request *http.Request))
 
 // This function registers a new user
 func (env *Env) userRegister(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("TEST")
+	fmt.Println("REGISTER")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var hold User //Just need an empty instance of a user struct
@@ -106,6 +106,7 @@ func (env *Env) userRegister(response http.ResponseWriter, request *http.Request
 
 // This function logs a user in
 func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
+	fmt.Print("LOGGING IN")
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
