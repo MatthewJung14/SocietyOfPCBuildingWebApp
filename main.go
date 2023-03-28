@@ -328,7 +328,7 @@ func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Requ
 	}
 
 	// Check if new email already exists in database
-	result = env.db.Where("Email = ?", user.NewEmail).First(&dbUser)
+	result = env.db.Where("Email = ?", user.Email).First(&dbUser)
 	if !errors.Is(result.Error, gorm.ErrRecordNotFound) {
 		response.WriteHeader(http.StatusConflict)
 		response.Write([]byte(`{"error":"Email already exists"}`))
@@ -336,7 +336,7 @@ func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Requ
 	}
 
 	// Update user email
-	dbUser.Email = user.NewEmail
+	dbUser.Email = user.Email
 	env.db.Save(&dbUser)
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Email updated successfully"}`))
