@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [AuthService],
+  providers: [AuthService, HttpClient],
 })
 export class LoginComponent {
   firstName: string;
