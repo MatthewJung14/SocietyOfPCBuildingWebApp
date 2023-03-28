@@ -10,7 +10,7 @@ import { AuthService } from '../auth.service';
   selector: 'app-login',
   templateUrl: './login.component.html',
   styleUrls: ['./login.component.css'],
-  providers: [AuthService],
+  providers: [AuthService, HttpClient],
 })
 export class LoginComponent {
   firstName: string;
@@ -31,7 +31,7 @@ export class LoginComponent {
     });
     const data = { Email: this.email, Password: this.password };
     console.log(data);
-    await this.http.post('http://localhost:4200/api/login', data, { headers }).toPromise();
+    this.http.post('http://localhost:4200/api/login', data, { headers }).toPromise();
     this.email = "";
     this.password = "";
     return;
