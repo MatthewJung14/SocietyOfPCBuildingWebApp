@@ -36,6 +36,14 @@ type Env struct {
 	db *gorm.DB
 }
 
+type Event struct {
+	gorm.Model
+	Title       string `json:"title" gorm:"title"`
+	Date        string `json:"date" gorm:"date"`
+	Time        string `json:"time" gorm:"time"`
+	Description string `json:"description" gorm:"description"`
+}
+
 // Takes in password, returns a hash
 func getHash(pwd []byte) string {
 	hash, err := bcrypt.GenerateFromPassword(pwd, bcrypt.MinCost)
