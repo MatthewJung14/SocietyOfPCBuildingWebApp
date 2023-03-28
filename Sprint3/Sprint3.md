@@ -5,3 +5,7 @@
 - Created a new page called "UPCOMING EVENTS". The Society of PC Building's upcoming events will be posted here. 
 - Added more images of various officers on the officer's page.
 - The Navbar now changes based on whether the user is logged in or not. 
+
+**List frontend unit tests**
+- Test settings page: Wrote an E2E test that tests the functionality of the settings button. This includes being able to navigate properly to the change name and change password sections, being able to change the user's name in the database, being able to change the user password in the database, and being able to log off.
+- 
