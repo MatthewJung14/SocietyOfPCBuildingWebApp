@@ -4,6 +4,7 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-signup',
@@ -22,7 +23,7 @@ export class SignupComponent {
   email: string;
   password: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
@@ -40,6 +41,7 @@ export class SignupComponent {
     this.lastName = "";
     this.email = "";
     this.password = "";
+    this.router.navigate(['login']);
     return;
   }
 }
