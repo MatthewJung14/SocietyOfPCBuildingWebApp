@@ -38,14 +38,21 @@ describe('template spec', () => {
     cy.contains('SETTINGS')
   })
 
-  // it('settings test', () => {
-  //   cy.visit('http://localhost:3200')
-  //   cy.contains('LOGIN').click()
-  //   cy.get('[name^=email]').type('Matthewjung14@gmail.com')
-  //   cy.get('[name^=password]').type('hello')
-  //   cy.get('[name^=signup]').click()
-  //   cy.contains('SETTINGS').click()
-
+  it('settings test', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('LOGIN').click()
+    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=password]').type('hello')
+    cy.get('[name^=signup]').click()
+    cy.contains('SETTINGS').click()
+    cy.contains('LOG OUT')
+    cy.contains('NAME').click()
+    cy.contains('SAVE CHANGES')
+    cy.contains('GO BACK').click()
+    cy.contains('PASSWORD').click()
+    cy.contains('GO BACK').click()
+    cy.contains('LOG OUT').click()
+    cy.contains('LOG IN')
   })
   
 })
