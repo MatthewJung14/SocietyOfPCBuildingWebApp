@@ -36,6 +36,18 @@ export class LoginComponent {
     this.password = "";
     return;
   }
+
+  async forgot() {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    const data = { Email: this.email, Password: this.password };
+    console.log(data);
+    this.http.post('http://localhost:4200/api/login', data).toPromise();
+    this.email = "";
+    this.password = "";
+    return;
+  }
 }
 
 export interface LoginFields {

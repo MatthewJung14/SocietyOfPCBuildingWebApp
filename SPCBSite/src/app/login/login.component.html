@@ -12,9 +12,12 @@
                     <input  matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
                  </mat-form-field>
           </form>
+          <mat-card-actions>
+            <button mat-raised-button class = "centered-button" (click)="login()"color="accent">LOGIN</button>
+          </mat-card-actions>
         </mat-card-content>
     </mat-card-content>
     <mat-card-actions>
-        <button mat-raised-button class = "centered-button" (click)="login()"color="accent">LOGIN</button>
+        <button mat-stroked-button class = "forgot-button" (click)="forgot()"color="accent">Forgot Password?</button>
     </mat-card-actions>
   </mat-card>
