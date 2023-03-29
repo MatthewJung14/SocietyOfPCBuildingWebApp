@@ -11,6 +11,9 @@
                <mat-card-actions>
                   <button mat-raised-button class = "password-button" (click)="edit='password'" color="accent">PASSWORD</button>
                </mat-card-actions>
+               <mat-card-actions>
+                  <button mat-raised-button class = "email-button" (click)="edit='email'" color="accent">EMAIL</button>
+               </mat-card-actions>
             </div>
             <div *ngIf="edit==='name'">
              <mat-form-field class="full-width">
@@ -36,12 +39,25 @@
                  </mat-form-field>
                <mat-card-actions>
                   <button mat-raised-button class = "save-button" (click)="updateAccount('password')" color="accent">SAVE CHANGES</button>
-              </mat-card-actions>
+               </mat-card-actions>
+            </div>
+            <div *ngIf="edit==='email'">
+               <!-- <mat-form-field class="full-width">
+                  <mat-label>Old Password</mat-label>
+                  <input matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
+               </mat-form-field> -->
+                 <mat-form-field class="full-width">
+                    <mat-label>New Email</mat-label>
+                    <input matInput [(ngModel)]="email" placeholder="Email"  name="email" required>
+                 </mat-form-field>
+               <mat-card-actions>
+                  <button mat-raised-button class = "save-button" (click)="updateAccount('password')" color="accent">SAVE CHANGES</button>
+               </mat-card-actions>
             </div>
           </form>
         </mat-card-content>
     </mat-card-content>
-    <div *ngIf="edit==='name'||edit==='password'">
+    <div *ngIf="edit!=='default'">
     <mat-card-actions>
       <button mat-raised-button class = "back-button" (click)="edit='default'" color="accent">GO BACK</button>
     </mat-card-actions>

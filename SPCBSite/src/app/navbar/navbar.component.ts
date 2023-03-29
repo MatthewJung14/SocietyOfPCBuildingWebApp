@@ -9,7 +9,7 @@ import {LoginFields} from '../login/login.component';
   providers: [AuthService],
 })
 export class NavbarComponent {
-  loggedIn = false;
+  loggedIn = true;
   constructor(public authService: AuthService) {}
 
   ngOnInit(): void {
