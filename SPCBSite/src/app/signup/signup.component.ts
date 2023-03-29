@@ -4,12 +4,14 @@ import { trigger, transition, style, animate } from '@angular/animations';
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { Router } from '@angular/router';
+import { AuthService } from '../auth.service';
 
 @Component({
   selector: 'app-signup',
   templateUrl: './signup.component.html',
   styleUrls: ['./signup.component.css'],
-  providers: [HttpClient]
+  providers: [AuthService, HttpClient]
 })
 
 @Injectable({
@@ -22,7 +24,7 @@ export class SignupComponent {
   email: string;
   password: string;
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private router: Router, public authService: AuthService) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
@@ -40,6 +42,9 @@ export class SignupComponent {
     this.lastName = "";
     this.email = "";
     this.password = "";
+    if (this.authService.loggedInMethod()){
+      this.router.navigate(['login']);
+    }
     return;
   }
 }

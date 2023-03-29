@@ -2,6 +2,7 @@ import { Component, Injectable } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root'
@@ -18,7 +19,7 @@ export class LoginComponent {
   email: string;
   password: string;
 
-  constructor(private http: HttpClient, public authService: AuthService) {
+  constructor(private http: HttpClient, public authService: AuthService, private router: Router) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
@@ -26,6 +27,21 @@ export class LoginComponent {
   }
 
   async login() {
+    const headers = new Headers({
+      'Content-Type': 'application/json'
+    });
+    const data = { Email: this.email, Password: this.password };
+    console.log(data);
+    this.http.post('http://localhost:4200/api/login', data).toPromise();
+    this.email = "";
+    this.password = "";
+    if (this.authService.loggedInMethod()){
+      this.router.navigate(['home']);
+    }
+    return;
+  }
+
+  async forgot() {
     const headers = new Headers({
       'Content-Type': 'application/json'
     });

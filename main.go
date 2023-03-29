@@ -37,6 +37,8 @@ func main() {
 	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 	router.Handle("/api/deactivate-account", ValidateJWT(env.DeactivateUser)).Methods("DELETE")
 	router.Handle("/api/update-account", ValidateJWT(env.UpdateUser)).Methods("PUT")
+	router.HandleFunc("/api/reset-pass", env.PasswordResetRequest).Methods("PUT")
+	router.HandleFunc("/api/reset-confirmation", env.PasswordResetConfirm).Methods("PUT")
 
 	//This does something important I think
 	c := cors.New(cors.Options{
