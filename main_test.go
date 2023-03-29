@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -192,5 +193,104 @@ func TestUpdateUser(t *testing.T) {
 	expectedErrMsg := "Successful"
 	if !strings.Contains(res2.Body.String(), expectedErrMsg) {
 		t.Errorf("Unexpected response: got %v, expected %v", res2.Body.String(), expectedErrMsg)
+	}
+}
+func TestUpdateUserInformation(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	env := &Env{db}
+
+	// Create a test user
+	testUser := User{
+		FirstName: "test",
+		LastName:  "test",
+		Email:     "test@mail.com",
+		Password:  "testpass",
+	}
+	env.db.Create(&testUser)
+
+	// Test UpdateUserName
+	t.Run("UpdateUserName", func(t *testing.T) {
+		updatedUser := User{FirstName: "test", LastName: "test", Email: "test@mail.com"}
+		requestBody, _ := json.Marshal(updatedUser)
+
+		// Create a mock http request
+		req, _ := http.NewRequest("POST", "/update-username", bytes.NewBuffer(requestBody))
+		rr := httptest.NewRecorder()
+
+		// Call UpdateUserName function
+		env.UpdateUserName(rr, req)
+
+		// Check if the user was updated correctly
+		var user User
+		env.db.Where("Email = ?", updatedUser.Email).First(&user)
+		if user.FirstName != updatedUser.FirstName || user.LastName != updatedUser.LastName {
+			t.Errorf("UpdateUserName failed. User not updated correctly.")
+		}
+
+		// Check if the response code and message are correct
+		if rr.Code != http.StatusOK {
+			t.Errorf("UpdateUserName failed. Expected status code %d. Got %d.", http.StatusOK, rr.Code)
+		}
+		expectedResponse := `{"message":"User updated successfully"}`
+		if rr.Body.String() != expectedResponse {
+			t.Errorf("UpdateUserName failed. Expected response %s. Got %s.", expectedResponse, rr.Body.String())
+		}
+	})
+
+	// Test UpdateUserEmail
+	t.Run("UpdateUserEmail", func(t *testing.T) {
+		updatedUser := User{FirstName: "test", LastName: "test", Email: "test@mail.com"}
+		requestBody, _ := json.Marshal(updatedUser)
+
+		// Create a mock http request
+		req, _ := http.NewRequest("POST", "/update-email", bytes.NewBuffer(requestBody))
+		rr := httptest.NewRecorder()
+
+		// Call UpdateUserEmail function
+		env.UpdateUserEmail(rr, req)
+
+		// Check if the response code and message are correct
+		if rr.Code == http.StatusOK {
+			t.Errorf("UpdateUserEmail failed. Expected status code %d. Got %d.", http.StatusOK, rr.Code)
+		}
+	})
+}
+func TestUpdateUserEmail(t *testing.T) {
+	// create a test environment
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	env := &Env{db}
+	// create a test user
+	user := User{FirstName: "test56", LastName: "test56", Email: "test56@mail.com"}
+	env.db.Create(&user)
+
+	// create a new email for the test user
+	newEmail := "testemail59@mail.com"
+
+	// create a request with the new email
+	reqBody := bytes.NewBufferString(fmt.Sprintf(`{"email": "%s"}`, newEmail))
+	req, err := http.NewRequest("PUT", "/user/email", reqBody)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+
+	// create a response recorder
+	resRecorder := httptest.NewRecorder()
+
+	// call the UpdateUserEmail method with the request and response recorder
+	env.UpdateUserEmail(resRecorder, req)
+
+	// check the response status code
+	if resRecorder.Code == http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
 	}
 }

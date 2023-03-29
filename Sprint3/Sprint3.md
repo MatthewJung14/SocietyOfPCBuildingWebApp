@@ -11,3 +11,13 @@
 **List frontend tests**
 - Test settings page: Wrote an E2E test that tests the functionality of the settings button. This includes being able to navigate properly to the change name and change password sections, being able to change the user's name in the database, being able to change the user password in the database, and being able to log off.
 - 
+**Work completed for the backend**
+- Created a update user firstname and lastname function.
+- Created a update user email function.
+- Implemented functionality to be able to send emails to requested users located within the database.
+- adjusted some functions to be able to accessiable to the front end.
+
+**List Backend tests**
+- we tested the sendemail function to be able to send emails to a specific email located within the database.
+- created a basic update user test case for first and last name.
+- created a basic update user email function.
