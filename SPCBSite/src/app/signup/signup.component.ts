@@ -32,6 +32,7 @@ export class SignupComponent {
   }
 
   async signup() {
+    console.log('clicked')
     const headers = new Headers( {
         'Content-Type': 'application/json'
     });
@@ -42,9 +43,9 @@ export class SignupComponent {
     this.lastName = "";
     this.email = "";
     this.password = "";
-    if (this.authService.loggedInMethod()){
-      this.router.navigate(['login']);
-    }
+    // if (this.authService.loggedInMethod()){
+    //   this.router.navigate(['login']);
+    // }
     return;
   }
 }

@@ -27,19 +27,25 @@ export class LoginComponent {
   }
 
   async login() {
+    console.log('clicked')
     const headers = new Headers({
       'Content-Type': 'application/json'
     });
     const data = { Email: this.email, Password: this.password };
     console.log(data);
-    this.http.post('http://localhost:4200/api/login', data).toPromise();
+    const response = await this.http.post('http://localhost:4200/api/login', data).toPromise();
+    // const jsonResponse = JSON.parse(response); // parse the JSON response string
+    // const token = jsonResponse['token'];
     this.email = "";
     this.password = "";
+    localStorage.setItem('token', JSON.stringify(data));
     if (this.authService.loggedInMethod()){
       this.router.navigate(['home']);
     }
     return;
   }
+
+  
 
   async forgot() {
     const headers = new Headers({
@@ -59,4 +65,8 @@ export interface LoginFields {
   lastName: string;
   email: string;
   password: string;
+}
+
+export class FormFieldPrefixSuffixExample {
+  hide = true;
 }
