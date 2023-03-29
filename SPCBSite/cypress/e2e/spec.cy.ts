@@ -54,5 +54,11 @@ describe('template spec', () => {
     cy.contains('LOG OUT').click()
     cy.contains('LOG IN')
   })
+
+  it('events test', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('EVENTS').click()
+    cy.get('[name^=carousel]')
+  })
   
 })
