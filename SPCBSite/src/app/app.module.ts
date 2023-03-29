@@ -1,5 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 
 import { HttpClientModule, HttpHandler } from '@angular/common/http';
 
@@ -107,6 +109,10 @@ import { SettingsComponent } from './settings/settings.component';
     MatTooltipModule,
     CaraouselModule,
     HttpClientModule,
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

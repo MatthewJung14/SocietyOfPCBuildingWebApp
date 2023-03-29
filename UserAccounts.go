@@ -7,10 +7,12 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
+	gomail "gopkg.in/mail.v2"
 	"gorm.io/gorm"
 )
 
@@ -81,8 +83,8 @@ func ValidateJWT(next func(response http.ResponseWriter, request *http.Request))
 }
 
 // This function registers a new user
-func (env *Env) userRegister(response http.ResponseWriter, request *http.Request) {
-	fmt.Println("TEST")
+func (env *Env) UserRegister(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("REGISTER")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	var hold User //Just need an empty instance of a user struct
@@ -94,6 +96,7 @@ func (env *Env) userRegister(response http.ResponseWriter, request *http.Request
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			db.Set("gorm:association_autoupdate", false).Set("gorm:association_autocreate", false).Create(&user)
 			response.Write([]byte(`User registered`))
+			fmt.Println("REGISTRATION SUCCESS")
 			return
 		} else {
 			panic("something terrible has happened")
@@ -106,6 +109,7 @@ func (env *Env) userRegister(response http.ResponseWriter, request *http.Request
 
 // This function logs a user in
 func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("LOGGING IN")
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -142,10 +146,12 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
 	response.Write([]byte(`{Successful}`))
+	fmt.Println("LOGIN SUCCESS")
 }
 
 // An api endpoint to delete a user from the database
 func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("DEACTIVATING USER")
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -168,10 +174,12 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 
 	//Delete the user whose email matches the one given in the DELETE request
 	response.Write([]byte("User " + user.Email + " successfully deleted"))
+	fmt.Println("USER DELETED")
 }
 
 // Password reset confirmation handler
 func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("CONFIRMING PASSWORD RESET")
 	response.Header().Set("Content-Type", "application/json")
 
 	// Get user email and verification code from request body
@@ -207,10 +215,12 @@ func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http
 	dbUser.Password = getHash([]byte(data.NewPassword))
 	dbUser.VerificationCode = 0
 	env.db.Save(&dbUser)
+	fmt.Println("PASSWORD RESET SUCCESS")
 }
 
 // Password reset request handler
 func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("RECEIVED PASSWORD RESET REQUEST")
 	response.Header().Set("Content-Type", "application/json")
 
 	// Get user email from request body
@@ -237,20 +247,16 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	env.db.Save(&dbUser)
 
 	// Send email with verification code to user
-	err = sendVerificationEmail(env, user.Email, code)
-	if err != nil {
-		log.Printf("Error sending email: %v", err)
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{"error":"Failed to send email"}`))
-		return
-	}
+	SendEmail(user.Email, "SPCB: Verification Code", "Verification Code: "+strconv.Itoa(code)+"\n\n\nPlease do not respond to this email")
 
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Verification code sent"}`))
+	fmt.Println("VERIFICATION CODE SENT")
 }
 
 // A function to update a user's credentials - does not update email address
 func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("BEGINNING ACCOUNT UPDATE")
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
@@ -272,8 +278,10 @@ func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) 
 	//Raw SQL >>> GORM
 	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
 	response.Write([]byte(`{Successful}`))
+	fmt.Println("ACCOUNT UPDATED")
 }
 func (env *Env) UpdateUserName(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("UPDATING USERNAME")
 	response.Header().Set("Content-Type", "application/json")
 
 	// Decode request body into user object
@@ -301,8 +309,10 @@ func (env *Env) UpdateUserName(response http.ResponseWriter, request *http.Reque
 
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"User updated successfully"}`))
+	fmt.Println("USERNAME UPDATED")
 }
 func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("UPDATING EMAIL")
 	response.Header().Set("Content-Type", "application/json")
 	var user User
 	err := json.NewDecoder(request.Body).Decode(&user)
@@ -334,6 +344,7 @@ func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Requ
 	env.db.Save(&dbUser)
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Email updated successfully"}`))
+	fmt.Println("EMAIL UPDATED")
 }
 
 func sendVerificationEmail(env *Env, to string, code int) error {
@@ -348,4 +359,22 @@ func sendVerificationEmail(env *Env, to string, code int) error {
 	//	return err
 	//}
 	return nil
+}
+
+func SendEmail(to string, subject string, body string) {
+	fmt.Println("SENDING EMAIL")
+	mail := gomail.NewMessage()
+	//This is not secure at all - teehee
+	var from string = "SocietyOfPCBuilders@outlook.com"
+	var pass string = "iLCH44wYf5KdMqg"
+	host := "smtp.office365.com"
+	mail.SetHeader("From", from)
+	mail.SetHeader("To", to)
+	mail.SetHeader("Subject", subject)
+	mail.SetBody("text/plain", body)
+	a := gomail.NewDialer(host, 587, from, pass)
+	if err := a.DialAndSend(mail); err != nil {
+		panic(err)
+	}
+	fmt.Println("EMAIL SENT")
 }

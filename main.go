@@ -12,8 +12,6 @@ import (
 	"github.com/rs/cors"
 )
 
-// Most of the code for this package is from here https://medium.com/@pkbhowmick007/user-registration-and-login-template-using-golang-mongodb-and-jwt-d85f09f1295e
-
 // A simple little api endpoint that just exists for testing purposes
 func test(response http.ResponseWriter, request *http.Request) {
 	fmt.Print("Test success\n")
@@ -21,6 +19,7 @@ func test(response http.ResponseWriter, request *http.Request) {
 }
 
 func main() {
+	fmt.Println("BACKEND STARTING")
 	//Open le database
 	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
 	if err != nil {
@@ -33,7 +32,7 @@ func main() {
 
 	router := mux.NewRouter()
 
-	router.HandleFunc("/api/signup", env.userRegister).Methods("POST")
+	router.HandleFunc("/api/signup", env.UserRegister).Methods("POST")
 	router.HandleFunc("/api/login", env.UserLogin).Methods("POST")
 	router.Handle("/api/test", ValidateJWT(test)).Methods("GET")
 	router.Handle("/api/deactivate-account", ValidateJWT(env.DeactivateUser)).Methods("DELETE")
