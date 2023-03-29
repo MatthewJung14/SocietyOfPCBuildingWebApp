@@ -39,11 +39,16 @@ export class SettingsComponent {
       this.http.put('http://localhost:4200/api/update-account', data).toPromise();
       this.firstName = "";
       this.lastName = "";
-    } else {
+    } else if (change == "password") {
       const data = {Password: this.password}
       console.log(data);
       this.http.put('http://localhost:4200/api/update-account', data).toPromise();
       this.password = "";
+    } else {
+      const data = {Email: this.email}
+      console.log(data);
+      this.http.put('http://localhost:4200/api/update-account', data).toPromise();
+      this.email = "";
     }
 
     return;
