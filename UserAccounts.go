@@ -7,10 +7,12 @@ import (
 	"log"
 	"math/rand"
 	"net/http"
+	"strconv"
 	"time"
 
 	"github.com/golang-jwt/jwt"
 	"golang.org/x/crypto/bcrypt"
+	gomail "gopkg.in/mail.v2"
 	"gorm.io/gorm"
 )
 
@@ -245,13 +247,7 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	env.db.Save(&dbUser)
 
 	// Send email with verification code to user
-	err = sendVerificationEmail(env, user.Email, code)
-	if err != nil {
-		log.Printf("Error sending email: %v", err)
-		response.WriteHeader(http.StatusInternalServerError)
-		response.Write([]byte(`{"error":"Failed to send email"}`))
-		return
-	}
+	SendEmail(user.Email, "SPCB: Verification Code", "Verification Code: "+strconv.Itoa(code)+"\n\n\nPlease do not respond to this email")
 
 	response.WriteHeader(http.StatusOK)
 	response.Write([]byte(`{"message":"Verification code sent"}`))
@@ -363,4 +359,22 @@ func sendVerificationEmail(env *Env, to string, code int) error {
 	//	return err
 	//}
 	return nil
+}
+
+func SendEmail(to string, subject string, body string) {
+	fmt.Println("SENDING EMAIL")
+	mail := gomail.NewMessage()
+	//This is not secure at all - teehee
+	var from string = "SocietyOfPCBuilders@outlook.com"
+	var pass string = "iLCH44wYf5KdMqg"
+	host := "smtp.office365.com"
+	mail.SetHeader("From", from)
+	mail.SetHeader("To", to)
+	mail.SetHeader("Subject", subject)
+	mail.SetBody("text/plain", body)
+	a := gomail.NewDialer(host, 587, from, pass)
+	if err := a.DialAndSend(mail); err != nil {
+		panic(err)
+	}
+	fmt.Println("EMAIL SENT")
 }
