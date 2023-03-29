@@ -35,7 +35,9 @@ export class LoginComponent {
     this.http.post('http://localhost:4200/api/login', data).toPromise();
     this.email = "";
     this.password = "";
-    this.router.navigate(['home']);
+    if (this.authService.loggedInMethod()){
+      this.router.navigate(['home']);
+    }
     return;
   }
 
