@@ -86,7 +86,7 @@ func TestUserRegister(t *testing.T) {
 	rr := httptest.NewRecorder()
 
 	// Call the userRegister function with the mock environment, request, and response recorder
-	env.userRegister(rr, req)
+	env.UserRegister(rr, req)
 
 	// Check the status code of the response
 	if status := rr.Code; status != http.StatusOK {
