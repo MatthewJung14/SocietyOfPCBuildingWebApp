@@ -19,5 +19,5 @@
 
 **List Backend tests**
 - we tested the sendemail function to be able to send emails to a specific email located within the database.
-- created a update user test case for first and last name.
-- created a update user email function.
+- created a basic update user test case for first and last name.
+- created a basic update user email function.
