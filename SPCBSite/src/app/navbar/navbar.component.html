@@ -8,7 +8,7 @@
   
     <!-- <div *ngIf="!authService.loggedInMethod()"> -->
     <!-- <div *ngIf="loggedIn===false"> -->
-      <div *ngIf="loggedIn===false">
+    <div *ngIf="!authService.loggedInMethod()">
       <button mat-raised-button data-cy="home" class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
       <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
       <button mat-raised-button class="spaced-button" routerLink="events">UPCOMING EVENTS</button>
@@ -18,11 +18,11 @@
     </div>
     <!-- <div *ngIf="authService.loggedInMethod()"> -->
     <!-- <div *ngIf="loggedIn===true"> -->
-    <div *ngIf="loggedIn===true">
+    <div *ngIf="authService.loggedInMethod()">
       <button mat-raised-button data-cy="home" class="spaced-button" routerLink="home" (click)="homeClick()">HOME</button>
       <button mat-raised-button class="spaced-button" routerLink="officers">OFFICERS</button>
       <button mat-raised-button class="spaced-button" routerLink="events">UPCOMING EVENTS</button>
       <button mat-raised-button class="spaced-button" routerLink="rent">RENT A PC</button>
-      <button mat-raised-button class="spaced-button" routerLink="settings" color="accent">SETTINGS</button>
+      <button mat-raised-button data-cy="settings" class="spaced-button" routerLink="settings" color="accent">SETTINGS</button>
     </div>
   </mat-toolbar>

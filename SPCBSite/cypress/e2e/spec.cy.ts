@@ -17,16 +17,35 @@ describe('template spec', () => {
     cy.contains('UPCOMING EVENTS').click()
   })
 
-  it('test settings page', () => {
+  it('signup test', () => {
     cy.visit('http://localhost:3200')
-    cy.get('[data-cy=settings]').click()
-    cy.contains('LOG OUT')
-    cy.contains('NAME').click()
-    cy.contains('SAVE CHANGES')
-    cy.contains('GO BACK').click()
-    cy.contains('PASSWORD').click()
-    cy.contains('GO BACK').click()
-    cy.contains('LOG OUT').click()
+    cy.contains('SIGN UP').click()
+    cy.get('[name^=fname]').type('Matthew')
+    cy.get('[name^=lname]').type('Jung')
+    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=password]').type('hello')
+    cy.get('[name^=signup]').click()
+    cy.contains('Forgot Password?')
+  })
+
+  it('login test', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('LOGIN').click()
+    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=password]').type('hello')
+    cy.get('[name^=signup]').click()
+    cy.contains('What is')
+    cy.contains('SETTINGS')
+  })
+
+  // it('settings test', () => {
+  //   cy.visit('http://localhost:3200')
+  //   cy.contains('LOGIN').click()
+  //   cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+  //   cy.get('[name^=password]').type('hello')
+  //   cy.get('[name^=signup]').click()
+  //   cy.contains('SETTINGS').click()
+
   })
   
 })
