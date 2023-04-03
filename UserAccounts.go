@@ -25,11 +25,24 @@ type User struct {
 	Email            string `json:"email" gorm:"primaryKey" gorm:"uniqueIndex"`
 	Password         string `json:"password" gorm:"password"`
 	VerificationCode int    `json:"verification_code"`
+	IsAdmin          bool   `json:"administrator"`
 }
 
 // A silly little struct used to reuse db connections
 type Env struct {
 	db *gorm.DB
+}
+
+func (env *Env) checkUserExists(response http.ResponseWriter, user User) {
+	db := env.db
+	if err := db.First(&user).Error; err != nil {
+		if errors.Is(err, gorm.ErrRecordNotFound) {
+			response.Write([]byte("No user with that email exists: " + err.Error()))
+			return
+		} else {
+			panic("something terrible has happened")
+		}
+	}
 }
 
 // Takes in password, returns a hash
@@ -113,20 +126,12 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
-	db := env.db
 	json.NewDecoder(request.Body).Decode(&user)
 
 	dbUser.Email = user.Email
 
 	//Check to see if the user exists
-	if err := db.First(&dbUser).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			response.Write([]byte("No user with that email exists: " + err.Error()))
-			return
-		} else {
-			panic("something terrible has happened")
-		}
-	}
+	env.checkUserExists(response, dbUser)
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
@@ -155,20 +160,12 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 	response.Header().Set("Content-Type", "application/json")
 	var user User = User{}
 	var dbUser User = User{}
-	db := env.db
 	json.NewDecoder(request.Body).Decode(&user)
 
 	dbUser.Email = user.Email
 
 	//Check that the user actually exists
-	if err := db.First(&dbUser).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			response.Write([]byte("No user with that email exists: " + err.Error()))
-			return
-		} else {
-			panic("something terrible has happened")
-		}
-	}
+	env.checkUserExists(response, dbUser)
 
 	env.db.Exec("DELETE FROM Users WHERE email = ?", user.Email)
 
@@ -197,12 +194,8 @@ func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http
 
 	// Check if user exists in database
 	var dbUser User
-	result := env.db.Where("email = ?", data.Email).First(&dbUser)
-	if result.RowsAffected == 0 {
-		response.WriteHeader(http.StatusNotFound)
-		response.Write([]byte(`{"error":"User not found"}`))
-		return
-	}
+	dbUser.Email = data.Email
+	env.checkUserExists(response, dbUser)
 
 	// Verify verification code
 	if dbUser.VerificationCode != data.VerificationCode {
@@ -234,12 +227,8 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 
 	// Check if user exists in database
 	var dbUser User
-	result := env.db.Where("email = ?", user.Email).First(&dbUser)
-	if result.RowsAffected == 0 {
-		response.WriteHeader(http.StatusNotFound)
-		response.Write([]byte(`{"error":"User not found"}`))
-		return
-	}
+	dbUser.Email = user.Email
+	env.checkUserExists(response, dbUser)
 
 	// Generate verification code and save to database
 	code := rand.Intn(999999) + 100000
@@ -265,21 +254,14 @@ func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) 
 
 	dbUser.Email = user.Email
 
-	//Check that the user actually exists
-	if err := db.First(&dbUser).Error; err != nil {
-		if errors.Is(err, gorm.ErrRecordNotFound) {
-			response.Write([]byte("No user with that email exists: " + err.Error()))
-			return
-		} else {
-			panic("something terrible has happened")
-		}
-	}
+	env.checkUserExists(response, dbUser)
 
 	//Raw SQL >>> GORM
 	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
 	response.Write([]byte(`{Successful}`))
 	fmt.Println("ACCOUNT UPDATED")
 }
+
 func (env *Env) UpdateUserName(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("UPDATING USERNAME")
 	response.Header().Set("Content-Type", "application/json")
@@ -311,6 +293,7 @@ func (env *Env) UpdateUserName(response http.ResponseWriter, request *http.Reque
 	response.Write([]byte(`{"message":"User updated successfully"}`))
 	fmt.Println("USERNAME UPDATED")
 }
+
 func (env *Env) UpdateUserEmail(response http.ResponseWriter, request *http.Request) {
 	fmt.Println("UPDATING EMAIL")
 	response.Header().Set("Content-Type", "application/json")
@@ -377,4 +360,21 @@ func SendEmail(to string, subject string, body string) {
 		panic(err)
 	}
 	fmt.Println("EMAIL SENT")
+}
+
+func (env *Env) ChangeAdminState(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("ELEVATING USER TO ADMINISTRATOR")
+	response.Header().Set("Content-Type", "application/json")
+	var user User = User{}
+	var dbUser User = User{}
+	db := env.db
+	json.NewDecoder(request.Body).Decode(&user)
+
+	dbUser.Email = user.Email
+
+	env.checkUserExists(response, dbUser)
+	db.Where("Email = ?", user.Email).First(&dbUser)
+	db.Exec("UPDATE Users SET administrator, password = ? WHERE email = ?", !user.IsAdmin, getHash([]byte(user.Password)), user.Email)
+	response.Write([]byte(`{Successful}`))
+	fmt.Println("ACCOUNT UPDATED")
 }
