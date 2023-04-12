@@ -32,12 +32,14 @@ export class LoginComponent {
       'Content-Type': 'application/json'
     });
     const data = { Email: this.email, Password: this.password };
-    console.log(data);
-    const response = await this.http.post('http://localhost:4200/api/login', data).toPromise();
+    console.log('data' + data);
+    const response = this.http.post('http://localhost:4200/api/login', data).toPromise();
     // const jsonResponse = JSON.parse(response); // parse the JSON response string
     // const token = jsonResponse['token'];
     this.email = "";
     this.password = "";
+    console.log(response)
+    console.log('stringified'+JSON.stringify(data));
     localStorage.setItem('token', JSON.stringify(data));
     if (this.authService.loggedInMethod()){
       this.router.navigate(['home']);

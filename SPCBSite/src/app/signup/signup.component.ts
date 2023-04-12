@@ -38,7 +38,9 @@ export class SignupComponent {
     });
     const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
     console.log(data);
-    this.http.post('http://localhost:4200/api/signup', data).toPromise();
+    const response = await this.http.post('http://localhost:4200/api/signup', data).toPromise();
+    console.log(response)
+    console.log('stringified'+JSON.stringify(data));
     this.firstName = "";
     this.lastName = "";
     this.email = "";
