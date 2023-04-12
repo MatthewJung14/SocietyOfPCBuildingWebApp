@@ -38,13 +38,14 @@ export class SignupComponent {
     });
     const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
     console.log(data);
-    const response = await this.http.post('http://localhost:4200/api/signup', data).toPromise();
+    const response = this.http.post('http://localhost:4200/api/signup', data).toPromise();
     console.log(response)
     console.log('stringified'+JSON.stringify(data));
     this.firstName = "";
     this.lastName = "";
     this.email = "";
     this.password = "";
+    this.router.navigate(['login']);
     // if (this.authService.loggedInMethod()){
     //   this.router.navigate(['login']);
     // }
