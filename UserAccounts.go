@@ -140,7 +140,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 
 	if passErr != nil {
 		 log.Println(passErr)
-		 response.Write([]byte(`{"response":"Wrong Password?"}`))
+		 response.Write([]byte(`{"response":"Wrong Password!"}`))
 		return
 	}
 	jwtToken, err := GenerateJWT()
@@ -151,7 +151,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
-	//response.Write([]byte(`{Successful}`))
+	response.Write([]byte(`{Successful}`))
 	fmt.Println("LOGIN SUCCESS")
 	return
 }
