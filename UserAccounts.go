@@ -33,7 +33,7 @@ type Env struct {
 	db *gorm.DB
 }
 
-func (env *Env) checkUserExists(response http.ResponseWriter, user User) {
+func (env *Env) checkUserExists(response http.ResponseWriter, user *User) {
 	db := env.db
 	if err := db.First(&user).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
@@ -131,11 +131,12 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	dbUser.Email = user.Email
 
 	//Check to see if the user exists
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
+
+	//env.db.Where("Email = ?", dbUser.Email).First(&dbUser)
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
-
 	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
 
 	if passErr != nil {
@@ -167,7 +168,7 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 	dbUser.Email = user.Email
 
 	//Check that the user actually exists
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
 
 	env.db.Exec("DELETE FROM Users WHERE email = ?", user.Email)
 
@@ -197,7 +198,7 @@ func (env *Env) PasswordResetConfirm(response http.ResponseWriter, request *http
 	// Check if user exists in database
 	var dbUser User
 	dbUser.Email = data.Email
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
 
 	// Verify verification code
 	if dbUser.VerificationCode != data.VerificationCode {
@@ -230,7 +231,7 @@ func (env *Env) PasswordResetRequest(response http.ResponseWriter, request *http
 	// Check if user exists in database
 	var dbUser User
 	dbUser.Email = user.Email
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
 
 	// Generate verification code and save to database
 	code := rand.Intn(999999) + 100000
@@ -256,7 +257,7 @@ func (env *Env) UpdateUser(response http.ResponseWriter, request *http.Request) 
 
 	dbUser.Email = user.Email
 
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
 
 	//Raw SQL >>> GORM
 	db.Exec("UPDATE Users SET first_name = ?, last_name = ?, password = ? WHERE email = ?", user.FirstName, user.LastName, getHash([]byte(user.Password)), user.Email)
@@ -374,7 +375,7 @@ func (env *Env) ChangeAdminState(response http.ResponseWriter, request *http.Req
 
 	dbUser.Email = user.Email
 
-	env.checkUserExists(response, dbUser)
+	env.checkUserExists(response, &dbUser)
 	db.Where("Email = ?", user.Email).First(&dbUser)
 	db.Exec("UPDATE Users SET administrator, password = ? WHERE email = ?", !user.IsAdmin, getHash([]byte(user.Password)), user.Email)
 	response.Write([]byte(`{Successful}`))
