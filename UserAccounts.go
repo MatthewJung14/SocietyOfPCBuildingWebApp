@@ -68,21 +68,21 @@ func GenerateJWT() (string, error) {
 }
 
 // A middleware function to check that a JWT is legit
-func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
+func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.HandlerFunc {
 	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 		if request.Header["Token"] != nil {
 			token, err := jwt.Parse(request.Header["Token"][0], func(t *jwt.Token) (interface{}, error) {
 				_, ok := t.Method.(*jwt.SigningMethodHMAC)
 				if !ok {
 					response.WriteHeader(http.StatusUnauthorized)
-					response.Write([]byte("Unauthorized"))
+					response.Write([]byte("Unauthorized Token"))
 				}
 				return SECRET_KEY, nil
 			})
 
 			if err != nil {
 				response.WriteHeader(http.StatusUnauthorized)
-				response.Write([]byte("Unauthorized" + err.Error()))
+				response.Write([]byte("Unauthorized Token" + err.Error()))
 			}
 
 			if token.Valid {
@@ -90,7 +90,7 @@ func ValidateJWT(next func(response http.ResponseWriter, request *http.Request))
 			}
 		} else {
 			response.WriteHeader(http.StatusUnauthorized)
-			response.Write([]byte("Unauthorized"))
+			response.Write([]byte("Unauthorized Token"))
 		}
 	})
 }
@@ -139,8 +139,8 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
 
 	if passErr != nil {
-		 log.Println(passErr)
-		 response.Write([]byte(`{"response":"Wrong Password?"}`))
+		log.Println(passErr)
+		response.Write([]byte(`{"response":"Wrong Password?"}`))
 		return
 	}
 	jwtToken, err := GenerateJWT()
@@ -151,7 +151,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 		return
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
-	//response.Write([]byte(`{Successful}`))
+	response.Write([]byte(`{Successful}`))
 	fmt.Println("LOGIN SUCCESS")
 	return
 }
@@ -379,4 +379,20 @@ func (env *Env) ChangeAdminState(response http.ResponseWriter, request *http.Req
 	db.Exec("UPDATE Users SET administrator, password = ? WHERE email = ?", !user.IsAdmin, getHash([]byte(user.Password)), user.Email)
 	response.Write([]byte(`{Successful}`))
 	fmt.Println("ACCOUNT UPDATED")
+}
+
+func CheckAdminState(next func(response http.ResponseWriter, request *http.Request)) http.HandlerFunc {
+	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+		if request.Header["Admin"][0] == "true" {
+			next(response, request)
+		} else {
+			response.WriteHeader(http.StatusUnauthorized)
+			response.Write([]byte("Unauthorized Account Type"))
+		}
+	})
+}
+
+func (env *Env) AdminTest(response http.ResponseWriter, request *http.Request) {
+	fmt.Println("Only admins allowed")
+	response.Write([]byte("Success"))
 }
