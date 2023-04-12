@@ -49,17 +49,19 @@ export class LoginComponent {
     console.log('stringified'+string);
     localStorage.setItem('token', JSON.stringify(data));
 
-    const respo = await this.http.post('http://localhost:4200/api/login', data).toPromise();
-    if (respo){
-      const responseBody = JSON.parse(stringifyWithZone(response));
-      const respoBody = (respo as ZoneObject).__zone_symbol__state ? (respo as ZoneObject).__zone_symbol__value.response : null;
-      console.log('responseBody', respoBody); 
-    }
+    // const respo = await this.http.post('http://localhost:4200/api/login', data).toPromise();
+    // if (respo){
+    //   const responseBody = JSON.parse(stringifyWithZone(response));
+    //   const respoBody = (respo as ZoneObject).__zone_symbol__state ? (respo as ZoneObject).__zone_symbol__value.response : null;
+    //   console.log('respoBody', respoBody); 
+    // } else {
+    //   console.log('hi')
+    // }
 
-    if (response == undefined){
-      console.log('undefined');
-      this.router.navigate(['home']);
-    }
+    // if (response == undefined){
+    //   console.log('undefined');
+    //   this.router.navigate(['home']);
+    // }
 
     if (this.authService.loggedInMethod()){
       this.router.navigate(['home']);
