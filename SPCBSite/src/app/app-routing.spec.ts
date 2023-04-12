@@ -14,6 +14,7 @@ import { NavbarComponent } from './navbar/navbar.component';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatCardModule } from '@angular/material/card';
 import { CaraouselModule } from './caraousel/caraousel.module';
+import { ForgotPageComponent } from "./forgot-page/forgot-page.component";
 import { By } from '@angular/platform-browser';
 
 describe("App Routing", ()=>{
@@ -33,7 +34,8 @@ describe("App Routing", ()=>{
             OfficersComponent,
             RentComponent,
             SignupComponent,
-            NavbarComponent
+            NavbarComponent,
+            ForgotPageComponent
         ],
         providers: [{provide: 'defaultUrl', useValue: '/home'}]
       }).compileComponents();

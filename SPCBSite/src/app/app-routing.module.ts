@@ -7,6 +7,7 @@ import { OfficersComponent } from './officers/officers.component';
 import { RentComponent } from './rent/rent.component';
 import { SignupComponent } from './signup/signup.component';
 import { SettingsComponent } from './settings/settings.component';
+import { ForgotPageComponent } from "./forgot-page/forgot-page.component";
 
 export const routes: Routes = [
   {path: '', pathMatch: 'full', redirectTo: 'home'},
@@ -16,7 +17,8 @@ export const routes: Routes = [
   {path: 'rent', component: RentComponent},
   {path: 'signup', component: SignupComponent},
   {path: 'login', component: LoginComponent},
-  {path: 'settings', component: SettingsComponent}
+  {path: 'settings', component: SettingsComponent},
+  {path: 'forgot', component: ForgotPageComponent},
 ];
 
 @NgModule({
