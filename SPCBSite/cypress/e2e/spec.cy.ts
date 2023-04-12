@@ -51,6 +51,8 @@ describe('template spec', () => {
     cy.contains('PASSWORD').click()
     cy.contains('GO BACK').click()
     cy.contains('LOG OUT').click()
+    cy.contains('LOGIN')
+    cy.contains('SIGN UP')
   })
 
   it('events test', () => {

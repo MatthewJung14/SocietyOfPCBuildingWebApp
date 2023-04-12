@@ -55,8 +55,6 @@ export class LoginComponent {
        return;
   }
 
-  
-
   async forgot() {
     const headers = new Headers({
       'Content-Type': 'application/json'
@@ -66,6 +64,7 @@ export class LoginComponent {
     this.http.post('http://localhost:4200/api/login', data).toPromise();
     this.email = "";
     this.password = "";
+    this.router.navigate(['forgot']);
     return;
   }
 }
