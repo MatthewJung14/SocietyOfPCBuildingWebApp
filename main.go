@@ -41,6 +41,7 @@ func main() {
 	router.HandleFunc("/api/reset-pass", env.PasswordResetRequest).Methods("PUT")
 	router.HandleFunc("/api/reset-confirmation", env.PasswordResetConfirm).Methods("PUT")
 	router.Handle("/api/admin-test", ValidateJWT(CheckAdminState(env.AdminTest))).Methods("GET")
+	router.Handle("/api/change-admin-status", ValidateJWT(CheckAdminState(env.ChangeAdminState))).Methods("PUT")
 
 	//This does something important I think
 	c := cors.New(cors.Options{
