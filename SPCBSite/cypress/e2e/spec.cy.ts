@@ -58,5 +58,15 @@ describe('template spec', () => {
     cy.contains('EVENTS').click()
     cy.get('[name^=carousel]')
   })
+
+  it('signup navigates to login', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('SIGN UP').click()
+    cy.get('[name^=fname]').type('Matthew')
+    cy.get('[name^=lname]').type('Jung')
+    cy.get('[name^=email]').type('test14@gmail.com')
+    cy.get('[name^=password]').type('test')
+    cy.get('[name^=signup]').click()
+  })
   
 })
