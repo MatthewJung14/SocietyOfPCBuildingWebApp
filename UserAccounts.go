@@ -154,7 +154,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
 	response.Write([]byte(`{Successful}`))
 	fmt.Println("LOGIN SUCCESS")
-	return
+	//return
 }
 
 // An api endpoint to delete a user from the database
