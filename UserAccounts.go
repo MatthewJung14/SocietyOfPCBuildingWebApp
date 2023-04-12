@@ -374,12 +374,13 @@ func (env *Env) ChangeAdminState(response http.ResponseWriter, request *http.Req
 	json.NewDecoder(request.Body).Decode(&user)
 
 	dbUser.Email = user.Email
-
+	fmt.Println(user.IsAdmin)
 	env.checkUserExists(response, &dbUser)
 	db.Where("Email = ?", user.Email).First(&dbUser)
-	db.Exec("UPDATE Users SET administrator, password = ? WHERE email = ?", !user.IsAdmin, getHash([]byte(user.Password)), user.Email)
+	db.Exec("UPDATE Users SET is_admin = ? WHERE email = ?", !user.IsAdmin, user.Email)
 	response.Write([]byte(`{Successful}`))
 	fmt.Println("ACCOUNT UPDATED")
+	fmt.Println(user.IsAdmin)
 }
 
 func CheckAdminState(next func(response http.ResponseWriter, request *http.Request)) http.HandlerFunc {
