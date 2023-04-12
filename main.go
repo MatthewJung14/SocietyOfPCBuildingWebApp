@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	SendEmail("matthewjung@ufl.edu", "Test", "This is a test email.")
+	// SendEmail("matthewjung@ufl.edu", "Test", "This is a test email.")
 
 	db.AutoMigrate(&User{})
 

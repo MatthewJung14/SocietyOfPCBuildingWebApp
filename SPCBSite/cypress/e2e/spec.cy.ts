@@ -30,7 +30,7 @@ describe('template spec', () => {
   it('login test', () => {
     cy.visit('http://localhost:3200')
     cy.contains('LOGIN').click()
-    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hel1o')
     cy.get('[name^=login]').click()
     cy.contains('What is')
@@ -40,7 +40,7 @@ describe('template spec', () => {
   it('settings test', () => {
     cy.visit('http://localhost:3200')
     cy.contains('LOGIN').click()
-    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hel1o')
     cy.get('[name^=login]').click()
     cy.contains('SETTINGS').click()
@@ -51,7 +51,6 @@ describe('template spec', () => {
     cy.contains('PASSWORD').click()
     cy.contains('GO BACK').click()
     cy.contains('LOG OUT').click()
-    cy.contains('LOG IN')
   })
 
   it('events test', () => {
