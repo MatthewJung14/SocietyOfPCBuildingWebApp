@@ -139,8 +139,8 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
 
 	if passErr != nil {
-		log.Println(passErr)
-		response.Write([]byte(`{"response":"Wrong Password!"}`))
+		 log.Println(passErr)
+		 response.Write([]byte(`{"response":"Wrong Password?"}`))
 		return
 	}
 	jwtToken, err := GenerateJWT()

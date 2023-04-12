@@ -3,6 +3,7 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
 import { Router } from '@angular/router';
+import { stringifyWithZone, ZoneObject } from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,9 @@ import { Router } from '@angular/router';
   styleUrls: ['./login.component.css'],
   providers: [AuthService, HttpClient],
 })
+
+
+
 export class LoginComponent {
   firstName: string;
   lastName: string;
@@ -39,12 +43,37 @@ export class LoginComponent {
     this.email = "";
     this.password = "";
     console.log(response)
-    console.log('stringified'+JSON.stringify(data));
+    const string = JSON.stringify(response);
+    const responseBody = JSON.parse(stringifyWithZone(response));
+    console.log('responseBody', responseBody);
+    console.log('stringified'+string);
     localStorage.setItem('token', JSON.stringify(data));
+
+    const respo = await this.http.post('http://localhost:4200/api/login', data).toPromise();
+    if (respo){
+      const responseBody = JSON.parse(stringifyWithZone(response));
+      const respoBody = (respo as ZoneObject).__zone_symbol__state ? (respo as ZoneObject).__zone_symbol__value.response : null;
+      console.log('responseBody', respoBody); 
+    }
+
+    if (response == undefined){
+      console.log('undefined');
+      this.router.navigate(['home']);
+    }
+
     if (this.authService.loggedInMethod()){
       this.router.navigate(['home']);
     }
-    return;
+       return;
+
+    // if (response == "Wrong Password!"){
+    //   return
+    // } else {
+    //   if (this.authService.loggedInMethod()){
+    //     this.router.navigate(['home']);
+    //   }
+    //   return;
+    // }
   }
 
   
