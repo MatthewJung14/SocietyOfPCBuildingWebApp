@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { AuthService } from '../auth.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
@@ -22,7 +23,7 @@ export class SettingsComponent {
   email: string;
   password: string;
 
-  constructor(private http: HttpClient, public authService: AuthService) {
+  constructor(private http: HttpClient, public authService: AuthService, private router: Router) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
@@ -56,6 +57,7 @@ export class SettingsComponent {
 
   logout() {
     localStorage.removeItem('token');
+    this.router.navigate(['home']);
   }
 }
 
