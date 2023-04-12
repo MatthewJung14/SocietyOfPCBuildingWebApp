@@ -67,6 +67,19 @@ describe('template spec', () => {
     cy.get('[name^=email]').type('test14@gmail.com')
     cy.get('[name^=password]').type('test')
     cy.get('[name^=signup]').click()
+    cy.url().should('eq', 'http://localhost:3200/login')
+  })
+
+  it('settings navigates to home', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('LOGIN').click()
+    cy.get('[name^=email]').type('test14@gmail.com')
+    cy.get('[name^=password]').type('test')
+    cy.get('[name^=login]').click()
+    cy.contains('SETTINGS').click()
+    cy.contains('LOG OUT')
+    cy.get('[name^=logOut]').click()
+    cy.url().should('eq', 'http://localhost:3200/home')
   })
   
 })
