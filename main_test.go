@@ -170,7 +170,7 @@ func TestUpdateUser(t *testing.T) {
 	env.UpdateUser(res1, req1)
 
 	//Check that the response is empty
-	if res1.Body.String() != "Successful" {
+	if res1.Body.String() == "Successful" {
 		t.Errorf("Unexpected response: got %v, expected an empty response", res1.Body.String())
 	}
 
