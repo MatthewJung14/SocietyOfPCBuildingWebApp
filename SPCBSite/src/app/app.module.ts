@@ -54,6 +54,7 @@ import { EventsComponent } from './events/events.component';
 import { SettingsComponent } from './settings/settings.component';
 import { StringArrayComponent } from './string-array/string-array.component';
 
+
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
 @NgModule({
