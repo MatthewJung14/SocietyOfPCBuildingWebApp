@@ -11,12 +11,12 @@ export class RentComponent {
   firstName: string;
   lastName: string;
   email: string;
-  password: string;
+  timeSlot: string;
 
   constructor() {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
-    this.password = "";
+    this.timeSlot = "";
   }
 }

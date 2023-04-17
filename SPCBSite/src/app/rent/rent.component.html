@@ -11,9 +11,13 @@
                   <mat-label>Last Name</mat-label>
                   <input  matInput [(ngModel)]="lastName" placeholder="Last Name" name="lastName" required>
                </mat-form-field>
+               <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input  matInput [(ngModel)]="email" placeholder="Email" name="email" required>
+             </mat-form-field>
                  <mat-form-field class="full-width">
-                    <mat-label>Password</mat-label>
-                    <input  matInput [(ngModel)]="password" placeholder="Password"  name="password" required>
+                    <mat-label>Time (Ex. <b><u>11PM</u></b>) - TIME SLOTS LAST ONE HOUR</mat-label>
+                    <input  matInput [(ngModel)]="timeSlot" placeholder="timeSlot"  name="timeSlot" required>
                  </mat-form-field>
           </form>
           <mat-card-actions>
