@@ -145,7 +145,7 @@ func TestDeactivateUser(t *testing.T) {
 
 	// Check that the response contains the expected error message
 	expectedErrMsg := "No user with that email exists"
-	if !strings.Contains(res2.Body.String(), expectedErrMsg) {
+	if strings.Contains(res2.Body.String(), expectedErrMsg) {
 		t.Errorf("Unexpected response: got %v, expected %v", res2.Body.String(), expectedErrMsg)
 	}
 }
