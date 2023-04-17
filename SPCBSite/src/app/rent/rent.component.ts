@@ -5,6 +5,18 @@ import { Component } from '@angular/core';
   templateUrl: './rent.component.html',
   styleUrls: ['./rent.component.css']
 })
-export class RentComponent {
 
+
+export class RentComponent {
+  firstName: string;
+  lastName: string;
+  email: string;
+  password: string;
+
+  constructor() {
+    this.firstName = "";
+    this.lastName = "";
+    this.email = "";
+    this.password = "";
+  }
 }
