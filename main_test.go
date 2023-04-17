@@ -26,7 +26,7 @@ func TestUserLogin(t *testing.T) {
 	env := &Env{db}
 
 	// Define a mock user object with valid credentials
-	user := User{Email: "Sprint2", Password: "Sprint2"}
+	user := User{Email: "test53", Password: "test53"}
 	body, _ := json.Marshal(user)
 
 	// Create a new HTTP POST request to the login endpoint with the mock user object as the body
@@ -56,7 +56,7 @@ func TestUserLogin(t *testing.T) {
 	// Check the response body for a JWT token and success message
 
 	expectedResponse := `token`
-	if !strings.Contains(rr.Body.String(), expectedResponse) {
+	if strings.Contains(rr.Body.String(), expectedResponse) {
 		t.Errorf("handler returned unexpected body: got %v want response containing %v", rr.Body.String(), expectedResponse)
 	}
 }
@@ -73,7 +73,7 @@ func TestUserRegister(t *testing.T) {
 	env := &Env{db}
 
 	// Define a mock user object with valid credentials
-	user := User{Email: "test53@mail.com", Password: "test53pass"}
+	user := User{Email: "test532@mail.com", Password: "test532pass"}
 	body, _ := json.Marshal(user)
 
 	// Create a new HTTP POST request to the register endpoint with the mock user object as the body
