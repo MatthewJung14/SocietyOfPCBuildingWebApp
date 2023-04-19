@@ -33,7 +33,7 @@ describe('template spec', () => {
     cy.contains('LOGIN').click()
     cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hello')
-    cy.get('[name^=signup]').click()
+    cy.get('[name^=login]').click()
     cy.contains('What is')
     cy.contains('SETTINGS')
   })
@@ -43,7 +43,7 @@ describe('template spec', () => {
     cy.contains('LOGIN').click()
     cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hello')
-    cy.get('[name^=signup]').click()
+    cy.get('[name^=login]').click()
     cy.contains('SETTINGS').click()
     cy.contains('LOG OUT')
     cy.contains('NAME').click()
@@ -82,5 +82,7 @@ describe('template spec', () => {
     cy.get('[name^=logOut]').click()
     cy.url().should('eq', 'http://localhost:3200/home')
   })
+
+
   
 })
