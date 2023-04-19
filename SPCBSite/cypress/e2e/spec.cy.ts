@@ -22,7 +22,7 @@ describe('template spec', () => {
     cy.contains('SIGN UP').click()
     cy.get('[name^=fname]').type('Matthew')
     cy.get('[name^=lname]').type('Jung')
-    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hello')
     cy.get('[name^=signup]').click()
     cy.contains('Forgot Password?')
@@ -31,7 +31,7 @@ describe('template spec', () => {
   it('login test', () => {
     cy.visit('http://localhost:3200')
     cy.contains('LOGIN').click()
-    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hello')
     cy.get('[name^=signup]').click()
     cy.contains('What is')
@@ -41,7 +41,7 @@ describe('template spec', () => {
   it('settings test', () => {
     cy.visit('http://localhost:3200')
     cy.contains('LOGIN').click()
-    cy.get('[name^=email]').type('Matthewjung14@gmail.com')
+    cy.get('[name^=email]').type('matthewjung@ufl.edu')
     cy.get('[name^=password]').type('hello')
     cy.get('[name^=signup]').click()
     cy.contains('SETTINGS').click()
@@ -59,6 +59,28 @@ describe('template spec', () => {
     cy.visit('http://localhost:3200')
     cy.contains('EVENTS').click()
     cy.get('[name^=carousel]')
+  })
+
+  it('signup navigates to login', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('SIGN UP').click()
+    cy.get('[name^=fname]').type('Matthew')
+    cy.get('[name^=lname]').type('Jung')
+    cy.get('[name^=email]').type('test14@gmail.com')
+    cy.get('[name^=password]').type('test')
+    cy.get('[name^=signup]').click()
+  })
+
+  it('settings navigates to home', () => {
+    cy.visit('http://localhost:3200')
+    cy.contains('LOGIN').click()
+    cy.get('[name^=email]').type('test14@gmail.com')
+    cy.get('[name^=password]').type('test')
+    cy.get('[name^=login]').click()
+    cy.contains('SETTINGS').click()
+    cy.contains('LOG OUT')
+    cy.get('[name^=logOut]').click()
+    cy.url().should('eq', 'http://localhost:3200/home')
   })
   
 })

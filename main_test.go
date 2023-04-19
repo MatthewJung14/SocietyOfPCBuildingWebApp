@@ -292,3 +292,92 @@ func TestUpdateUserEmail(t *testing.T) {
 		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
 	}
 }
+
+func TestAdminTest(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	env := &Env{db}
+
+	testUser := User{
+		FirstName: "admin",
+		LastName:  "admin",
+		Email:     "admin@mail.com",
+		Password:  "adminpass",
+		IsAdmin:   true,
+	}
+	env.db.Create(&testUser)
+
+	reqBody := bytes.NewBufferString(fmt.Sprintf(`{}`))
+	req, err := http.NewRequest("GET", "/admin-test", reqBody)
+
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+	resRecorder := httptest.NewRecorder()
+	env.AdminTest(resRecorder, req)
+
+	if resRecorder.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
+	}
+}
+
+func TestCheckAdminState(t *testing.T) {
+	nextHandler := http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
+		response.WriteHeader(http.StatusOK)
+		response.Write([]byte("Hello, Admin!"))
+	})
+
+	handler := CheckAdminState(nextHandler)
+
+	// Create a request with the "Admin" header set to "true"
+	request, err := http.NewRequest(http.MethodGet, "/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	request.Header.Set("Admin", "true")
+
+	// Create a recorder to capture the response
+	recorder := httptest.NewRecorder()
+
+	// Call the handler with the request and recorder
+	handler.ServeHTTP(recorder, request)
+
+	// Check that the response is a 200 OK
+	if recorder.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, recorder.Code)
+	}
+
+	// Check that the response body matches the expected output
+	expectedBody := "Hello, Admin!"
+	if recorder.Body.String() != expectedBody {
+		t.Errorf("Expected body '%s' but got '%s'", expectedBody, recorder.Body.String())
+	}
+
+	// Create a request with the "Admin" header set to "false"
+	request, err = http.NewRequest(http.MethodGet, "/", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	request.Header.Set("Admin", "false")
+
+	// Reset the recorder for the next test
+	recorder = httptest.NewRecorder()
+
+	// Call the handler with the request and recorder
+	handler.ServeHTTP(recorder, request)
+
+	// Check that the response is a 401 Unauthorized
+	if recorder.Code != http.StatusUnauthorized {
+		t.Errorf("Expected status code %d but got %d", http.StatusUnauthorized, recorder.Code)
+	}
+
+	// Check that the response body matches the expected output
+	expectedBody = "Unauthorized Account Type"
+	if recorder.Body.String() != expectedBody {
+		t.Errorf("Expected body '%s' but got '%s'", expectedBody, recorder.Body.String())
+	}
+}

@@ -13,26 +13,26 @@ type ComputerEvent struct {
 	gorm.Model
 	Date      string `json:"date"`
 	CompIdent string `json:"compid" gorm:"uniqueIndex"`
-	t8        bool   `json:"t8"`
-	t9        bool   `json:"t9"`
-	t10       bool   `json:"t10"`
-	t11       bool   `json:"t11"`
-	t12       bool   `json:"t12"`
-	t13       bool   `json:"t13"`
-	t14       bool   `json:"t14"`
-	t15       bool   `json:"t15"`
-	t16       bool   `json:"t16"`
-	t17       bool   `json:"t17"`
-	t18       bool   `json:"t18"`
-	t19       bool   `json:"t19"`
-	t20       bool   `json:"t20"`
-	t21       bool   `json:"t21"`
-	t22       bool   `json:"t22"`
+	T8        string `json:"t8"`
+	T9        string `json:"t9"`
+	T10       string `json:"t10"`
+	T11       string `json:"t11"`
+	T12       string `json:"t12"`
+	T13       string `json:"t13"`
+	T14       string `json:"t14"`
+	T15       string `json:"t15"`
+	T16       string `json:"t16"`
+	T17       string `json:"t17"`
+	T18       string `json:"t18"`
+	T19       string `json:"t19"`
+	T20       string `json:"t20"`
+	T21       string `json:"t21"`
+	T22       string `json:"t22"`
 }
 
 func (env *Env) CheckEventExists(response http.ResponseWriter, event *ComputerEvent) {
 	db := env.db
-	if err := db.Where("CompIdent = ? AND Date = ?", event.CompIdent, event.Date).First(&event).Error; err != nil {
+	if err := db.Where("comp_ident = ? AND date = ?", event.CompIdent, event.Date).First(&event).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			response.Write([]byte("No event on that date exists for that computer: " + err.Error()))
 			return
@@ -52,49 +52,49 @@ func (env *Env) GetEventAvailability(response http.ResponseWriter, request *http
 
 	var Availabilities []string
 
-	if event.t8 {
+	if event.T8 == "8AM" {
 		Availabilities = append(Availabilities, "8 a.m.")
 	}
-	if event.t9 {
+	if event.T9 == "9AM" {
 		Availabilities = append(Availabilities, "9 a.m.")
 	}
-	if event.t10 {
+	if event.T10 == "10AM" {
 		Availabilities = append(Availabilities, "10 a.m.")
 	}
-	if event.t11 {
+	if event.T11 == "11AM" {
 		Availabilities = append(Availabilities, "11 a.m.")
 	}
-	if event.t12 {
+	if event.T12 == "12PM" {
 		Availabilities = append(Availabilities, "12 p.m.")
 	}
-	if event.t13 {
+	if event.T13 == "1PM" {
 		Availabilities = append(Availabilities, "1 p.m.")
 	}
-	if event.t14 {
+	if event.T14 == "2PM" {
 		Availabilities = append(Availabilities, "2 p.m.")
 	}
-	if event.t15 {
+	if event.T15 == "3PM" {
 		Availabilities = append(Availabilities, "3 p.m.")
 	}
-	if event.t16 {
+	if event.T16 == "4PM" {
 		Availabilities = append(Availabilities, "4 p.m.")
 	}
-	if event.t17 {
+	if event.T17 == "5PM" {
 		Availabilities = append(Availabilities, "5 p.m.")
 	}
-	if event.t18 {
+	if event.T18 == "6PM" {
 		Availabilities = append(Availabilities, "6 p.m.")
 	}
-	if event.t19 {
+	if event.T19 == "7PM" {
 		Availabilities = append(Availabilities, "7 p.m.")
 	}
-	if event.t20 {
+	if event.T20 == "8PM" {
 		Availabilities = append(Availabilities, "8 p.m.")
 	}
-	if event.t21 {
+	if event.T21 == "9PM" {
 		Availabilities = append(Availabilities, "9 p.m.")
 	}
-	if event.t22 {
+	if event.T22 == "10PM" {
 		Availabilities = append(Availabilities, "10 p.m.")
 	}
 
@@ -144,21 +144,21 @@ func (env *Env) UpdateEvent(response http.ResponseWriter, request *http.Request)
 	dbEvent.CompIdent = event.CompIdent
 	env.CheckEventExists(response, &dbEvent)
 
-	dbEvent.t8 = event.t8
-	dbEvent.t9 = event.t9
-	dbEvent.t10 = event.t10
-	dbEvent.t11 = event.t11
-	dbEvent.t12 = event.t12
-	dbEvent.t13 = event.t13
-	dbEvent.t14 = event.t14
-	dbEvent.t15 = event.t15
-	dbEvent.t16 = event.t16
-	dbEvent.t17 = event.t17
-	dbEvent.t18 = event.t18
-	dbEvent.t19 = event.t19
-	dbEvent.t20 = event.t20
-	dbEvent.t21 = event.t21
-	dbEvent.t22 = event.t22
+	dbEvent.T8 = event.T8
+	dbEvent.T9 = event.T9
+	dbEvent.T10 = event.T10
+	dbEvent.T11 = event.T11
+	dbEvent.T12 = event.T12
+	dbEvent.T13 = event.T13
+	dbEvent.T14 = event.T14
+	dbEvent.T15 = event.T15
+	dbEvent.T16 = event.T16
+	dbEvent.T17 = event.T17
+	dbEvent.T18 = event.T18
+	dbEvent.T19 = event.T19
+	dbEvent.T20 = event.T20
+	dbEvent.T21 = event.T21
+	dbEvent.T22 = event.T22
 
 	db.Save(&dbEvent)
 	response.Write([]byte(`{Successful}`))
