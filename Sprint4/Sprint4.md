@@ -34,7 +34,10 @@ Structs:
     - UpdateUserEmail - An Env struct behavior. Used to update the email address of a user account. Not called on any route.
     - sendVerification - Deprecated
     - SendEmail - Sends an email from the SPCB email to the specified email address with specified subject and body. Technically works, but Bill Gates blocked our email address because we violated TOS , so it doesn't actually work :(.
-    
+    - ChangeAdminState - An Env struct behavior. Does exactly as the name suggests. Admin state is a boolean value. Called by /api/change-admin-status.
+    - AdminTest - An Env struct behavior. Used for testing the CheckAdminState middleware function. Called by /api/admin-test.
+ ComputerEvents:
+    -
 
  
  **List of unit tests for backend**
