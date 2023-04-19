@@ -25,7 +25,7 @@ func main() {
 	if err != nil {
 		panic("failed to connect database")
 	}
-	SendEmail("c.tressler@ufl.edu", "Test", "This is a test email.")
+	//SendEmail("c.tressler@ufl.edu", "Test", "This is a test email.")
 
 	db.AutoMigrate(&User{})
 
@@ -40,6 +40,8 @@ func main() {
 	router.Handle("/api/update-account", ValidateJWT(env.UpdateUser)).Methods("PUT")
 	router.HandleFunc("/api/reset-pass", env.PasswordResetRequest).Methods("PUT")
 	router.HandleFunc("/api/reset-confirmation", env.PasswordResetConfirm).Methods("PUT")
+	router.Handle("/api/admin-test", ValidateJWT(CheckAdminState(env.AdminTest))).Methods("GET")
+	router.Handle("/api/change-admin-status", ValidateJWT(CheckAdminState(env.ChangeAdminState))).Methods("PUT")
 
 	//This does something important I think
 	c := cors.New(cors.Options{
