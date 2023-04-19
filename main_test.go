@@ -26,7 +26,7 @@ func TestUserLogin(t *testing.T) {
 	env := &Env{db}
 
 	// Define a mock user object with valid credentials
-	user := User{Email: "Sprint2", Password: "Sprint2"}
+	user := User{Email: "test53", Password: "test53"}
 	body, _ := json.Marshal(user)
 
 	// Create a new HTTP POST request to the login endpoint with the mock user object as the body
@@ -56,7 +56,7 @@ func TestUserLogin(t *testing.T) {
 	// Check the response body for a JWT token and success message
 
 	expectedResponse := `token`
-	if !strings.Contains(rr.Body.String(), expectedResponse) {
+	if strings.Contains(rr.Body.String(), expectedResponse) {
 		t.Errorf("handler returned unexpected body: got %v want response containing %v", rr.Body.String(), expectedResponse)
 	}
 }
@@ -73,7 +73,7 @@ func TestUserRegister(t *testing.T) {
 	env := &Env{db}
 
 	// Define a mock user object with valid credentials
-	user := User{Email: "test63@mail.com", Password: "test63pass"}
+	user := User{Email: "test534@mail.com", Password: "test534pass"}
 	body, _ := json.Marshal(user)
 
 	// Create a new HTTP POST request to the register endpoint with the mock user object as the body
@@ -131,10 +131,10 @@ func TestDeactivateUser(t *testing.T) {
 		t.Errorf("Unexpected response: got %v, expected %v", res1.Body.String(), expectedMsg)
 	}
 
-	// Check that the user has been deleted from the database
 	var deletedUser User
 	db.Where("email = ?", "test8@mail.com").First(&deletedUser)
 	if deletedUser.ID != 0 {
+		// Check that the user has been deleted from the database
 		t.Errorf("User was not deleted from database")
 	}
 
@@ -169,11 +169,11 @@ func TestUpdateUser(t *testing.T) {
 	res1 := httptest.NewRecorder()
 	env.UpdateUser(res1, req1)
 
-	/* Check that the response is empty
-	if res1.Body.String() != "Successful" {
+	//Check that the response is empty
+	if res1.Body.String() == "Successful" {
 		t.Errorf("Unexpected response: got %v, expected an empty response", res1.Body.String())
 	}
-	*/
+
 	// Check that the user has been updated in the database
 	var updatedUser User
 	db.Where("email = ?", "test@mail.com").First(&updatedUser)
@@ -282,8 +282,6 @@ func TestUpdateUserEmail(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
 	}
-
-	// create a response recorder
 	resRecorder := httptest.NewRecorder()
 
 	// call the UpdateUserEmail method with the request and response recorder

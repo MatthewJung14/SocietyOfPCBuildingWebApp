@@ -68,7 +68,7 @@ func GenerateJWT() (string, error) {
 }
 
 // A middleware function to check that a JWT is legit
-func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.HandlerFunc {
+func ValidateJWT(next func(response http.ResponseWriter, request *http.Request)) http.Handler {
 	return http.HandlerFunc(func(response http.ResponseWriter, request *http.Request) {
 		if request.Header["Token"] != nil {
 			token, err := jwt.Parse(request.Header["Token"][0], func(t *jwt.Token) (interface{}, error) {
@@ -130,13 +130,11 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 
 	dbUser.Email = user.Email
 
-	//Check to see if the user exists
 	env.checkUserExists(response, &dbUser)
-
-	//env.db.Where("Email = ?", dbUser.Email).First(&dbUser)
 
 	userPass := []byte(user.Password)
 	dbPass := []byte(dbUser.Password)
+
 	passErr := bcrypt.CompareHashAndPassword(dbPass, userPass)
 
 	if passErr != nil {
@@ -148,13 +146,12 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	if err != nil {
 		response.WriteHeader(http.StatusInternalServerError)
 		response.Write([]byte(`{"message":"` + err.Error() + `"}`))
-		response.Write([]byte(`{"message":"` + err.Error() + `"}`))
 		return
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
 	response.Write([]byte(`{Successful}`))
+	response.Write([]byte(`{"Admin" : }` + strconv.FormatBool(dbUser.IsAdmin)))
 	fmt.Println("LOGIN SUCCESS")
-	//return
 }
 
 // An api endpoint to delete a user from the database
@@ -167,7 +164,6 @@ func (env *Env) DeactivateUser(response http.ResponseWriter, request *http.Reque
 
 	dbUser.Email = user.Email
 
-	//Check that the user actually exists
 	env.checkUserExists(response, &dbUser)
 
 	env.db.Exec("DELETE FROM Users WHERE email = ?", user.Email)
@@ -374,13 +370,12 @@ func (env *Env) ChangeAdminState(response http.ResponseWriter, request *http.Req
 	json.NewDecoder(request.Body).Decode(&user)
 
 	dbUser.Email = user.Email
-	fmt.Println(user.IsAdmin)
+
 	env.checkUserExists(response, &dbUser)
 	db.Where("Email = ?", user.Email).First(&dbUser)
 	db.Exec("UPDATE Users SET is_admin = ? WHERE email = ?", !user.IsAdmin, user.Email)
 	response.Write([]byte(`{Successful}`))
 	fmt.Println("ACCOUNT UPDATED")
-	fmt.Println(user.IsAdmin)
 }
 
 func CheckAdminState(next func(response http.ResponseWriter, request *http.Request)) http.HandlerFunc {

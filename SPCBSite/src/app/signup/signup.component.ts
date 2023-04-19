@@ -32,23 +32,19 @@ export class SignupComponent {
   }
 
   async signup() {
-    console.log('clicked')
     const headers = new Headers( {
         'Content-Type': 'application/json'
     });
     const data = {FirstName: this.firstName, LastName: this.lastName, Email: this.email, Password: this.password}
     console.log(data);
-    const response = this.http.post('http://localhost:4200/api/signup', data).toPromise();
-    console.log(response)
-    console.log('stringified'+JSON.stringify(data));
+    this.http.post('http://localhost:4200/api/signup', data).toPromise();
     this.firstName = "";
     this.lastName = "";
     this.email = "";
     this.password = "";
-    this.router.navigate(['login']);
-    // if (this.authService.loggedInMethod()){
-    //   this.router.navigate(['login']);
-    // }
+    if (this.authService.loggedInMethod()){
+      this.router.navigate(['login']);
+    }
     return;
   }
 }

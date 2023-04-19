@@ -1,3 +1,35 @@
-<mat-toolbar>
-    <span>RENT-A-PC</span>
-</mat-toolbar>
+<br><br><br>
+  <mat-card class="my-card">
+    <mat-card-content> 
+       <mat-card-content>
+          <form class="my-form">
+                 <mat-form-field class="full-width">
+                    <mat-label>First Name</mat-label>
+                    <input  matInput [(ngModel)]="firstName" placeholder="First Name" name="firstName" required>
+                 </mat-form-field>
+                 <mat-form-field class="full-width">
+                  <mat-label>Last Name</mat-label>
+                  <input  matInput [(ngModel)]="lastName" placeholder="Last Name" name="lastName" required>
+               </mat-form-field>
+               <mat-form-field class="full-width">
+                <mat-label>Email</mat-label>
+                <input  matInput [(ngModel)]="email" placeholder="Email" name="email" required>
+             </mat-form-field>
+                 <mat-form-field class="full-width">
+                    <mat-label>Time (Ex. <b><u>11PM</u></b>) - TIME SLOTS LAST ONE HOUR</mat-label>
+                    <input  matInput [(ngModel)]="timeSlot" placeholder="timeSlot"  name="timeSlot" required>
+                 </mat-form-field>
+          </form>
+          <mat-card-actions>
+            <button mat-raised-button class="centered-button" color="accent" routerLink="home" (click)="submitTime()">SUBMIT TIME</button>
+          </mat-card-actions>
+        </mat-card-content>
+    </mat-card-content>
+  </mat-card>
+
+<br><br><br>
+
+  <div class="string-array" style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+    <div class="string-array__item" *ngFor="let str of strings" style="font-weight: bold">{{ str }}</div>
+  </div>
+  

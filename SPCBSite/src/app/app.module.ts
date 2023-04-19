@@ -52,7 +52,8 @@ import { RentComponent } from './rent/rent.component';
 import { CaraouselModule } from './caraousel/caraousel.module';
 import { EventsComponent } from './events/events.component';
 import { SettingsComponent } from './settings/settings.component';
-import { ForgotPageComponent } from './forgot-page/forgot-page.component';
+import { StringArrayComponent } from './string-array/string-array.component';
+
 
 //import {MatButtonHarness} from '@angular/material/button/testing';
 
@@ -67,7 +68,7 @@ import { ForgotPageComponent } from './forgot-page/forgot-page.component';
     RentComponent,
     EventsComponent,
     SettingsComponent,
-    ForgotPageComponent,
+    StringArrayComponent,
   ],
   imports: [
     FormsModule,
