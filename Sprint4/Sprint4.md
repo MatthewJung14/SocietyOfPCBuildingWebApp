@@ -51,7 +51,7 @@ Structs:
 - TestUpdateUser:in this unit test there are two test cases are performed: 1) updating an existing user should update the user in the database, and 2) updating a non-existent user should return an error message. The function creates a mock environment with an in-memory SQLite database, and uses the "Env" struct to call the "UpdateUser" function. The tests check that the user information is updated correctly and that the expected error messages are returned.
 - TestUpdateUserInformation: This unit test case tests the functionality of updating a user's information through two HTTP endpoints, "update-username" and "update-email". It creates a test user and uses a mock HTTP request to call the corresponding functions for each endpoint, which update the user's information in the database. It then checks whether the user was updated correctly and whether the HTTP response code and message are as expected.
 - TestUpdateUserEmail:This test case checks whether the "UpdateUserEmail" function properly handles the case where an invalid email is provided as the new email for a user. It creates a test user and uses a mock HTTP request to call the "UpdateUserEmail" function, passing an invalid email address in the request body. It then checks whether the HTTP response code is as expected.
-- TestAdminTest:
+- TestAdminTest: This test case checks whether the "AdminTest" function returns the expected HTTP response code. It creates a test user with admin privileges, creates a mock HTTP request, and calls the "AdminTest" function. The function simply returns a 200 HTTP status code, so the test case checks whether this code is returned.
 - TestCheckAdminState:
 - TestCreateEvent:
 - TestGetEventAvailability:
