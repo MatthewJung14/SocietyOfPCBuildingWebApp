@@ -117,7 +117,7 @@ func (env *Env) CreateEvent(response http.ResponseWriter, request *http.Request)
 
 	db := env.db
 
-	if err := db.Where("CompIdent = ? AND Date = ?", event.CompIdent, event.Date).First(&hold).Error; err != nil {
+	if err := db.Where("comp_ident = ? AND date = ?", event.CompIdent, event.Date).First(&hold).Error; err != nil {
 		if errors.Is(err, gorm.ErrRecordNotFound) {
 			db.Set("gorm:association_autoupdate", false).Set("gorm:association_autocreate", false).Create(&event)
 			response.Write([]byte(`Event created`))
