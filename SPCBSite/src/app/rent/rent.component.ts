@@ -39,6 +39,11 @@ export class RentComponent {
   
       // Store the updated strings array in local storage
       localStorage.setItem('strings', JSON.stringify(this.strings));
+
+      this.firstName = "";
+      this.lastName = "";
+      this.email = "";
+      this.timeSlot = "";
     }
   }
 }
