@@ -292,3 +292,35 @@ func TestUpdateUserEmail(t *testing.T) {
 		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
 	}
 }
+
+func TestAdminTest(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	env := &Env{db}
+
+	testUser := User{
+		FirstName: "admin",
+		LastName:  "admin",
+		Email:     "admin@mail.com",
+		Password:  "adminpass",
+		IsAdmin:   true,
+	}
+	env.db.Create(&testUser)
+
+	reqBody := bytes.NewBufferString(fmt.Sprintf(`{}`))
+	req, err := http.NewRequest("GET", "/admin-test", reqBody)
+
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+	resRecorder := httptest.NewRecorder()
+	env.AdminTest(resRecorder, req)
+
+	if resRecorder.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
+	}
+}
