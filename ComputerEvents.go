@@ -52,49 +52,49 @@ func (env *Env) GetEventAvailability(response http.ResponseWriter, request *http
 
 	var Availabilities []string
 
-	if event.T8 == "8AM" {
+	if event.T8 == "" {
 		Availabilities = append(Availabilities, "8 a.m.")
 	}
-	if event.T9 == "9AM" {
+	if event.T9 == "" {
 		Availabilities = append(Availabilities, "9 a.m.")
 	}
-	if event.T10 == "10AM" {
+	if event.T10 == "" {
 		Availabilities = append(Availabilities, "10 a.m.")
 	}
-	if event.T11 == "11AM" {
+	if event.T11 == "" {
 		Availabilities = append(Availabilities, "11 a.m.")
 	}
-	if event.T12 == "12PM" {
+	if event.T12 == "" {
 		Availabilities = append(Availabilities, "12 p.m.")
 	}
-	if event.T13 == "1PM" {
+	if event.T13 == "" {
 		Availabilities = append(Availabilities, "1 p.m.")
 	}
-	if event.T14 == "2PM" {
+	if event.T14 == "" {
 		Availabilities = append(Availabilities, "2 p.m.")
 	}
-	if event.T15 == "3PM" {
+	if event.T15 == "" {
 		Availabilities = append(Availabilities, "3 p.m.")
 	}
-	if event.T16 == "4PM" {
+	if event.T16 == "" {
 		Availabilities = append(Availabilities, "4 p.m.")
 	}
-	if event.T17 == "5PM" {
+	if event.T17 == "" {
 		Availabilities = append(Availabilities, "5 p.m.")
 	}
-	if event.T18 == "6PM" {
+	if event.T18 == "" {
 		Availabilities = append(Availabilities, "6 p.m.")
 	}
-	if event.T19 == "7PM" {
+	if event.T19 == "" {
 		Availabilities = append(Availabilities, "7 p.m.")
 	}
-	if event.T20 == "8PM" {
+	if event.T20 == "" {
 		Availabilities = append(Availabilities, "8 p.m.")
 	}
-	if event.T21 == "9PM" {
+	if event.T21 == "" {
 		Availabilities = append(Availabilities, "9 p.m.")
 	}
-	if event.T22 == "10PM" {
+	if event.T22 == "" {
 		Availabilities = append(Availabilities, "10 p.m.")
 	}
 
