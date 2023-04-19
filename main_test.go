@@ -416,3 +416,37 @@ func TestCreateEvent(t *testing.T) {
 
 	db.Delete(&ComputerEvent{}, id)
 }
+
+func TestGetEventAvailability(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&ComputerEvent{})
+	env := &Env{db}
+
+	testEvent := ComputerEvent{
+		Date:      "test",
+		CompIdent: "test",
+	}
+
+	reqBody, err := json.Marshal(testEvent)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, _ := http.NewRequest("GET", "/get-event", bytes.NewBuffer(reqBody))
+	rr := httptest.NewRecorder()
+
+	env.GetEventAvailability(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, rr.Code)
+	}
+
+	expected := "[\"8 a.m.\",\"10 a.m.\",\"11 a.m.\",\"12 p.m.\",\"1 p.m.\",\"2 p.m.\",\"3 p.m.\",\"4 p.m.\",\"5 p.m.\",\"6 p.m.\",\"7 p.m.\",\"8 p.m.\",\"9 p.m.\",\"10 p.m.\"]"
+	if rr.Body.String() != expected {
+		t.Errorf("Expected body '%s' but got '%s'", expected, rr.Body.String())
+	}
+}
