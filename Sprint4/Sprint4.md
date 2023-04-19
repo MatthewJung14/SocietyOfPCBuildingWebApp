@@ -37,7 +37,9 @@ Structs:
     - ChangeAdminState - An Env struct behavior. Does exactly as the name suggests. Admin state is a boolean value. Called by /api/change-admin-status.
     - AdminTest - An Env struct behavior. Used for testing the CheckAdminState middleware function. Called by /api/admin-test.
  ComputerEvents:
-    -
+    - CheckEventExists - Same as checkUserExists but for ComputerEvents.
+    - GetEventAvailability - An Env struct behavior. Returns a list of strings of the available times for the associated computer and time. Called by /api/get-event.
+    - CreateEvent - An Env struct behavior. Creates a new event for a computer on a particular date. Called by /api/create-event.
 
  
  **List of unit tests for backend**
