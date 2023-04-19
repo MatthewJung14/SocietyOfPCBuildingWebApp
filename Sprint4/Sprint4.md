@@ -32,6 +32,9 @@ Structs:
     - PasswordResetConfirm - An Env struct behavior. Used to change a user's password after they have received a verification email. Called by /api/reset-confirmation.
     - UpdateUserName - An Env struct behavior. Used to update the first and last name fields of a user account. Not called on any route.
     - UpdateUserEmail - An Env struct behavior. Used to update the email address of a user account. Not called on any route.
+    - sendVerification - Deprecated
+    - SendEmail - Sends an email from the SPCB email to the specified email address with specified subject and body. Technically works, but Bill Gates blocked our email address because we violated TOS , so it doesn't actually work :(.
+    
 
  
  **List of unit tests for backend**
