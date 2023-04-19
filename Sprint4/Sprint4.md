@@ -49,6 +49,13 @@ Structs:
 - TestUserRegister:This is a unit test that checks the userRegister() function's functionality in an Env struct. It creates a mock environment, including a SQLite database, and defines a mock User object with valid credentials. The test does this by sending an HTTP POST request to the register endpoint.
 - TestDeactivateUser: This unit test case tests the functionality of deactivating a user in the application. The first test case checks that an existing user is deleted from the database, and the second test case checks that an error message is returned when attempting to delete a non-existent user.
 - TestUpdateUser:in this unit test there are two test cases are performed: 1) updating an existing user should update the user in the database, and 2) updating a non-existent user should return an error message. The function creates a mock environment with an in-memory SQLite database, and uses the "Env" struct to call the "UpdateUser" function. The tests check that the user information is updated correctly and that the expected error messages are returned.
+- TestUpdateUserInformation:
+- TestUpdateUserEmail:
+- TestAdminTest:
+- TestCheckAdminState:
+- TestCreateEvent:
+- TestGetEventAvailability:
+- TestUpdateEvent:
       
 **Middleware Handlers**
 ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test, /api/deactivate-account, /api/update-account, /api/admin-test, /api/change-admin-status, /api/create-event, /api/update-event, and /api/get-event.
