@@ -21,7 +21,15 @@ export class RentComponent {
   }
 
   submitTime() {
-    // Your code to handle the submission of the form
-    console.log('Form submitted!');
+    // Check if the entered value is present in the array
+    const index = this.strings.indexOf(this.timeSlot);
+    if (index !== -1) {
+      // Remove the element from the array
+      this.strings.splice(index, 1);
+      console.log(`Removed ${this.timeSlot} from the array.`);
+    } else {
+      console.log(`${this.timeSlot} not found in the array.`);
+    }
   }
+  
 }
