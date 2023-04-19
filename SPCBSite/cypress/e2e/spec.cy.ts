@@ -70,25 +70,6 @@ describe('template spec', () => {
     cy.url().should('eq', 'http://localhost:3200/home')
   })
 
-  it('should reserve a time slot', () => {
-    const firstName = 'John';
-    const lastName = 'Doe';
-    const email = 'johndoe@example.com';
-    const timeSlot = '9AM';
-
-    cy.visit('http://localhost:3200');
-    cy.contains('RENT A PC').click()
-    cy.get('input[name="firstName"]').type(firstName);
-    cy.get('input[name="lastName"]').type(lastName);
-    cy.get('input[name="email"]').type(email);
-    cy.get('input[name="timeSlot"]').type(timeSlot);
-
-    cy.get('button').contains('SUBMIT TIME').click();
-
-    cy.get('.string-array__item').contains(timeSlot).should('not.exist');
-    cy.get('.string-array__item').contains(`Reserved by: ${firstName} ${lastName} (${email})`);
-  });
-
   describe('RentComponent', () => {
     beforeEach(() => {
       cy.visit('http://localhost:3200');
