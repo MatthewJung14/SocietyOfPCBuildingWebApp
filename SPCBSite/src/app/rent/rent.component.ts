@@ -1,24 +1,31 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-rent',
   templateUrl: './rent.component.html',
   styleUrls: ['./rent.component.css']
 })
-export class RentComponent {
+export class RentComponent implements OnInit {
   firstName: string;
   lastName: string;
   email: string;
   timeSlot: string;
-
-  strings: string[] = ['TIMES AVAILABLE', '8AM', '9AM', '10AM', '11AM', '12PM', '1PM', '2PM', '3PM', '4PM', '5PM', '6PM', '7PM', '8PM', '9PM', '10PM']; // Define the array of strings
+  strings: string[];
   emails: string[] = [];
 
-  constructor() {
+  constructor(private http: HttpClient) {
     this.firstName = "";
     this.lastName = "";
     this.email = "";
     this.timeSlot = "";
+    this.strings = [];
+  }
+
+  ngOnInit(): void {
+    this.http.get<string[]>('http://localhost:4200/api/get-event').subscribe((data: string[]) => {
+      this.strings = data;
+    });
   }
 
   submitTime() {
