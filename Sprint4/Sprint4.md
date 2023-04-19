@@ -40,7 +40,7 @@ Structs:
     - CheckEventExists - Same as checkUserExists but for ComputerEvents.
     - GetEventAvailability - An Env struct behavior. Returns a list of strings of the available times for the associated computer and time. Called by /api/get-event.
     - CreateEvent - An Env struct behavior. Creates a new event for a computer on a particular date. Called by /api/create-event.
-
+    - UpdateEvent - An Env struct behavior. Updates the time fields for a ComputerEvent. Called by /api/update-event.
  
  **List of unit tests for backend**
 - TestUserLogin: The unit test case tests the UserLogin() function in an Env struct using a mock environment that includes a SQLite database and a mock User       object. It creates an HTTP POST request to the login endpoint with the mock User object as the body and an HTTP response recorder to capture the response. Finally, it checks the status code, content type, and response body of the HTTP response to ensure that the function returns the expected result.
@@ -49,7 +49,8 @@ Structs:
 - TestUpdateUser:in this unit test there are two test cases are performed: 1) updating an existing user should update the user in the database, and 2) updating a non-existent user should return an error message. The function creates a mock environment with an in-memory SQLite database, and uses the "Env" struct to call the "UpdateUser" function. The tests check that the user information is updated correctly and that the expected error messages are returned.
       
 **Middleware Handlers**
-ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test and /api/deactivate-account.
+ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test, /api/deactivate-account, /api/update-account, /api/admin-test, /api/change-admin-status, /api/create-event, /api/update-event, and /api/get-event.
+CheckAdminState - Checks to make sure that the "Admin" key in an http header is set to true. Responds similarly to ValidateJWT in the event that it is not true. If the key is true, the function executes regularly. Endpoints which are wrapped by this handler: /api/admin-test and /api/change-admin-status.
 API Endpoints:
 /api/test - Calls the test function. Uses the ValidateJWT handler. Accepts http GET requests.
 /api/signup - Calls the userRegister function. No additional middleware handlers. Accepts http POST requests.
