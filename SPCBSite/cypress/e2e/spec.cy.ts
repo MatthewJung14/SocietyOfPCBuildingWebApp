@@ -44,7 +44,7 @@ describe('template spec', () => {
     cy.contains('PASSWORD').click()
     cy.contains('GO BACK').click()
     cy.contains('LOG OUT').click()
-    cy.contains('LOG IN')
+    cy.contains('LOGIN')
   })
 
   it('events test', () => {
@@ -64,12 +64,7 @@ describe('template spec', () => {
   })
 
   it('settings navigates to home', () => {
-    cy.visit('http://localhost:3200')
-    cy.contains('LOGIN').click()
-    cy.get('[name^=email]').type('test14@gmail.com')
-    cy.get('[name^=password]').type('test')
-    cy.get('[name^=login]').click()
-    cy.contains('SETTINGS').click()
+    cy.visit('http://localhost:3200/settings')
     cy.contains('LOG OUT')
     cy.get('[name^=logOut]').click()
     cy.url().should('eq', 'http://localhost:3200/home')
