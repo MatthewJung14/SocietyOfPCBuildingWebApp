@@ -381,3 +381,38 @@ func TestCheckAdminState(t *testing.T) {
 		t.Errorf("Expected body '%s' but got '%s'", expectedBody, recorder.Body.String())
 	}
 }
+
+func TestCreateEvent(t *testing.T) {
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&ComputerEvent{})
+	env := &Env{db}
+
+	testEvent := ComputerEvent{
+		Date:      "test",
+		CompIdent: "test",
+		T8:        "",
+		T9:        "9AM",
+	}
+
+	id := testEvent.ID
+
+	reqBody, err := json.Marshal(testEvent)
+	if err != nil {
+		t.Fatal(err)
+	}
+
+	req, _ := http.NewRequest("POST", "/create-event", bytes.NewBuffer(reqBody))
+	rr := httptest.NewRecorder()
+
+	env.CreateEvent(rr, req)
+
+	if rr.Code != http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, rr.Code)
+	}
+
+	db.Delete(&ComputerEvent{}, id)
+}
