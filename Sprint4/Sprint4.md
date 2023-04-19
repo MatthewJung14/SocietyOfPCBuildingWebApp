@@ -52,7 +52,7 @@ Structs:
 - TestUpdateUserInformation: This unit test case tests the functionality of updating a user's information through two HTTP endpoints, "update-username" and "update-email". It creates a test user and uses a mock HTTP request to call the corresponding functions for each endpoint, which update the user's information in the database. It then checks whether the user was updated correctly and whether the HTTP response code and message are as expected.
 - TestUpdateUserEmail:This test case checks whether the "UpdateUserEmail" function properly handles the case where an invalid email is provided as the new email for a user. It creates a test user and uses a mock HTTP request to call the "UpdateUserEmail" function, passing an invalid email address in the request body. It then checks whether the HTTP response code is as expected.
 - TestAdminTest: This test case checks whether the "AdminTest" function returns the expected HTTP response code. It creates a test user with admin privileges, creates a mock HTTP request, and calls the "AdminTest" function. The function simply returns a 200 HTTP status code, so the test case checks whether this code is returned.
-- TestCheckAdminState:
+- TestCheckAdminState:The test creates two requests, one with the "Admin" header set to "true" and another with it set to "false". It then calls the handler with each request and checks that the response status code and body are as expected. The test verifies that the middleware function correctly allows access for requests with the "Admin" header set to "true" and denies access for requests with it set to "false".
 - TestCreateEvent:
 - TestGetEventAvailability:
 - TestUpdateEvent:
