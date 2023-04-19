@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-import { StringArrayComponent } from '../string-array/string-array.component';
 
 @Component({
   selector: 'app-rent',
@@ -19,5 +18,10 @@ export class RentComponent {
     this.lastName = "";
     this.email = "";
     this.timeSlot = "";
+  }
+
+  submitTime() {
+    // Your code to handle the submission of the form
+    console.log('Form submitted!');
   }
 }
