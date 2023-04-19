@@ -54,7 +54,7 @@ Structs:
 - TestAdminTest: This test case checks whether the "AdminTest" function returns the expected HTTP response code. It creates a test user with admin privileges, creates a mock HTTP request, and calls the "AdminTest" function. The function simply returns a 200 HTTP status code, so the test case checks whether this code is returned.
 - TestCheckAdminState:The test creates two requests, one with the "Admin" header set to "true" and another with it set to "false". It then calls the handler with each request and checks that the response status code and body are as expected. The test verifies that the middleware function correctly allows access for requests with the "Admin" header set to "true" and denies access for requests with it set to "false".
 - TestCreateEvent: This test case tests the CreateEvent function of the Env struct. It creates a test instance of ComputerEvent, sends a POST request with the test instance as the request body to the CreateEvent function, and checks that the response status code is http.StatusOK. Finally, it deletes the test instance from the database.
-- TestGetEventAvailability:
+- TestGetEventAvailability:This test case tests an endpoint that returns the availability of a particular computer for a given date. A test event is created with a specific date and computer identifier, and an HTTP request is created to access the endpoint with this data in the request body. The test checks that the endpoint returns the expected status code (http.StatusOK) and that the response body contains a JSON array of available times for the computer on the specified date.
 - TestUpdateEvent:
       
 **Middleware Handlers**
