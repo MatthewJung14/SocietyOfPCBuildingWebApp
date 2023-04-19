@@ -53,7 +53,7 @@ Structs:
 - TestUpdateUserEmail:This test case checks whether the "UpdateUserEmail" function properly handles the case where an invalid email is provided as the new email for a user. It creates a test user and uses a mock HTTP request to call the "UpdateUserEmail" function, passing an invalid email address in the request body. It then checks whether the HTTP response code is as expected.
 - TestAdminTest: This test case checks whether the "AdminTest" function returns the expected HTTP response code. It creates a test user with admin privileges, creates a mock HTTP request, and calls the "AdminTest" function. The function simply returns a 200 HTTP status code, so the test case checks whether this code is returned.
 - TestCheckAdminState:The test creates two requests, one with the "Admin" header set to "true" and another with it set to "false". It then calls the handler with each request and checks that the response status code and body are as expected. The test verifies that the middleware function correctly allows access for requests with the "Admin" header set to "true" and denies access for requests with it set to "false".
-- TestCreateEvent:
+- TestCreateEvent: This test case tests the CreateEvent function of the Env struct. It creates a test instance of ComputerEvent, sends a POST request with the test instance as the request body to the CreateEvent function, and checks that the response status code is http.StatusOK. Finally, it deletes the test instance from the database.
 - TestGetEventAvailability:
 - TestUpdateEvent:
       
