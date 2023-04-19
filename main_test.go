@@ -131,10 +131,10 @@ func TestDeactivateUser(t *testing.T) {
 		t.Errorf("Unexpected response: got %v, expected %v", res1.Body.String(), expectedMsg)
 	}
 
-	// Check that the user has been deleted from the database
 	var deletedUser User
 	db.Where("email = ?", "test8@mail.com").First(&deletedUser)
 	if deletedUser.ID != 0 {
+		// Check that the user has been deleted from the database
 		t.Errorf("User was not deleted from database")
 	}
 
@@ -282,8 +282,6 @@ func TestUpdateUserEmail(t *testing.T) {
 	if err != nil {
 		t.Fatalf("Failed to create request: %v", err)
 	}
-
-	// create a response recorder
 	resRecorder := httptest.NewRecorder()
 
 	// call the UpdateUserEmail method with the request and response recorder
