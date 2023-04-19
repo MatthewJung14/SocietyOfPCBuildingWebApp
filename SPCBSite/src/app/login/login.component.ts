@@ -44,11 +44,8 @@ export class LoginComponent {
     //console.log('responseBody', responseBody);
     console.log('stringified'+string);
     localStorage.setItem('token', JSON.stringify(data));
-
-    if (this.authService.loggedInMethod()){
-      this.router.navigate(['home']);
-    }
-       return;
+    this.router.navigate(['home']);
+    return;
   }
 
   async forgot() {
