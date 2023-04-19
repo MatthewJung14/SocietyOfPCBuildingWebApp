@@ -72,4 +72,5 @@ main_test - Contains all of the unit tests written for the backend.
 
 Database - SPCB.db:
     Tables:
-        Users - A table containing user account details. Implements gorm.model. Primary key is set to email address. Additional fields include: firstname, lastname, and password.
+        Users - A table containing user account details. Implements gorm.model. Primary key is set to email address. Additional fields include: firstname, lastname, password, is_admin, and verification code.
+        ComputerEvents - A table containing PC renting event details. Implements gorm.model. Primary key is default. Additional fields include: date, compident, and time fields prefixed T followed by the military time equivalent of the time block (e.g. T8 indicates the 8:00am to 9:00am block and T13 indicates the 1:00pm to 2:00pm block)
