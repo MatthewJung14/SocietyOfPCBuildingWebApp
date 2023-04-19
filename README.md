@@ -32,6 +32,9 @@ Front End:
 3) Use GitHub Desktop to clone files and directories to local machine
 
 Back End:
+1) Open Visual Studio Code.
+2) Setup a GoLang environment via https://go.dev/doc/install
+3) Use GitHub Desktop to clone files and directories to local machine
 
 Finalize:
 1) Open a new terminal from go/src/SocietyOfPCBuildingWebApp/ and type "go run ."
