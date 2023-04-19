@@ -3,6 +3,7 @@ package main
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -258,4 +259,36 @@ func TestUpdateUserInformation(t *testing.T) {
 			t.Errorf("UpdateUserEmail failed. Expected status code %d. Got %d.", http.StatusOK, rr.Code)
 		}
 	})
+}
+func TestUpdateUserEmail(t *testing.T) {
+	// create a test environment
+	db, err := gorm.Open(sqlite.Open("SPCB.db"), &gorm.Config{})
+	if err != nil {
+		panic("failed to connect database")
+	}
+
+	db.AutoMigrate(&User{})
+	env := &Env{db}
+	// create a test user
+	user := User{FirstName: "test56", LastName: "test56", Email: "test56@mail.com"}
+	env.db.Create(&user)
+
+	// create a new email for the test user
+	newEmail := "testemail59@mail.com"
+
+	// create a request with the new email
+	reqBody := bytes.NewBufferString(fmt.Sprintf(`{"email": "%s"}`, newEmail))
+	req, err := http.NewRequest("PUT", "/user/email", reqBody)
+	if err != nil {
+		t.Fatalf("Failed to create request: %v", err)
+	}
+	resRecorder := httptest.NewRecorder()
+
+	// call the UpdateUserEmail method with the request and response recorder
+	env.UpdateUserEmail(resRecorder, req)
+
+	// check the response status code
+	if resRecorder.Code == http.StatusOK {
+		t.Errorf("Expected status code %d but got %d", http.StatusOK, resRecorder.Code)
+	}
 }
