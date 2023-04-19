@@ -22,7 +22,7 @@ Back End: Kushal Gaddam, Shayne Marusic
 
 Requirements for Running and Using Application:
 
-1) You must have a fully functioning computing device capable of running Angular, Angular Material, Go, and SQLLite.
+1) You must have a fully functioning computing device capable of running Angular, Angular Material, Angular Authetication Services, Go, and SQLLite.
 2) It is recommended to use Visual Studio Code.
 3) You will also need Github Desktop.
 
