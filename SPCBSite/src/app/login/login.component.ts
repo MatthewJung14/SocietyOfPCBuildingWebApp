@@ -44,7 +44,9 @@ export class LoginComponent {
     //console.log('responseBody', responseBody);
     console.log('stringified'+string);
     localStorage.setItem('token', JSON.stringify(data));
-    this.router.navigate(['home']);
+    if (this.authService.loggedInMethod()){
+      this.router.navigate(['home']);
+    }
     return;
   }
 
