@@ -18,12 +18,6 @@ import (
 
 var SECRET_KEY = []byte("teehee")
 
-type ComputerEvent struct {
-	gorm.Model
-	Date string `json:"date" gorm:"date"`
-	t8   bool   `json:"t8"`
-}
-
 type User struct {
 	gorm.Model
 	FirstName        string `json:"firstname" gorm:"firstname"`
@@ -156,6 +150,7 @@ func (env *Env) UserLogin(response http.ResponseWriter, request *http.Request) {
 	}
 	response.Write([]byte(`{"token":"` + jwtToken + `"}`))
 	response.Write([]byte(`{Successful}`))
+	response.Write([]byte(`{"Admin" : }` + strconv.FormatBool(dbUser.IsAdmin)))
 	fmt.Println("LOGIN SUCCESS")
 }
 
