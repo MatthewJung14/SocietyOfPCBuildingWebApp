@@ -19,3 +19,25 @@ PCs for certain time slots to properly implement this game room.
 Project Members: 
 Front End: Matthew Jung, Christopher Tressler 
 Back End: Kushal Gaddam, Shayne Marusic
+
+Requirements for Running and Using Application:
+
+1) You must have a fully functioning computing device capable of running Node, Angular, Angular Material, Angular Authetication Services, Go, and SQLLite.
+2) It is recommended to use Visual Studio Code.
+3) It is also recommended to also use Github Desktop.
+
+Front End:
+1) Open Visual Studio Code.
+2) Setup an Angular environemnt via https://angular.io/guide/setup-local (starting with npm install -g @angular/cli).
+3) Use GitHub Desktop to clone files and directories to local machine
+4) To run the front-end, type "cd SPCBSite" then type "npm run start"
+
+Back End:
+1) Open Visual Studio Code.
+2) Setup a GoLang environment via https://go.dev/doc/install
+3) Use GitHub Desktop to clone files and directories to local machine
+
+Finalize:
+1) Open a new terminal from go/src/SocietyOfPCBuildingWebApp/ and type "go run ."
+2) Open a new terminal from go/src/SocietyOfPCBuildingWebApp/SPCBSite and type "npm run start"
+3) Open http://localhost:3200/ in your web browser of choice

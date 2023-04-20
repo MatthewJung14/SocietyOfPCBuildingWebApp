@@ -1,12 +1,23 @@
+**Video Link:** https://www.youtube.com/watch?v=IoM_8MX-GHI
+
 **Work completed for the frontend**
 - Fixed issue with login where correct password would sometimes not navigate the user to the home page despite being logged in. 
 - The signup button now correctly navigates to the login page if the user successfully signs up. 
 - The log-out button navigates the user to the home page. 
 - Wrote the front-page readme file for the frontend. 
 
+-Renting System Creation:
+-Files: Created two angular components, "string-array" and "rent"
+-Each component has its own HTML, CSS, TypeScript, and Test Cases file
+-String Array is used within the rent category to display an array of string to screen
+-Renting system is connected to backend, which stores in a database the times at which a PC is available to rent
+Renting system only allows an email to rent one PC per day (in a real life scenario, this would need to be a UFL email)
+
 **List frontend tests**
+- All old tests including loading test, original login test, and router link / navbar tests, both front-end unit and cypress tests
 - signup navigates to login test: This test checks to see if the sign-up button navigates to the log-in page.
 - settings navigates to home test: This test checks to see if the log-off button navigates to the home page.
+- Renting: Three tests included for renting, one to ensure the form field exists, one to ensure that the form field properly accepts proper input and removes items from the backend array of string, and one to ensure improper input results in nothing being added
 
 **BACKEND DOCUMENTATION**
 
@@ -49,6 +60,13 @@ ComputerEvents:
 - TestUserRegister:This is a unit test that checks the userRegister() function's functionality in an Env struct. It creates a mock environment, including a SQLite database, and defines a mock User object with valid credentials. The test does this by sending an HTTP POST request to the register endpoint.
 - TestDeactivateUser: This unit test case tests the functionality of deactivating a user in the application. The first test case checks that an existing user is deleted from the database, and the second test case checks that an error message is returned when attempting to delete a non-existent user.
 - TestUpdateUser:in this unit test there are two test cases are performed: 1) updating an existing user should update the user in the database, and 2) updating a non-existent user should return an error message. The function creates a mock environment with an in-memory SQLite database, and uses the "Env" struct to call the "UpdateUser" function. The tests check that the user information is updated correctly and that the expected error messages are returned.
+- TestUpdateUserInformation: This unit test case tests the functionality of updating a user's information through two HTTP endpoints, "update-username" and "update-email". It creates a test user and uses a mock HTTP request to call the corresponding functions for each endpoint, which update the user's information in the database. It then checks whether the user was updated correctly and whether the HTTP response code and message are as expected.
+- TestUpdateUserEmail:This test case checks whether the "UpdateUserEmail" function properly handles the case where an invalid email is provided as the new email for a user. It creates a test user and uses a mock HTTP request to call the "UpdateUserEmail" function, passing an invalid email address in the request body. It then checks whether the HTTP response code is as expected.
+- TestAdminTest: This test case checks whether the "AdminTest" function returns the expected HTTP response code. It creates a test user with admin privileges, creates a mock HTTP request, and calls the "AdminTest" function. The function simply returns a 200 HTTP status code, so the test case checks whether this code is returned.
+- TestCheckAdminState:The test creates two requests, one with the "Admin" header set to "true" and another with it set to "false". It then calls the handler with each request and checks that the response status code and body are as expected. The test verifies that the middleware function correctly allows access for requests with the "Admin" header set to "true" and denies access for requests with it set to "false".
+- TestCreateEvent: This test case tests the CreateEvent function of the Env struct. It creates a test instance of ComputerEvent, sends a POST request with the test instance as the request body to the CreateEvent function, and checks that the response status code is http.StatusOK. Finally, it deletes the test instance from the database.
+- TestGetEventAvailability:This test case tests an endpoint that returns the availability of a particular computer for a given date. A test event is created with a specific date and computer identifier, and an HTTP request is created to access the endpoint with this data in the request body. The test checks that the endpoint returns the expected status code (http.StatusOK) and that the response body contains a JSON array of available times for the computer on the specified date.
+- TestUpdateEvent: This test case tests by creating a new event with some fields filled in and sends a PUT request to the server to update the event. Then, it sends a GET request to retrieve the updated event and check if the available timeslots have changed according to the updated event. The test then updates the event again, this time filling in different fields, and checks if the available timeslots have been updated accordingly. The test ensures that the server is able to update events correctly and maintain the correct list of available timeslots.
       
 **Middleware Handlers**
 ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test, /api/deactivate-account, /api/update-account, /api/admin-test, /api/change-admin-status, /api/create-event, /api/update-event, and /api/get-event.
