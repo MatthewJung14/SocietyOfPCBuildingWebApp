@@ -74,18 +74,18 @@ ValidateJWT - Checks that the value mapped to the "Token" key in a passed in htt
 CheckAdminState - Checks to make sure that the "Admin" key in an http header is set to true. Responds similarly to ValidateJWT in the event that it is not true. If the key is true, the function executes regularly. Endpoints which are wrapped by this handler: /api/admin-test and /api/change-admin-status.
 
 API Endpoints:
-/api/test - Calls the test function. Uses the ValidateJWT handler. Accepts http GET requests.
-/api/signup - Calls the UserRegister function. No additional middleware handlers. Accepts http POST requests.
-/api/login - Calls the UserLogin function. No additional middleware handlers. Accepts http POST requests.
-/api/deactivate-account - Calls the DeactivateUser function. Uses the ValidateJWT handler. Accepts http DELETE requests.
-/api/update-account - Calls the UpdateUser function. Uses the Validate JWT handler. Accepts http PUT requests.
-/api/reset-pass - Calls the PasswordResetRequest function. Uses the Validate JWT handler. Accepts http PUT requests.
-/api/reset-confirmation - Calls the PasswordResetConfirm function. Uses the Validate JWT handler. Accepts http PUT requests.
-/api/admin-test - Calls the AdminTest function. Uses the Validate JWT and CheckAdminState handler. Accepts http GET requests
-/api/change-admin-status - Calls the ChangeAdminState function. Uses the Validate JWT handler. Accepts http PUT requests
-/api/create-event - Calls the CreateEvent function. Uses the Validate JWT handler. Accepts http POST requests.
-/api/update-event - Calls the UpdateEvent function. Uses the Validate JWT handler. Accepts http PUT requests.
-/api/get-event - Calls the GetEventAvailability function. Uses the Validate JWT handler. Accepts http GET requests.
+- /api/test - Calls the test function. Uses the ValidateJWT handler. Accepts http GET requests.
+- /api/signup - Calls the UserRegister function. No additional middleware handlers. Accepts http POST requests.
+- /api/login - Calls the UserLogin function. No additional middleware handlers. Accepts http POST requests.
+- /api/deactivate-account - Calls the DeactivateUser function. Uses the ValidateJWT handler. Accepts http DELETE requests.
+- /api/update-account - Calls the UpdateUser function. Uses the Validate JWT handler. Accepts http PUT requests.
+- /api/reset-pass - Calls the PasswordResetRequest function. Uses the Validate JWT handler. Accepts http PUT requests.
+- /api/reset-confirmation - Calls the PasswordResetConfirm function. Uses the Validate JWT handler. Accepts http PUT requests.
+- /api/admin-test - Calls the AdminTest function. Uses the Validate JWT and CheckAdminState handler. Accepts http GET requests
+- /api/change-admin-status - Calls the ChangeAdminState function. Uses the Validate JWT handler. Accepts http PUT requests
+- /api/create-event - Calls the CreateEvent function. Uses the Validate JWT handler. Accepts http POST requests.
+- /api/update-event - Calls the UpdateEvent function. Uses the Validate JWT handler. Accepts http PUT requests.
+- /api/get-event - Calls the GetEventAvailability function. Uses the Validate JWT handler. Accepts http GET requests.
 
 main_test - Contains all of the unit tests written for the backend.
 
