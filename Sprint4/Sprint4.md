@@ -4,9 +4,18 @@
 - The log-out button navigates the user to the home page. 
 - Wrote the front-page readme file for the frontend. 
 
+-Renting System Creation:
+-Files: Created two angular components, "string-array" and "rent"
+-Each component has its own HTML, CSS, TypeScript, and Test Cases file
+-String Array is used within the rent category to display an array of string to screen
+-Renting system is connected to backend, which stores in a database the times at which a PC is available to rent
+Renting system only allows an email to rent one PC per day (in a real life scenario, this would need to be a UFL email)
+
 **List frontend tests**
+- All old tests including loading test, original login test, and router link / navbar tests
 - signup navigates to login test: This test checks to see if the sign-up button navigates to the log-in page.
 - settings navigates to home test: This test checks to see if the log-off button navigates to the home page.
+- Renting: Three tests included for renting, one to ensure the form field exists, one to ensure that the form field properly accepts proper input and removes items from the backend array of string, and one to ensure improper input results in nothing being added
 
 **BACKEND DOCUMENTATION**
 
