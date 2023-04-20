@@ -19,6 +19,11 @@ Renting system only allows an email to rent one PC per day (in a real life scena
 - settings navigates to home test: This test checks to see if the log-off button navigates to the home page.
 - Renting: Three tests included for renting, one to ensure the form field exists, one to ensure that the form field properly accepts proper input and removes items from the backend array of string, and one to ensure improper input results in nothing being added
 
+**Work completed for the backend**
+- Performed minor refactoring in UserAccounts to make the functions more readable - namely, extracted checking if a user is in the database into its own function
+- Added a boolean field to the User struct called IsAdmin as a naive way to implement admin accounts; modified existing functions to deal with this new field and created new functions to update and interact with this field
+- Created a new table in the database based on the ComputerEvent struct which represents a rentable PC's availability on a particular day; developed functions to create new entries in this table, update their fields, and retrieve a list of the available times
+
 **BACKEND DOCUMENTATION**
 
 Files:
@@ -69,6 +74,7 @@ ComputerEvents:
 - TestUpdateEvent: This test case tests by creating a new event with some fields filled in and sends a PUT request to the server to update the event. Then, it sends a GET request to retrieve the updated event and check if the available timeslots have changed according to the updated event. The test then updates the event again, this time filling in different fields, and checks if the available timeslots have been updated accordingly. The test ensures that the server is able to update events correctly and maintain the correct list of available timeslots.
       
 **Middleware Handlers**
+
 ValidateJWT - Checks that the value mapped to the "Token" key in a passed in http request is a valid JWT. Writes a response message telling the caller that they are unauthorized if the token is invalid or if there is no token at all. If the token is valid, the passed in function is allowed to execute. Endpoints which are wrapped by this handler: /api/test, /api/deactivate-account, /api/update-account, /api/admin-test, /api/change-admin-status, /api/create-event, /api/update-event, and /api/get-event.
 
 CheckAdminState - Checks to make sure that the "Admin" key in an http header is set to true. Responds similarly to ValidateJWT in the event that it is not true. If the key is true, the function executes regularly. Endpoints which are wrapped by this handler: /api/admin-test and /api/change-admin-status.
