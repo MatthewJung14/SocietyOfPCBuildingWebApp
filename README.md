@@ -22,14 +22,15 @@ Back End: Kushal Gaddam, Shayne Marusic
 
 Requirements for Running and Using Application:
 
-1) You must have a fully functioning computing device capable of running Angular, Angular Material, Angular Authetication Services, Go, and SQLLite.
+1) You must have a fully functioning computing device capable of running Node, Angular, Angular Material, Angular Authetication Services, Go, and SQLLite.
 2) It is recommended to use Visual Studio Code.
-3) You will also need Github Desktop.
+3) It is also recommended to also use Github Desktop.
 
 Front End:
 1) Open Visual Studio Code.
 2) Setup an Angular environemnt via https://angular.io/guide/setup-local (starting with npm install -g @angular/cli).
 3) Use GitHub Desktop to clone files and directories to local machine
+4) To run the front-end, type "cd SPCBSite" then type "npm run start"
 
 Back End:
 1) Open Visual Studio Code.
