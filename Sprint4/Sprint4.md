@@ -1,3 +1,5 @@
+**Video Link:** https://www.youtube.com/watch?v=IoM_8MX-GHI
+
 **Work completed for the frontend**
 - Fixed issue with login where correct password would sometimes not navigate the user to the home page despite being logged in. 
 - The signup button now correctly navigates to the login page if the user successfully signs up. 
